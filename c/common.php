@@ -29,6 +29,17 @@ abstract class common
 		$obj->smarty->assign('themepath', '/v/'.$obj->config['theme']);
 	}
 
+	function getModule($mname)
+	{
+		if(!$this->$mname)
+		{
+			include_once('m/'.$mname.'.php');
+			$this->$mname = new $mname($this->config, $this->smarty, $this->db);
+		}
+
+		return $this->$mname;
+	}
+	
     abstract protected function main();
 };
 
