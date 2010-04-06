@@ -27,7 +27,7 @@ $pos  = strpos('http://'.HOST.$_SERVER['REQUEST_URI'], $HOME);
 if($pos===0)
     $rurl = substr('http://'.HOST.$_SERVER['REQUEST_URI'], strlen($CONFIG['baseurl']));
 else
-	die('配置文件错误');
+	die('配置文件错误.<br/> <a href="./install/">修改配置</a>');
 
 rebuildURL($rurl);
 

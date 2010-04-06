@@ -1,100 +1,25 @@
 <?php
-/**
- * the syscheck tool
- * 
- *
- * TODO: check directory for write
- * TODO: create .htaccess file
- * TODO:  
- */
-include('c/common.php');
-class check extends common
-{	
-	public $smarty;
-	public $theme;
-	public $config;
+/*
+ 用简单的单文件来实现配置设置和更新
+ 
+ 检查项 :
+    1. .htaccess
+    2. index.php
+    3. config.php
+    4. host
+    5. baseurl
+    
+    
+    6. 可自动生成系统必须的配置项
+*/
 
-	function __construct()
-	{
-		// init smarty , THEME, config etc.
-		parent::initConfig($this);
+require('config.php');
 
-		// init module
-		include('m/mcheck.php');
+$HOST = $_SERVER["HTTP_HOST"];
+if(isset($config[$HOST]))
+    print_r($config[$HOST]);
+else
+    echo "对应主机$HOST 的配置项不存在";
 
-		$this->mcheck = new mcheck();
-	}
-
-	function view()
-	{
-		$this->smarty->display('check.html');
-	}
-
-    function main()
-    {
-		// TODO: load menu module
-		// TODO: load index view
-		// TODO: show all
-		$checklist = $this->mcheck->doCheck();
-		$this->smarty->assign('checklist',$checklist);
-
-		$this->view();
-	}
-	function __construct()
-	{
-		// TODO: 检查目录可写
-		$this->writedir = array(
-			'/templates_c',
-			'/cache',
-			'/upload',
-		);
-
-		$this->checklist = array();
-	}
-
-	// 检查目录
-	function checkdir()
-	{
-		GLOBAL $CONFIG;
-
-		foreach($this->writedir as $k=>$v)
-		{
-			$dirpath = ROOT_DIR.$v; 
-			if(is_dir($dirpath))
-			{
-				if(is_writable($dirpath))
-					$this->setMsg('目录'.$v, '检查通过');
-				else
-				{
-					if(chmod($dirpath, '0777'))
-						$this->setMsg('目录'.$v, '修改为可写');
-					else
-						$this->setMsg('目录'.$v, '不可写');
-				}
-			}
-			else
-			{
-				if(mkdir($dirpath,'0777'))
-					$this->setMsg('目录'.$v, '创建成功');
-				else
-					$this->setMsg('目录'.$v, '创建失败', 'bad');
-			}
-		}
-	}
-
-	// 更新状态
-	function setMsg($key, $msg, $cls='ok')
-	{
-		$this->checklist[$key] = array('class'=>$cls, 'msg'=>$msg);
-	}
-
-	function doCheck()
-	{
-		$this->checkdir();
-		$this->setMsg('<hr>','<hr>','');
-		$this->setMsg('test','test','ok');
-
-		return $this->checklist;
-	}
-};
+#phpinfo();
 
