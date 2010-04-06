@@ -66,15 +66,17 @@ else
   	//echo 'Class Not Found:'.$_SERVER['QUERY_STRING'];
 	header('Status: 404 Not found');
 
-	if(is_file("/v/$THEME/error.html"))
+	if(is_file("./v/$THEME/error.html"))
 	{
-		header("Location:/v/$THEME/error.html");
+	    header("HTTP/1.0 404 Not Found");
+		echo file_get_contents("./v/$THEME/error.html");
 	}
 	else
 		echo 'error 404<br/>and theme file: error.html not exists';
 
+
 	// TODO: this line for debug, remove this line before release
-	echo '<pre>';
+	echo '<pre>REQUET:';
 	print_r($_GET);
 	die();
 }

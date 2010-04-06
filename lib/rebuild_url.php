@@ -3,18 +3,15 @@
 function rebuildURL($requesturl)
 {
     /*
-      /index.html index.htm => index.php?index.main
-      #RewriteRule ^\/?(index.html|index.htm)?$ index.php?act=index.main
-      
-      /addresslist|mail|content/[a-z]* / => index.php?act=$1&method=$2&params
-      
-      RewriteRule ^(addresslist|mail|content)\/([a-z]*)\/?\?(.*)$ index.php?act=$1.$2&$3
-      RewriteRule ^(addresslist|mail|content)\/?([a-z]*)?\/([0-9a-z=&]*)?$ index.php?act=$1.$2&p=$3
-      RewriteRule ^(addresslist|mail|content)\/?$ index.php?act=$1.main
-      
-      RewriteRule ^([^.]*)$ index.php?act=index.show&key=$1    
+    url example: /class/method/param1-value1/param2-value2/param3-value3?exparams
+    => $_GET=> array(
+        'class' => 'class'
+        'method' => 'method'
+        'param1' => 'value1'
+        ...
+    )
+    
     */
-    // url 规范: /class/method/param1-value1/param2-value2/param3-value3?exparams
 
     
     #$exparams = explode('?', $_SERVER['REQUEST_URI']);
@@ -49,3 +46,4 @@ function rebuildURL($requesturl)
     if($_GET['class']=='') $_GET['class'] = 'index';
     if($_GET['method']=='') $_GET['method'] = 'main';
 }
+
