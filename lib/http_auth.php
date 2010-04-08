@@ -7,7 +7,8 @@ function doHttpAuth()
         $usr = $_SERVER['PHP_AUTH_USER'];
         $pwd = $_SERVER['PHP_AUTH_PW'];
     
-        $ret = file_get_contents("http://mail.lvren.cn/chkpwd.php?u=$usr&p=$pwd");
+        // TODO: add your username/password check method, if ok then set $ret to true, other wise set it to false
+        $ret = true;
     
         if($ret!='PASSWD_OK')
         {
