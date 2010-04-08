@@ -1,6 +1,7 @@
 <?php
+$path = pathinfo($_SERVER['SCRIPT_FILENAME']);
 define('HOST', $_SERVER['HTTP_HOST']);
-define('ROOT_DIR',$_SERVER['DOCUMENT_ROOT']);
+define('ROOT_DIR',$path['dirname']);
 define('CTL_DIR', ROOT_DIR.'/c/');
 
 include_once('config.php');
