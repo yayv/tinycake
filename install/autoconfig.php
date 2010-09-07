@@ -15,7 +15,13 @@
 
 function updateHTACCESS($newrewritebase)
 {
-        
+    // TODO: get host and base url
+    // TODO: write .htaccess
+}
+
+function checkConfig()
+{
+    // TODO: check framework need config
 }
 
 require('config.php');
