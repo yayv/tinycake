@@ -1,10 +1,22 @@
 <?php
+include_once('config.php');
+
 $path = pathinfo($_SERVER['SCRIPT_FILENAME']);
 define('HOST', $_SERVER['HTTP_HOST']);
 define('ROOT_DIR',$path['dirname']);
 define('CTL_DIR', ROOT_DIR.'/c/');
 
-include_once('config.php');
+
+$CONFIG = $config[HOST];
+$HOME   = $CONFIG['baseurl'];
+$THEME  = $CONFIG['theme'];
+$_      = $CONFIG['include_separator'];
+set_include_path(get_include_path() .$_
+                . $CONFIG['compile_dir']. $_
+                 $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].$_.
+                 $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].'/lib/'.$_
+);
+
 include_once('lib/http_auth.php');
 include_once('lib/public_dbclass.php');
 include_once('lib/rebuild_url.php');
@@ -14,10 +26,6 @@ include_once('Smarty.class.php');
 // TODO: 恢复身份认证部分
 // doHttpAuth();
 
-$CONFIG = $config[HOST];
-$HOME   = $CONFIG['baseurl'];
-$THEME  = $CONFIG['theme'];
-set_include_path(get_include_path() .$CONFIG['include_separator']. $CONFIG['compile_dir']);
 
 header('Content-Type: text/html;charset=UTF-8');
 
