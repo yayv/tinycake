@@ -14,7 +14,7 @@ $_      = $CONFIG['include_separator'];
 set_include_path(get_include_path() .$_
                 . $CONFIG['compile_dir']. $_
                  $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].$_.
-                 $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].'/lib/'.$_
+                 $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].'/lib/'
 );
 
 include_once('lib/http_auth.php');
