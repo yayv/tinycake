@@ -24,7 +24,7 @@ include_once('Smarty.class.php');
 
 
 // TODO: 恢复身份认证部分
-// doHttpAuth();
+doHttpAuth();
 
 
 header('Content-Type: text/html;charset=UTF-8');

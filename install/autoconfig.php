@@ -13,10 +13,10 @@
  
 */
 
-function updateHTACCESS($newrewritebase)
+function updateHTACCESS($basedir)
 {
-    // TODO: get host and base url
-    // TODO: write .htaccess
+    $template = file_get_contents('htaccess.tpl');
+    file_put_contents('../.htaccess', strtr($template, array('{basedir}'=>$basedir)));
 }
 
 function checkConfig()
