@@ -16,6 +16,10 @@ email: yayv.cn@gmail.com
 	index.php 负责按url分析，并判断具体对应该url处理的类是否存在
 	找到并加载正确的url处理类(controller)之后，调用controller的标准入口函数
 
+使用的注意事项:
+    所有需要调用配置文件的地方，都用 $config 或 $CONFIG 读取变量，这样才能让autoconfig工具生效
+    所有的配置项里的url和path, 末尾都不要带 '/' 所有需要前面带目录或url的 目录或文件，都以 '/' 开头，保证一致性，就可以简化维护成本
+
 	
 smarty 应该有controller负责判断是否需要加载，临时目录放到哪里。
 
