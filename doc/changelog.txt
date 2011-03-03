@@ -1,0 +1,18 @@
+
+TODO:
+    1.
+    增加一个命令行工具，update framework, 用于比对目标项目目录里，关键文件的版本和替换升级是否安全
+    目的是简化旧项目的框架升级过程
+
+    2.
+    完成autoconfig.php
+    实现 .htaccess 的自动更新，
+    实现默认config文件的自动生成，扫描代码目录树，找到所有的 $config 和 $CONFIG 调用，记录下标，分析 config.php 文件内容，自动填入数组，生成 config.template.php 文件，供部署时手工修改
+
+    3.
+    考虑把默认的数据库连接和smarty模板改为标准的库调用，从而让 index.php 的唯一入口不再依赖 public_connect和smarty 库
+
+    
+    
+
+
