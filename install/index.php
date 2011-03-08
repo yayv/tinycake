@@ -1,91 +1,51 @@
 <?php
-include_once('config.php');
+	error_reporting(E_ALL & ~E_NOTICE);
 
-$path = pathinfo($_SERVER['SCRIPT_FILENAME']);
-define('HOST', $_SERVER['HTTP_HOST']);
-define('ROOT_DIR',$path['dirname']);
-define('CTL_DIR', ROOT_DIR.'/c/');
+	set_include_path('./:../framework/develop:../framework/libraries');
 
-
-$CONFIG = $config[HOST];
-$HOME   = $CONFIG['baseurl'];
-$THEME  = $CONFIG['theme'];
-$_      = $CONFIG['include_separator'];
-set_include_path(get_include_path() .$_
-                . $CONFIG['compile_dir']. $_
-                 $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].$_.
-                 $_SERVER['DOCUMENT_ROOT'].$CONFIG['basedir'].'/lib/'
-);
-
-include_once('lib/http_auth.php');
-include_once('lib/public_dbclass.php');
-include_once('lib/rebuild_url.php');
-include_once('Smarty.class.php');
-
-
-// TODO: 恢复身份认证部分
-doHttpAuth();
-
-
-header('Content-Type: text/html;charset=UTF-8');
-
-session_start();
-
-// 排除URL的目录问题
-$pos  = strpos('http://'.HOST.$_SERVER['REQUEST_URI'], $HOME);
-if($pos===0)
-    $rurl = substr('http://'.HOST.$_SERVER['REQUEST_URI'], strlen($CONFIG['baseurl']));
-else
-	die('配置文件错误.<br/> <a href="./install/">修改配置</a>');
-
-rebuildURL($rurl);
-
-$DB_Mailsys = new DB_Sql(
-    $CONFIG['dbserver'],
-    $CONFIG['database'],
-    $CONFIG['dbuser'],
-    $CONFIG['dbpass'],    
-    'DB_MAILSYS');
-
-$themepath = $CONFIG['smarty'].'/'.$CONFIG['theme'];
-
-$topicdir  = $CONFIG['topicdir'];
-$topicurl  = $CONFIG['topicurl'];
-
-
-$strClassFileName = CTL_DIR.$_GET['class'].".php";
-
-if(is_file($strClassFileName))
-{
-    require_once($strClassFileName);
+	include_once('core.php');
+	include_once('controller.php');
+	include_once('model.php');
 	
-    $objMain = new $_GET['class'];
-    if(method_exists($objMain,$_GET['method']))
-    {
-        $objMain->$_GET['method']();
-    }
+	$core = Core::getInstance();
+	
+	// TODO： 1. 统一配置文件
+	$host = &$_SERVER['HTTP_HOST'];
+	$core->loadConfig($host);
+	$core->pushLog('URL:'.$_SERVER['REQUEST_URI']."\n");
+	$core->pushLog('start(url):'.microtime()."\n");
+	
+    // TODO： 2. 统一解析URL, 如果 $_GET['act'] 有设置，则外面的rewrite规则还在生效
+    // TODO: 3. in debug mode, this program will scan user's controller's directory 
+	list($controller, $action) = $core->rebuildUrl($_SERVER['REQUEST_URI']);
+
+	$c = $core->loadController($controller);
+	
+	$core->loadSession();
+	
+	// 构造自定义日志
+	if(isset($core->getConfig['clicklog']))
+		$core->clickLog($core->getConfig['clicklog'].'/clicklog.'.date('Y-m-d'));		
+	
+	$core->pushLog('start_controller('.$controller.'->'.$action.'):'.microtime()."\n");
+
+	if(method_exists($c, $action))
+	{
+		$core->RegisterShutdown("$controller"."->"."$action");
+		$c->$action();
+		$core->UnregisterShutdown("$controller"."->"."$action");
+	}
 	else
 	{
-		echo 'The Controller ',$_GET['class'],' need the method:', $_GET['method'];
-		die();
+		$core->RegisterShutdown("$controller"."->missing");
+		if(is_a($c,$controller))
+			$core->loadController('defaultcontroller')->missing($controller, $action); // action is missing
+		else
+			$c->missing($controller, ''); // controller is missing
+			
+		$core->UnregisterShutdown("$controller"."->missing");
 	}
-}
-else
-{
-  	//echo 'Class Not Found:'.$_SERVER['QUERY_STRING'];
-	header('Status: 404 Not found');
+	$core->pushLog('end_controller('.$controller.'->'.$action."):".microtime()."\n");
+	$core->pushLog('end(url):'.microtime()."\n");
+	$core->writelog();
 
-	if(is_file("./v/$THEME/error.html"))
-	{
-	    header("HTTP/1.0 404 Not Found");
-		echo file_get_contents("./v/$THEME/error.html");
-	}
-	else
-		echo 'error 404<br/>and theme file: error.html not exists';
-
-
-	// TODO: this line for debug, remove this line before release
-	echo '<pre>REQUET:';
-	print_r($_GET);
-	die();
-}
