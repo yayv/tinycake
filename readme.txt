@@ -4,12 +4,16 @@
 email: yayv.cn@gmail.com
 
 项目说明:
-	本项目为专题(专区)管理与发布系统
+	本项目为一个 php 开发框架。主要思想来源于 Ruby On Rails 的核心思想: 规范大于配置
 
 目录说明:
-	m => module， 数据模型对应的类放在此目录下
-	v => views    展现层放在此目录下，基本是 html js css images 文件
-	c => controllers, 负责处理url参数，并调用
+    cake => 核心程序的目录，包括2个子目录 develop，kernel
+    cake/develop => 开发期使用的基础类和相关的工具程序
+    cake/kernel  => 发布运行时，需要用这个目录内的基础类和相关工具程序，以保证更高的执行效率
+    install => 本目录为tinycake框架的demo项目，同时，她也承担了自动化部署，更新配置等工具性的职责
+	install/m => module， 数据模型对应的类放在此目录下
+	install/v => views    展现层放在此目录下，基本是 html js css images 文件
+	install/c => controllers, 负责处理url参数，并调用
 
 流程说明:
 	系统接收到一个请求后，首先用rewrite方式交给 index.php进行处理
@@ -25,3 +29,4 @@ smarty 应该有controller负责判断是否需要加载，临时目录放到哪
 
 模板中，可以使用 {$baseurl} 标示当前系统所在的根url, 末尾不带 '/'
 {$themepath} ，可以表示当前主题的相对目录，以'/'开头,末尾不带'/'
+

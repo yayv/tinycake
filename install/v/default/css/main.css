@@ -1,0 +1,4 @@
+#header{width:96%;display:block;background-color:gray;padding:3px;}
+#main{width:68%;float:left;display:block;overflow-y:visible;overflow-x:auto;}
+#guide{width:31%;float:right;display:block;}
+#footer{width:96%;display:block;background-color:gray;padding:3px;}

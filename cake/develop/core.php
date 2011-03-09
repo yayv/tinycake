@@ -87,7 +87,7 @@ class Core
 	 * 		class_alias 需要在这里支持
 	 * @param unknown_type $classname
 	 */
-	function loadController(&$classname)
+	function loadController($classname)
 	{
 		if(is_file('c/'.$classname.'.php'))
 			include('c/'.$classname.'.php');

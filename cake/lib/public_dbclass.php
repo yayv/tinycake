@@ -1,30 +1,15 @@
 <?php
 /*
-* Session Management for PHP3
-*
-* Copyright (c) 1998-2000 NetUSE AG
-* Boris Erdmann, Kristian Koehntopp
-*
-* $Id: db_mysql.inc,v 1.2 2000/07/12 18:22:34 kk Exp $
-*
-*/
-/*
+* 一个对mysql的简单封装
 * 一个实例只能同时做一个select/update/insert操作
 * 要同时对多个表格或者纪录集操作必须创建多个实例
-* 命名变量名和函数名规则不同一
+* 命名变量名和函数名规则不统一
 * 没有翻页功能
-* 使用了pconnect()
-* 没有关闭连结
 * 获得最后添加的ID的方法(如果需要则要求添加)
 *
-* MySQL提供锁多表格功能,OCI8只提供锁但表格功能
-* affected_rows($link) mysql & oci8 不同
-* Result自动清空比较完善
-* 错误提示比较完善
 */
 class DB_Sql {
 	/* public: connection parameters */
-	//数据库连结
 	var $Host = "";
 	var $Database = "";
 	var $User = "";
@@ -35,13 +20,14 @@ class DB_Sql {
 	/* public: configuration parameters */
 	var $Auto_Free = 0; ## Set to 1 for automatic mysql_free_result()
 	## 类是否需要注销纪录集
-	var $Debug = 0; ## Set to 1 for debugging messages.
-	## 调试是否显示
-	var $Halt_On_Error = "no"; ## 报错　"yes" (halt with message),
-	## 不报错误信息　"no" (ignore errors quietly),
-	## 不报错误信息,中断程序　?report" (ignore errror,but spit a warning)
+
+    // 报错　"yes" (halt with message),
+	// 不报错误信息　"no" (ignore errors quietly),
+	// 不报错误信息,中断程序　?report" (ignore errror,but spit a warning)
+	var $Halt_On_Error = "no"; 
 	
 	var $Seq_Table = "db_sequence"; //序列表
+
 	/* public: result array and current row number */
 	var $Record = array(); //一条纪录信息
 	var $Row; // 当前行号
@@ -54,37 +40,33 @@ class DB_Sql {
 	var $Errno = 0; //错误编号
 	var $Error = ""; //错误信息
 	
-	/* public: this is an api revision, not a CVS revision. */
 	var $type = "mysql"; //数据库类型
-	var $revision = "1.2"; //代码版本号
+
 	/* private: link and query handles */
 	var $Query_ID = 0; //查询结果句柄
 	
-	
-	/**
-	 *
-	 */
-  function DB_Sql($Host, $Database, $User, $Password, $LinkName, $Charset='UTF8')
-  {
- 	  $this->Host     = $Host; //"dbserver_zoldb";
-	  $this->Database = $Database; //"zoldb";
-	  $this->User     = $User; //"root";
-	  $this->Password = $Password;
-	  $this->LinkName = $LinkName; //"conn_product";
-	  $this->Charset = $Charset; //"conn_product";
-  }
+    // construct for php4
+    function DB_Sql($Host, $Database, $User, $Password, $LinkName, $Charset='UTF8')
+    {
+        $this->Host     = $Host; //"dbserver_zoldb";
+        $this->Database = $Database; //"zoldb";
+        $this->User     = $User; //"root";
+        $this->Password = $Password;
+        $this->LinkName = $LinkName; //"conn_product";
+        $this->Charset = $Charset; //"conn_product";
+    }
   
   
-  function __construct($Host, $Database, $User, $Password, $LinkName, $Charset='UTF8')
-  {
-      // 注: php5兼容php4的构造函数模式，只有当解释器找不到 __construct构造函数的时候，php才会寻找php4风格的构造函数
-      $this->DB_Sql($Host, $Database, $User, $Password, $LinkName, $Charset);
-  }
+    function __construct($Host, $Database, $User, $Password, $LinkName, $Charset='UTF8')
+    {
+        // 注: php5兼容php4的构造函数模式，只有当解释器找不到 __construct构造函数的时候，php才会寻找php4风格的构造函数
+        $this->DB_Sql($Host, $Database, $User, $Password, $LinkName, $Charset);
+    }
   
-  function __destruct()
-  {
-      $this->close_link();      
-  }
+    function __destruct()
+    {
+        $this->close_link();      
+    }
   
 	
 	function query_id() { //返回查询结果,得到结果句柄
@@ -131,9 +113,9 @@ class DB_Sql {
 	/* private: 初始化与页面数相关的信息, writed by Ge Chuanqing*/
 	function init_pagesize() {
 		$this->AbsolutePage = 1;
-		$this->PageSize = 0;
-		$this->PageCount = 0;
-		$this->RecordCount = 0;
+		$this->PageSize     = 0;
+		$this->PageCount    = 0;
+		$this->RecordCount  = 0;
 	}
 	
 	/* private: parse a query, writed by Ge Chuanqing*/
@@ -193,15 +175,11 @@ class DB_Sql {
 			echo "</b><br>";
 			return 0;
 		}
-		if ($this->Debug)
-			printf("Debug: query = %s<br>\n", $Query_String);
+
 		if ($this->parse_query_string($Query_String)) {
 			$Query_String=$this->parse_query_string($Query_String);
-			if ($this->Debug) {
-				printf("Debug: parse_query_string = %s<br>\n", $Query_String);
-			}
 		}
-
+		
 		$this->Query_ID = @mysql_db_query($this->Database,$Query_String,$$LinkName);
 		$this->Row = 0;
 		$this->Errno = mysql_errno();
@@ -422,54 +400,73 @@ class DB_Sql {
 	/* public: sequence numbers, edit by Ge Chuanqing */
 	//获取一个表格的序列号并且加一
 	function nextid($seq_name) {
-	$LinkName=$this->LinkName;
-	global $$LinkName;
-	$this->connect();
-	if ($this->lock($this->Seq_Table)) {
-	/* get sequence number (locked) and increment */
-	//
-	$q = sprintf("select nextid from %s where seq_name = '%s'",
-	$this->Seq_Table,
-	$seq_name);
-	$id = @mysql_db_query($this->Database,$q, $$LinkName);
-	$res = @mysql_fetch_array($id);
-	/* No current value, make one */
-	if (!is_array($res)) {
-	$currentid = 0;
-	//add by ge, 注意：在加锁前，自动解开以前的锁．
-	if ($this->lock("$seq_name")) {
-	$strsql="select max(id) as maxid from $seq_name";
-	$rec=@mysql_db_query($this->Database,$strsql,$$LinkName);
-	$currentid=@mysql_result($rec,0,"maxid");
-	} else {
-	$this->halt("cannot lock ".$seq_name);
-	}
-	if ($this->lock($this->Seq_Table))
-	{
-	$q = sprintf("insert into %s values('%s', %s)",
-	$this->Seq_Table,
-	$seq_name,
-	$currentid);
-	$id = @mysql_db_query($this->Database,$q,$$LinkName);
-	} else {
-	$this->halt("cannot lock ".$this->Seq_Table);
-	}
-	//add end
-	} else {
-	$currentid = $res["nextid"];
-	}
-	$nextid = $currentid + 1;
-	$q = sprintf("update %s set nextid = '%s' where seq_name = '%s'",
-	$this->Seq_Table,
-	$nextid,
-	$seq_name);
-	$id = @mysql_db_query($this->Database,$q,$$LinkName);
-	$this->unlock();
-	} else {
-	$this->halt("cannot lock ".$this->Seq_Table." - has it been created?");
-	return 0;
-	}
-	return $nextid;
+	    $LinkName=$this->LinkName;
+
+	    global $$LinkName;
+
+	    $this->connect();
+
+	    if ($this->lock($this->Seq_Table)) {
+
+	    /* get sequence number (locked) and increment */
+	    //
+	    $q = sprintf("select nextid from %s where seq_name = '%s'", $this->Seq_Table, $seq_name);
+
+	    $id = @mysql_db_query($this->Database,$q, $$LinkName);
+
+	    $res = @mysql_fetch_array($id);
+
+	    /* No current value, make one */
+	    if (!is_array($res)) {
+    	    $currentid = 0;
+
+	        //add by ge, 注意：在加锁前，自动解开以前的锁．
+	        if ($this->lock("$seq_name")) {
+	            $strsql="select max(id) as maxid from $seq_name";
+	            $rec=@mysql_db_query($this->Database,$strsql,$$LinkName);
+	            $currentid=@mysql_result($rec,0,"maxid");
+	        } 
+            else 
+            {
+	            $this->halt("cannot lock ".$seq_name);
+	        }
+
+	        if ($this->lock($this->Seq_Table))
+	        {
+	            $q = sprintf("insert into %s values('%s', %s)",
+	            $this->Seq_Table,
+	            $seq_name,
+	            $currentid);
+	            $id = @mysql_db_query($this->Database,$q,$$LinkName);
+	        } 
+            else 
+            {
+	            $this->halt("cannot lock ".$this->Seq_Table);
+	        }
+	    //add end
+	    } 
+        else 
+        {
+	        $currentid = $res["nextid"];
+	    }
+
+	    $nextid = $currentid + 1;
+
+	    $q = sprintf("update %s set nextid = '%s' where seq_name = '%s'",
+	                $this->Seq_Table,
+	                $nextid,
+	                $seq_name);
+
+	    $id = @mysql_db_query($this->Database,$q,$$LinkName);
+
+	    $this->unlock();
+	    } 
+        else 
+        {
+	        $this->halt("cannot lock ".$this->Seq_Table." - has it been created?");
+	        return 0;
+	    }
+	    return $nextid;
 	}
 	
 	
@@ -541,8 +538,60 @@ class DB_Sql {
 	if ($table) @mysql_free_result($id);
 	return $res;
 	}
+
+	//显示所有表名称
+	function table_names() {
+		$this->query("SHOW TABLES");
+		$i=0;
+		while ($info=mysql_fetch_row($this->Query_ID)){
+			$return[$i]["table_name"]= $info[0];
+			$return[$i]["tablespace_name"]=$this->Database;
+			$return[$i]["database"]=$this->Database;
+			$i++;
+		}
+		return $return;
+	}
 	
+	//实例注销前需要释放相应的内存空间
+	function close() {
+		free();
+	}
 	
+	//关闭数据库联结
+	function close_link() {
+		$LinkName=$this->LinkName;
+		global $$LinkName;
+		if ($mylink) {
+			if (mysql_close($$LinkName)) {
+				$mylink=false;
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return true;
+		}
+	}
+	
+    //得到数据库db_name下的所有表的名字的字符串
+	function get_db_tables(){
+		$db_name=$this->Database;
+		$results=mysql_list_tables($db_name);
+		$table_num=mysql_affected_rows();
+		$table_name="";
+		$table_str="";
+		for($i=0;$i<$table_num;$i++){
+			$table_name=mysql_tablename($results,$i);
+			$table_str.=$table_name.",";
+		}
+		if(trim($table_str)!=""){
+			$table_str=",".$table_str;
+		}
+		return $table_str;
+	}
+
+
+
 	/* private: error handling */
 	//错误处理方法
 	function halt($msg) {
@@ -573,57 +622,7 @@ class DB_Sql {
 		$this->Errno,
 		$this->Error);
 	}
-	
-	//显示所有表名称
-	function table_names() {
-		$this->query("SHOW TABLES");
-		$i=0;
-		while ($info=mysql_fetch_row($this->Query_ID)){
-			$return[$i]["table_name"]= $info[0];
-			$return[$i]["tablespace_name"]=$this->Database;
-			$return[$i]["database"]=$this->Database;
-			$i++;
-		}
-		return $return;
-	}
-	
-	//实例注销前需要释放相应的内存空间
-	Function close() {
-		$this->free();
-	}
-	
-	//关闭数据库联结
-	Function close_link() {
-		$LinkName=$this->LinkName;
-		global $$LinkName;
-		if ($mylink) {
-			if (mysql_close($$LinkName)) {
-				$mylink=false;
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return true;
-		}
-	}
-	
-	//以下为liupei新增函数，主要为扩展sql
-	function get_db_tables(){//得到数据库db_name下的所有表的名字的字符串
-		$db_name=$this->Database;
-		$results=mysql_list_tables($db_name);
-		$table_num=mysql_affected_rows();
-		$table_name="";
-		$table_str="";
-		for($i=0;$i<$table_num;$i++){
-			$table_name=mysql_tablename($results,$i);
-			$table_str.=$table_name.",";
-		}
-		if(trim($table_str)!=""){
-			$table_str=",".$table_str;
-		}
-		return $table_str;
-	}//end of fun get_db_tables
 
 }//end of class
+
 

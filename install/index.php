@@ -1,7 +1,7 @@
 <?php
-	error_reporting(E_ALL & ~E_NOTICE);
+	error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
-	set_include_path('./:../framework/develop:../framework/libraries');
+	set_include_path('./:../cake/develop:../cake/lib');
 
 	include_once('core.php');
 	include_once('controller.php');
@@ -29,22 +29,31 @@
 	
 	$core->pushLog('start_controller('.$controller.'->'.$action.'):'.microtime()."\n");
 
-	if(method_exists($c, $action))
-	{
-		$core->RegisterShutdown("$controller"."->"."$action");
-		$c->$action();
-		$core->UnregisterShutdown("$controller"."->"."$action");
-	}
-	else
-	{
+    /* maybe, here is for release template
+    */
+
+	if(is_a($c,$controller))
+    {
+	    if(method_exists($c, $action))
+	    {
+		    $core->RegisterShutdown("$controller"."->"."$action");
+		    $c->$action();
+		    $core->UnregisterShutdown("$controller"."->"."$action");
+	    }
+	    else
+        {
+       		$core->RegisterShutdown("defaultcontroller->missing");
+		    $core->loadController('defaultcontroller')->missing($controller, $action); // action is missing
+	        $core->UnregisterShutdown("defaultcontroller->missing");
+	    }
+    }
+    else
+    {
 		$core->RegisterShutdown("$controller"."->missing");
-		if(is_a($c,$controller))
-			$core->loadController('defaultcontroller')->missing($controller, $action); // action is missing
-		else
-			$c->missing($controller, ''); // controller is missing
-			
-		$core->UnregisterShutdown("$controller"."->missing");
+		$c->missing($controller, ''); // controller is missing
+	    $core->UnregisterShutdown("$controller"."->missing");
 	}
+
 	$core->pushLog('end_controller('.$controller.'->'.$action."):".microtime()."\n");
 	$core->pushLog('end(url):'.microtime()."\n");
 	$core->writelog();

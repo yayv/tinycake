@@ -1,0 +1,1674 @@
+URL:/
+start(url):0.27833300 1299576884
+start_controller(defaultcontroller->index):0.27873300 1299576884
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.51466300 1299576924
+start_controller(defaultcontroller->index):0.51531700 1299576924
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.45946400 1299577208
+start_controller(defaultcontroller->index):0.45988200 1299577208
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.17471300 1299577210
+start_controller(defaultcontroller->index):0.17500600 1299577210
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.40807800 1299577288
+start_controller(defaultcontroller->index):0.40873200 1299577288
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.01547900 1299578138
+start_controller(defaultcontroller->index):0.01579300 1299578138
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.29950700 1299578139
+start_controller(defaultcontroller->index):0.29981300 1299578139
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.93557300 1299582193
+start_controller(defaultcontroller->index):0.93592200 1299582193
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.64431100 1299582253
+start_controller(defaultcontroller->index):0.64460600 1299582253
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.47488300 1299582255
+start_controller(defaultcontroller->index):0.47519700 1299582255
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.01304100 1299584146
+start_controller(defaultcontroller->index):0.01350200 1299584146
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.61122400 1299584194
+start_controller(defaultcontroller->index):0.61165700 1299584194
+start(mmenu->getMenu): 0.61738800 1299584194
+end(mmenu->getMenu): 0.61743900 1299584194
+end_controller(defaultcontroller->index):0.61829500 1299584194
+end(url):0.61831000 1299584194
+URL:/
+start(url):0.26219500 1299584224
+start_controller(defaultcontroller->index):0.26262000 1299584224
+start(mmenu->getMenu): 0.26728700 1299584224
+end(mmenu->getMenu): 0.26733600 1299584224
+end_controller(defaultcontroller->index):0.26810200 1299584224
+end(url):0.26811400 1299584224
+URL:/
+start(url):0.84685900 1299584225
+start_controller(defaultcontroller->index):0.84760700 1299584225
+start(mmenu->getMenu): 0.85228700 1299584225
+end(mmenu->getMenu): 0.85235400 1299584225
+end_controller(defaultcontroller->index):0.85351700 1299584225
+end(url):0.85374000 1299584225
+URL:/
+start(url):0.29067300 1299613072
+start_controller(defaultcontroller->index):0.31307000 1299613072
+start(mmenu->getMenu): 0.33381200 1299613072
+end(mmenu->getMenu): 0.33385800 1299613072
+end_controller(defaultcontroller->index):0.36676900 1299613072
+end(url):0.36678500 1299613072
+URL:/favicon.ico
+start(url):0.53093000 1299613075
+start_controller(defaultcontroller->index):0.53159200 1299613075
+start(mmenu->getMenu): 0.54132500 1299613075
+end(mmenu->getMenu): 0.54136500 1299613075
+end_controller(defaultcontroller->index):0.54197600 1299613075
+end(url):0.54199300 1299613075
+URL:/
+start(url):0.11017800 1299617209
+start_controller(defaultcontroller->index):0.11061800 1299617209
+start(mmenu->getMenu): 0.11480500 1299617209
+end(mmenu->getMenu): 0.11484400 1299617209
+CallStack is NOT empty
+defaultcontroller->indexURL:/
+start(url):0.14390500 1299617224
+start_controller(defaultcontroller->index):0.14431300 1299617224
+start(mmenu->getMenu): 0.14915300 1299617224
+end(mmenu->getMenu): 0.14919700 1299617224
+end_controller(defaultcontroller->index):0.20741900 1299617224
+end(url):0.20743600 1299617224
+URL:/
+start(url):0.15310000 1299617424
+start_controller(defaultcontroller->index):0.15342900 1299617424
+start(mmenu->getMenu): 0.15787100 1299617424
+end(mmenu->getMenu): 0.15791200 1299617424
+end_controller(defaultcontroller->index):0.15852500 1299617424
+end(url):0.15853400 1299617424
+URL:/
+start(url):0.61828100 1299617426
+start_controller(defaultcontroller->index):0.61858700 1299617426
+start(mmenu->getMenu): 0.62339900 1299617426
+end(mmenu->getMenu): 0.62374700 1299617426
+end_controller(defaultcontroller->index):0.62435800 1299617426
+end(url):0.62437000 1299617426
+URL:/
+start(url):0.03582100 1299618104
+start_controller(defaultcontroller->index):0.03621100 1299618104
+start(mmenu->getMenu): 0.04055300 1299618104
+end(mmenu->getMenu): 0.04059400 1299618104
+end_controller(defaultcontroller->index):0.08783500 1299618104
+end(url):0.08785300 1299618104
+URL:/
+start(url):0.13946800 1299618372
+start_controller(defaultcontroller->index):0.13978500 1299618372
+start(mmenu->getMenu): 0.14418600 1299618372
+end(mmenu->getMenu): 0.14423500 1299618372
+end_controller(defaultcontroller->index):0.14491300 1299618372
+end(url):0.14492600 1299618372
+URL:/project/listall
+start(url):0.85294200 1299618376
+start_controller(defaultcontroller->listall):0.85349700 1299618376
+CallStack is NOT empty
+defaultcontroller->missingURL:/
+start(url):0.30943900 1299618385
+start_controller(defaultcontroller->index):0.30973200 1299618385
+start(mmenu->getMenu): 0.31397900 1299618385
+end(mmenu->getMenu): 0.31402100 1299618385
+end_controller(defaultcontroller->index):0.31455300 1299618385
+end(url):0.31456200 1299618385
+URL:/
+start(url):0.42701900 1299627200
+start_controller(defaultcontroller->index):0.67407800 1299627200
+start(mmenu->getMenu): 0.11820900 1299627201
+end(mmenu->getMenu): 0.11827100 1299627201
+end_controller(defaultcontroller->index):0.32659900 1299627201
+end(url):0.32661700 1299627201
+URL:/install/install
+start(url):0.71537500 1299627891
+start_controller(install->install):0.72740500 1299627891
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.26110200 1299634993
+start_controller(install->install):0.29169300 1299634993
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.71795900 1299635554
+start_controller(install->install):0.71882800 1299635554
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.46626000 1299635586
+start_controller(install->install):0.46660100 1299635586
+end_controller(install->install):0.53760100 1299635586
+end(url):0.53761700 1299635586
+URL:/install/install
+start(url):0.30319300 1299635607
+start_controller(install->install):0.30351800 1299635607
+end_controller(install->install):0.31055300 1299635607
+end(url):0.31057000 1299635607
+URL:/install/install
+start(url):0.83103800 1299635681
+start_controller(install->install):0.83133800 1299635681
+end_controller(install->install):0.83913000 1299635681
+end(url):0.83914600 1299635681
+URL:/install/install
+start(url):0.27850700 1299635683
+start_controller(install->install):0.27897300 1299635683
+end_controller(install->install):0.28543400 1299635683
+end(url):0.28545100 1299635683
+URL:/install/install
+start(url):0.37236800 1299635719
+start_controller(install->install):0.37267900 1299635719
+end_controller(install->install):0.39718800 1299635719
+end(url):0.39720500 1299635719
+URL:/install/install
+start(url):0.88792800 1299636108
+start_controller(install->install):0.91358600 1299636108
+end_controller(install->install):0.91865400 1299636108
+end(url):0.91867100 1299636108
+URL:/install/install
+start(url):0.02121600 1299636176
+start_controller(install->install):0.02146600 1299636176
+end_controller(install->install):0.02737200 1299636176
+end(url):0.02738600 1299636176
+URL:/install/install
+start(url):0.74404900 1299636863
+start_controller(install->install):0.74432300 1299636863
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.08172100 1299636882
+start_controller(install->install):0.08196900 1299636882
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.00350500 1299636892
+start_controller(install->install):0.00372400 1299636892
+start(mproject->createDirectories): 0.00864400 1299636892
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.02006700 1299636892
+end_controller(install->install):0.02037900 1299636892
+end(url):0.02038600 1299636892
+URL:/install/install
+start(url):0.73495100 1299637034
+start_controller(install->install):0.73521300 1299637034
+start(mproject->createDirectories): 0.74020200 1299637034
+end(mproject->createDirectories): 0.74024700 1299637034
+end_controller(install->install):0.74048400 1299637034
+end(url):0.74049300 1299637034
+URL:/install/install
+start(url):0.39933300 1299637103
+start_controller(install->install):0.39956000 1299637103
+start(mproject->createDirectories): 0.40488200 1299637103
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.40506300 1299637103
+end_controller(install->install):0.40530300 1299637103
+end(url):0.40531200 1299637103
+URL:/install/install
+start(url):0.12081200 1299637112
+start_controller(install->install):0.12103200 1299637112
+start(mproject->createDirectories): 0.12668900 1299637112
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.12685600 1299637112
+end_controller(install->install):0.12709900 1299637112
+end(url):0.12710700 1299637112
+URL:/install/install
+start(url):0.78036900 1299637113
+start_controller(install->install):0.78056100 1299637113
+start(mproject->createDirectories): 0.78555100 1299637113
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.78574400 1299637113
+end_controller(install->install):0.78601300 1299637113
+end(url):0.78602200 1299637113
+URL:/install/install
+start(url):0.84188700 1299637187
+start_controller(install->install):0.84211300 1299637187
+start(mproject->createDirectories): 0.84718600 1299637187
+end(mproject->createDirectories): 0.84728700 1299637187
+end_controller(install->install):0.84751900 1299637187
+end(url):0.84753100 1299637187
+URL:/install/install
+start(url):0.85545700 1299637349
+start_controller(install->install):0.85568100 1299637349
+start(mproject->createDirectories): 0.86073200 1299637349
+end(mproject->createDirectories): 0.86078300 1299637349
+end_controller(install->install):0.86186600 1299637349
+end(url):0.86187900 1299637349
+URL:/install/install
+start(url):0.23544600 1299637368
+start_controller(install->install):0.23568100 1299637368
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.20063500 1299637377
+start_controller(install->install):0.20085000 1299637377
+start(mproject->createDirectories): 0.20571900 1299637377
+end(mproject->createDirectories): 0.20577300 1299637377
+end_controller(install->install):0.20600900 1299637377
+end(url):0.20601700 1299637377
+URL:/install/install
+start(url):0.91638700 1299637389
+start_controller(install->install):0.91660500 1299637389
+start(mproject->createDirectories): 0.92273100 1299637389
+end(mproject->createDirectories): 0.92278200 1299637389
+end_controller(install->install):0.92300300 1299637389
+end(url):0.92301300 1299637389
+URL:/install/install
+start(url):0.49556600 1299637457
+start_controller(install->install):0.49579600 1299637457
+start(mproject->createDirectories): 0.50088200 1299637457
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.50093700 1299637457
+end_controller(install->install):0.50116300 1299637457
+end(url):0.50117300 1299637457
+URL:/install/install
+start(url):0.03759700 1299637473
+start_controller(install->install):0.03782500 1299637473
+start(mproject->createDirectories): 0.04256500 1299637473
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.04261900 1299637473
+end_controller(install->install):0.04284600 1299637473
+end(url):0.04285600 1299637473
+URL:/install/install
+start(url):0.51862400 1299637474
+start_controller(install->install):0.51925700 1299637474
+start(mproject->createDirectories): 0.52413100 1299637474
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.52419500 1299637474
+end_controller(install->install):0.52442300 1299637474
+end(url):0.52443200 1299637474
+URL:/install/install
+start(url):0.31011000 1299637488
+start_controller(install->install):0.31033000 1299637488
+start(mproject->createDirectories): 0.31527800 1299637488
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.31533100 1299637488
+end_controller(install->install):0.31554500 1299637488
+end(url):0.31555400 1299637488
+URL:/install/install
+start(url):0.24900300 1299637492
+start_controller(install->install):0.24921000 1299637492
+start(mproject->createDirectories): 0.25402100 1299637492
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.25413000 1299637492
+end_controller(install->install):0.25437400 1299637492
+end(url):0.25438200 1299637492
+URL:/install/install
+start(url):0.38540300 1299637508
+start_controller(install->install):0.38561800 1299637508
+start(mproject->createDirectories): 0.39048100 1299637508
+end(mproject->createDirectories): 0.39057600 1299637508
+end_controller(install->install):0.39082300 1299637508
+end(url):0.39083300 1299637508
+URL:/install/install
+start(url):0.76810800 1299637529
+start_controller(install->install):0.76833400 1299637529
+start(mproject->createDirectories): 0.77360400 1299637529
+end(mproject->createDirectories): 0.77369700 1299637529
+end_controller(install->install):0.77393600 1299637529
+end(url):0.77394500 1299637529
+URL:/install/install
+start(url):0.51479700 1299637603
+start_controller(install->install):0.51501400 1299637603
+start(mproject->createDirectories): 0.52026100 1299637603
+end(mproject->createDirectories): 0.52036000 1299637603
+end_controller(install->install):0.52060100 1299637603
+end(url):0.52061100 1299637603
+URL:/install/install
+start(url):0.01318000 1299637612
+start_controller(install->install):0.01363400 1299637612
+start(mproject->createDirectories): 0.01967400 1299637612
+end(mproject->createDirectories): 0.01976500 1299637612
+end_controller(install->install):0.01998700 1299637612
+end(url):0.01999600 1299637612
+URL:/install/install
+start(url):0.41899400 1299637617
+start_controller(install->install):0.41934100 1299637617
+start(mproject->createDirectories): 0.42437800 1299637617
+end(mproject->createDirectories): 0.42447000 1299637617
+end_controller(install->install):0.42469000 1299637617
+end(url):0.42469900 1299637617
+URL:/install/install
+start(url):0.06096700 1299637625
+start_controller(install->install):0.06117600 1299637625
+start(mproject->createDirectories): 0.06597000 1299637625
+end(mproject->createDirectories): 0.06608100 1299637625
+end_controller(install->install):0.06629800 1299637625
+end(url):0.06630800 1299637625
+URL:/install/install
+start(url):0.32569700 1299637681
+start_controller(install->install):0.32610500 1299637681
+start(mproject->createDirectories): 0.33159400 1299637681
+end(mproject->createDirectories): 0.33169100 1299637681
+end_controller(install->install):0.33192800 1299637681
+end(url):0.33193800 1299637681
+URL:/install/install
+start(url):0.72648200 1299637697
+start_controller(install->install):0.72673300 1299637697
+start(mproject->createDirectories): 0.73179800 1299637697
+end(mproject->createDirectories): 0.73188600 1299637697
+end_controller(install->install):0.73212000 1299637697
+end(url):0.73212900 1299637697
+URL:/install/install
+start(url):0.98368900 1299637856
+start_controller(install->install):0.98394300 1299637856
+start(mproject->createDirectories): 0.98886500 1299637856
+end(mproject->createDirectories): 0.98896300 1299637856
+end_controller(install->install):0.98919800 1299637856
+end(url):0.98920700 1299637856
+URL:/install/install
+start(url):0.05207600 1299637858
+start_controller(install->install):0.05231000 1299637858
+start(mproject->createDirectories): 0.05716300 1299637858
+end(mproject->createDirectories): 0.05724600 1299637858
+end_controller(install->install):0.05746300 1299637858
+end(url):0.05747200 1299637858
+URL:/install/install
+start(url):0.30539800 1299637899
+start_controller(install->install):0.30594900 1299637899
+start(mproject->createDirectories): 0.31217800 1299637899
+end(mproject->createDirectories): 0.31226600 1299637899
+end_controller(install->install):0.31249500 1299637899
+end(url):0.31250400 1299637899
+URL:/install/install
+start(url):0.07837500 1299637912
+start_controller(install->install):0.07866700 1299637912
+start(mproject->createDirectories): 0.08383100 1299637912
+end(mproject->createDirectories): 0.08391800 1299637912
+end_controller(install->install):0.08413100 1299637912
+end(url):0.08414100 1299637912
+URL:/install/install
+start(url):0.57581800 1299637989
+start_controller(install->install):0.57606400 1299637989
+start(mproject->createDirectories): 0.58125600 1299637989
+end(mproject->createDirectories): 0.58134700 1299637989
+end_controller(install->install):0.58157700 1299637989
+end(url):0.58158500 1299637989
+URL:/install/install
+start(url):0.11282800 1299638726
+start_controller(install->install):0.11312100 1299638726
+start(mproject->createDirectories): 0.11833100 1299638726
+end(mproject->createDirectories): 0.11841800 1299638726
+start(mproject->popError): 0.11844000 1299638726
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.48142800 1299638741
+start_controller(install->install):0.48170400 1299638741
+start(mproject->createDirectories): 0.48674200 1299638741
+end(mproject->createDirectories): 0.48682600 1299638741
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.79902900 1299638751
+start_controller(install->install):0.79942500 1299638751
+start(mproject->createDirectories): 0.80435900 1299638751
+end(mproject->createDirectories): 0.80444500 1299638751
+start(mproject->popError): 0.80446700 1299638751
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.37215600 1299638819
+start_controller(install->install):0.37240300 1299638819
+start(mproject->createDirectories): 0.37800800 1299638819
+end(mproject->createDirectories): 0.37810200 1299638819
+start(mproject->popError): 0.37812600 1299638819
+warning(mproject->popError): Method should not have any output
+end(mproject->popError): 0.37823500 1299638819
+end_controller(install->install):0.37850900 1299638819
+end(url):0.37852000 1299638819
+URL:/install/install
+start(url):0.74529400 1299638828
+start_controller(install->install):0.74554300 1299638828
+start(mproject->createDirectories): 0.75070500 1299638828
+end(mproject->createDirectories): 0.75079900 1299638828
+start(mproject->popError): 0.75082300 1299638828
+end(mproject->popError): 0.75084400 1299638828
+end_controller(install->install):0.75106500 1299638828
+end(url):0.75107400 1299638828
+URL:/install/install
+start(url):0.91496200 1299638830
+start_controller(install->install):0.91543300 1299638830
+start(mproject->createDirectories): 0.92067100 1299638830
+end(mproject->createDirectories): 0.92076400 1299638830
+start(mproject->popError): 0.92078900 1299638830
+end(mproject->popError): 0.92080900 1299638830
+end_controller(install->install):0.92103300 1299638830
+end(url):0.92104200 1299638830
+URL:/install/install
+start(url):0.69719700 1299640430
+start_controller(install->install):0.69748600 1299640430
+start(mproject->createDirectories): 0.70252100 1299640430
+end(mproject->createDirectories): 0.70261100 1299640430
+start(mproject->popError): 0.70263500 1299640430
+end(mproject->popError): 0.70265500 1299640430
+end_controller(install->install):0.70289400 1299640430
+end(url):0.70290300 1299640430
+URL:/install/install
+start(url):0.05318900 1299643895
+start_controller(install->install):0.05349300 1299643895
+start(mproject->createDirectories): 0.05850900 1299643895
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.05863800 1299643895
+end_controller(install->install):0.05887900 1299643895
+end(url):0.05888800 1299643895
+URL:/install/install
+start(url):0.23973100 1299643998
+start_controller(install->install):0.23999500 1299643998
+start(mproject->createDirectories): 0.24486300 1299643998
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.24527600 1299643998
+end_controller(install->install):0.24553000 1299643998
+end(url):0.24554100 1299643998
+URL:/install/install
+start(url):0.12801600 1299644122
+start_controller(install->install):0.12828000 1299644122
+start(mproject->createDirectories): 0.13359800 1299644122
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.14149100 1299644122
+start(mproject->popError): 0.14153600 1299644122
+end(mproject->popError): 0.14156200 1299644122
+end_controller(install->install):0.14190200 1299644122
+end(url):0.14191400 1299644122
+URL:/install/install
+start(url):0.96114000 1299644135
+start_controller(install->install):0.96140800 1299644135
+start(mproject->createDirectories): 0.97052100 1299644135
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.97082100 1299644135
+end_controller(install->install):0.97110300 1299644135
+end(url):0.97111100 1299644135
+URL:/install/install
+start(url):0.15641000 1299645546
+start_controller(install->install):0.15671600 1299645546
+start(mproject->createDirectories): 0.16178100 1299645546
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.16223800 1299645546
+end_controller(install->install):0.16248500 1299645546
+end(url):0.16249400 1299645546
+URL:/install/install
+start(url):0.50003100 1299648947
+start_controller(install->install):0.50033800 1299648947
+start(mproject->createDirectories): 0.50559400 1299648947
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.50596600 1299648947
+end_controller(install->install):0.50622600 1299648947
+end(url):0.50623700 1299648947
+URL:/install/install
+start(url):0.14325600 1299649540
+start_controller(install->install):0.14353500 1299649540
+start(mproject->createDirectories): 0.15514000 1299649540
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.15554700 1299649540
+end_controller(install->install):0.15579800 1299649540
+end(url):0.15580800 1299649540
+URL:/install/install
+start(url):0.69933300 1299649565
+start_controller(install->install):0.69963800 1299649565
+start(mproject->checkDirectoriesMode): 0.70461400 1299649565
+warning(mproject->checkDirectoriesMode): Method should not have any output
+end(mproject->checkDirectoriesMode): 0.70472800 1299649565
+start(mproject->createDirectories): 0.70475600 1299649565
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.70509700 1299649565
+end_controller(install->install):0.70533300 1299649565
+end(url):0.70534200 1299649565
+URL:/install/install
+start(url):0.56514500 1299649622
+start_controller(install->install):0.56540500 1299649622
+start(mproject->checkDirectoriesMode): 0.57139600 1299649622
+warning(mproject->checkDirectoriesMode): Method should not have any output
+end(mproject->checkDirectoriesMode): 0.57149500 1299649622
+start(mproject->createDirectories): 0.57152300 1299649622
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.57188800 1299649622
+end_controller(install->install):0.57212900 1299649622
+end(url):0.57213900 1299649622
+URL:/install/install
+start(url):0.83559500 1299649698
+start_controller(install->install):0.83588600 1299649698
+start(mproject->checkDirectoriesMode): 0.84104600 1299649698
+end(mproject->checkDirectoriesMode): 0.84114400 1299649698
+start(mproject->createDirectories): 0.84117300 1299649698
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.84151200 1299649698
+end_controller(install->install):0.84174600 1299649698
+end(url):0.84175600 1299649698
+URL:/install/install
+start(url):0.63295700 1299649700
+start_controller(install->install):0.63322300 1299649700
+start(mproject->checkDirectoriesMode): 0.63877600 1299649700
+end(mproject->checkDirectoriesMode): 0.63887600 1299649700
+start(mproject->createDirectories): 0.63890600 1299649700
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.63927600 1299649700
+end_controller(install->install):0.63949900 1299649700
+end(url):0.63950900 1299649700
+URL:/install/install
+start(url):0.32060700 1299649701
+start_controller(install->install):0.32086700 1299649701
+start(mproject->checkDirectoriesMode): 0.32636800 1299649701
+end(mproject->checkDirectoriesMode): 0.32646700 1299649701
+start(mproject->createDirectories): 0.32649600 1299649701
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.32685600 1299649701
+end_controller(install->install):0.32707900 1299649701
+end(url):0.32708800 1299649701
+URL:/install/install
+start(url):0.50297100 1299649741
+start_controller(install->install):0.50324300 1299649741
+start(mproject->checkDirectoriesMode): 0.50858200 1299649741
+end(mproject->checkDirectoriesMode): 0.50868200 1299649741
+end_controller(install->install):0.50895700 1299649741
+end(url):0.50896700 1299649741
+URL:/install/install
+start(url):0.65349700 1299649768
+start_controller(install->install):0.65375000 1299649768
+start(mproject->checkDirectoriesMode): 0.66345500 1299649768
+end(mproject->checkDirectoriesMode): 0.66355700 1299649768
+end_controller(install->install):0.66380200 1299649768
+end(url):0.66381100 1299649768
+URL:/install/install
+start(url):0.50341900 1299649853
+start_controller(install->install):0.50370800 1299649853
+start(mproject->checkDirectoriesMode): 0.50852900 1299649853
+end(mproject->checkDirectoriesMode): 0.50879300 1299649853
+end_controller(install->install):0.50905200 1299649853
+end(url):0.50906200 1299649853
+URL:/install/install
+start(url):0.60640500 1299649897
+start_controller(install->install):0.60669700 1299649897
+start(mproject->checkDirectoriesMode): 0.61206600 1299649897
+end(mproject->checkDirectoriesMode): 0.61215600 1299649897
+end_controller(install->install):0.61240800 1299649897
+end(url):0.61241700 1299649897
+URL:/install/install
+start(url):0.20789500 1299649930
+start_controller(install->install):0.20817200 1299649930
+start(mproject->checkDirectoriesMode): 0.21343100 1299649930
+end(mproject->checkDirectoriesMode): 0.21352100 1299649930
+end_controller(install->install):0.21377900 1299649930
+end(url):0.21378800 1299649930
+URL:/install/install
+start(url):0.24937300 1299649948
+start_controller(install->install):0.24967300 1299649948
+start(mproject->checkDirectoriesMode): 0.25542200 1299649948
+end(mproject->checkDirectoriesMode): 0.25557400 1299649948
+end_controller(install->install):0.25583300 1299649948
+end(url):0.25584200 1299649948
+URL:/install/install
+start(url):0.85134000 1299652637
+start_controller(install->install):0.85209000 1299652637
+start(mproject->checkDirectoriesExists): 0.86091500 1299652637
+end(mproject->checkDirectoriesExists): 0.86101300 1299652637
+end_controller(install->install):0.87119500 1299652637
+end(url):0.87121100 1299652637
+URL:/install/install
+start(url):0.86750200 1299652651
+start_controller(install->install):0.86782100 1299652651
+start(mproject->checkDirectoriesExists): 0.87290500 1299652651
+end(mproject->checkDirectoriesExists): 0.87300500 1299652651
+end_controller(install->install):0.87329100 1299652651
+end(url):0.87330200 1299652651
+URL:/install/install
+start(url):0.60070400 1299652673
+start_controller(install->install):0.60102400 1299652673
+start(mproject->checkDirectoriesExists): 0.60640700 1299652673
+end(mproject->checkDirectoriesExists): 0.60658500 1299652673
+start(mproject->popError): 0.60661400 1299652673
+end(mproject->popError): 0.60663200 1299652673
+end_controller(install->install):0.60689600 1299652673
+end(url):0.60690500 1299652673
+URL:/install/install
+start(url):0.26250800 1299653041
+start_controller(install->install):0.26284700 1299653041
+start(mproject->checkDirectoriesExists): 0.26780600 1299653041
+end(mproject->checkDirectoriesExists): 0.26790400 1299653041
+start(mproject->createDirectories): 0.26792400 1299653041
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.31263900 1299653041
+start(mproject->createDirectories): 0.31269500 1299653041
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.31317200 1299653041
+end_controller(install->install):0.31347900 1299653041
+end(url):0.31348900 1299653041
+URL:/install/install
+start(url):0.69144000 1299653532
+start_controller(install->install):0.69178200 1299653532
+start(mproject->checkDirectoriesExists): 0.69658000 1299653532
+end(mproject->checkDirectoriesExists): 0.69667500 1299653532
+start(mproject->createDirectories): 0.69669600 1299653532
+end(mproject->createDirectories): 0.69672900 1299653532
+start(mproject->checkDirectoriesMode): 0.69694200 1299653532
+end(mproject->checkDirectoriesMode): 0.69701200 1299653532
+start(mproject->popError): 0.69703400 1299653532
+end(mproject->popError): 0.69705200 1299653532
+end_controller(install->install):0.69730800 1299653532
+end(url):0.69731700 1299653532
+URL:/install/install
+start(url):0.82800100 1299653553
+start_controller(install->install):0.82832300 1299653553
+start(mproject->checkDirectoriesExists): 0.83347600 1299653553
+end(mproject->checkDirectoriesExists): 0.83357400 1299653553
+start(mproject->createDirectories): 0.83359400 1299653553
+end(mproject->createDirectories): 0.83362600 1299653553
+start(mproject->checkDirectoriesMode): 0.83364700 1299653553
+end(mproject->checkDirectoriesMode): 0.83371400 1299653553
+start(mproject->popError): 0.83373500 1299653553
+end(mproject->popError): 0.83375100 1299653553
+end_controller(install->install):0.83399900 1299653553
+end(url):0.83400800 1299653553
+URL:/install/install
+start(url):0.72628400 1299653554
+start_controller(install->install):0.72660500 1299653554
+start(mproject->checkDirectoriesExists): 0.73163300 1299653554
+end(mproject->checkDirectoriesExists): 0.73172600 1299653554
+start(mproject->createDirectories): 0.73174600 1299653554
+end(mproject->createDirectories): 0.73177900 1299653554
+start(mproject->checkDirectoriesMode): 0.73179900 1299653554
+end(mproject->checkDirectoriesMode): 0.73186600 1299653554
+start(mproject->popError): 0.73188600 1299653554
+end(mproject->popError): 0.73190300 1299653554
+end_controller(install->install):0.73214200 1299653554
+end(url):0.73215100 1299653554
+URL:/install/install
+start(url):0.10243600 1299653575
+start_controller(install->install):0.10276300 1299653575
+start(mproject->checkDirectoriesExists): 0.10812500 1299653575
+end(mproject->checkDirectoriesExists): 0.10820000 1299653575
+start(mproject->createDirectories): 0.10822000 1299653575
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.10838400 1299653575
+start(mproject->checkDirectoriesMode): 0.10840500 1299653575
+end(mproject->checkDirectoriesMode): 0.10847100 1299653575
+end_controller(install->install):0.10872700 1299653575
+end(url):0.10873600 1299653575
+URL:/install/install
+start(url):0.79464600 1299653614
+start_controller(install->install):0.79497100 1299653614
+start(mproject->checkDirectoriesExists): 0.80069600 1299653614
+end(mproject->checkDirectoriesExists): 0.80077400 1299653614
+start(mproject->createDirectories): 0.80079600 1299653614
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.80096200 1299653614
+start(mproject->checkDirectoriesMode): 0.80098400 1299653614
+end(mproject->checkDirectoriesMode): 0.80105200 1299653614
+end_controller(install->install):0.80130500 1299653614
+end(url):0.80131400 1299653614
+URL:/install/install
+start(url):0.96138400 1299653635
+start_controller(install->install):0.96173800 1299653635
+start(mproject->checkDirectoriesExists): 0.96689800 1299653635
+end(mproject->checkDirectoriesExists): 0.96697200 1299653635
+start(mproject->createDirectories): 0.96701100 1299653635
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.96719600 1299653635
+start(mproject->checkDirectoriesMode): 0.96721900 1299653635
+end(mproject->checkDirectoriesMode): 0.96728800 1299653635
+end_controller(install->install):0.96754100 1299653635
+end(url):0.96755100 1299653635
+URL:/install/install
+start(url):0.63427300 1299653694
+start_controller(install->install):0.63524300 1299653694
+start(mproject->checkDirectoriesExists): 0.64178200 1299653694
+end(mproject->checkDirectoriesExists): 0.64186900 1299653694
+start(mproject->createDirectories): 0.64189100 1299653694
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.64208100 1299653694
+start(mproject->checkDirectoriesMode): 0.64210500 1299653694
+end(mproject->checkDirectoriesMode): 0.64217900 1299653694
+end_controller(install->install):0.64246400 1299653694
+end(url):0.64247300 1299653694
+URL:/install/install
+start(url):0.84816700 1299653710
+start_controller(install->install):0.84850500 1299653710
+start(mproject->checkDirectoriesExists): 0.85359800 1299653710
+end(mproject->checkDirectoriesExists): 0.85367500 1299653710
+start(mproject->createDirectories): 0.85369700 1299653710
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.85387000 1299653710
+start(mproject->checkDirectoriesMode): 0.85408900 1299653710
+end(mproject->checkDirectoriesMode): 0.85417300 1299653710
+end_controller(install->install):0.85447800 1299653710
+end(url):0.85448700 1299653710
+URL:/install/install
+start(url):0.00880200 1299653754
+start_controller(install->install):0.00915200 1299653754
+start(mproject->checkDirectoriesExists): 0.01436000 1299653754
+end(mproject->checkDirectoriesExists): 0.01443400 1299653754
+start(mproject->createDirectories): 0.01445600 1299653754
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.01462500 1299653754
+start(mproject->popError): 0.01464700 1299653754
+end(mproject->popError): 0.01467200 1299653754
+start(mproject->checkDirectoriesMode): 0.01469400 1299653754
+end(mproject->checkDirectoriesMode): 0.01476100 1299653754
+end_controller(install->install):0.01503000 1299653754
+end(url):0.01506500 1299653754
+URL:/install/install
+start(url):0.03771100 1299653755
+start_controller(install->install):0.03806700 1299653755
+start(mproject->checkDirectoriesExists): 0.04313700 1299653755
+end(mproject->checkDirectoriesExists): 0.04320900 1299653755
+start(mproject->createDirectories): 0.04323000 1299653755
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.04337100 1299653755
+start(mproject->popError): 0.04339200 1299653755
+end(mproject->popError): 0.04341200 1299653755
+start(mproject->checkDirectoriesMode): 0.04343400 1299653755
+end(mproject->checkDirectoriesMode): 0.04349700 1299653755
+end_controller(install->install):0.04373000 1299653755
+end(url):0.04373900 1299653755
+URL:/install/install
+start(url):0.66799000 1299653788
+start_controller(install->install):0.66835200 1299653788
+start(mproject->checkDirectoriesExists): 0.67334500 1299653788
+end(mproject->checkDirectoriesExists): 0.67343000 1299653788
+start(mproject->createDirectories): 0.67347700 1299653788
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.67364400 1299653788
+start(mproject->popError): 0.67366800 1299653788
+end(mproject->popError): 0.67369800 1299653788
+start(mproject->checkDirectoriesMode): 0.67371900 1299653788
+end(mproject->checkDirectoriesMode): 0.67378600 1299653788
+end_controller(install->install):0.68216900 1299653788
+end(url):0.68218600 1299653788
+URL:/install/install
+start(url):0.72211800 1299653808
+start_controller(install->install):0.72243100 1299653808
+start(mproject->checkDirectoriesExists): 0.72685500 1299653808
+end(mproject->checkDirectoriesExists): 0.72693400 1299653808
+start(mproject->createDirectories): 0.72696800 1299653808
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.72714800 1299653808
+start(mproject->popError): 0.72717000 1299653808
+end(mproject->popError): 0.72719400 1299653808
+start(mproject->checkDirectoriesMode): 0.72721600 1299653808
+end(mproject->checkDirectoriesMode): 0.72728700 1299653808
+end_controller(install->install):0.72789600 1299653808
+end(url):0.72791000 1299653808
+URL:/install/install
+start(url):0.19643800 1299653815
+start_controller(install->install):0.19677800 1299653815
+start(mproject->checkDirectoriesExists): 0.20167700 1299653815
+end(mproject->checkDirectoriesExists): 0.20176500 1299653815
+start(mproject->createDirectories): 0.20180200 1299653815
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.20196400 1299653815
+start(mproject->popError): 0.20198600 1299653815
+end(mproject->popError): 0.20201100 1299653815
+start(mproject->checkDirectoriesMode): 0.20203200 1299653815
+end(mproject->checkDirectoriesMode): 0.20213500 1299653815
+end_controller(install->install):0.20238700 1299653815
+end(url):0.20239700 1299653815
+URL:/install/install
+start(url):0.31469600 1299653823
+start_controller(install->install):0.31505800 1299653823
+start(mproject->checkDirectoriesExists): 0.32398400 1299653823
+end(mproject->checkDirectoriesExists): 0.32407500 1299653823
+start(mproject->createDirectories): 0.32411300 1299653823
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.32428300 1299653823
+start(mproject->popError): 0.32430400 1299653823
+end(mproject->popError): 0.32433000 1299653823
+start(mproject->checkDirectoriesMode): 0.32435100 1299653823
+end(mproject->checkDirectoriesMode): 0.32442500 1299653823
+end_controller(install->install):0.32471600 1299653823
+end(url):0.32472700 1299653823
+URL:/install/install
+start(url):0.28860700 1299653833
+start_controller(install->install):0.28895700 1299653833
+start(mproject->checkDirectoriesExists): 0.29423800 1299653833
+end(mproject->checkDirectoriesExists): 0.29433300 1299653833
+start(mproject->createDirectories): 0.29437100 1299653833
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.29461300 1299653833
+start(mproject->popError): 0.29463800 1299653833
+end(mproject->popError): 0.29466400 1299653833
+start(mproject->checkDirectoriesMode): 0.29468600 1299653833
+end(mproject->checkDirectoriesMode): 0.29476400 1299653833
+end_controller(install->install):0.29507200 1299653833
+end(url):0.29508300 1299653833
+URL:/install/install
+start(url):0.75215100 1299653840
+start_controller(install->install):0.75287000 1299653840
+start(mproject->checkDirectoriesExists): 0.76895700 1299653840
+end(mproject->checkDirectoriesExists): 0.76904800 1299653840
+start(mproject->createDirectories): 0.76907100 1299653840
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.76923900 1299653840
+start(mproject->popError): 0.76926100 1299653840
+end(mproject->popError): 0.76928900 1299653840
+start(mproject->checkDirectoriesMode): 0.76931100 1299653840
+end(mproject->checkDirectoriesMode): 0.76938500 1299653840
+end_controller(install->install):0.76966800 1299653840
+end(url):0.76967800 1299653840
+URL:/install/install
+start(url):0.05529900 1299653899
+start_controller(install->install):0.05572400 1299653899
+start(mproject->checkDirectoriesExists): 0.06067400 1299653899
+end(mproject->checkDirectoriesExists): 0.06075900 1299653899
+start(mproject->createDirectories): 0.06079700 1299653899
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.06095700 1299653899
+start(mproject->popError): 0.06097800 1299653899
+end(mproject->popError): 0.06100700 1299653899
+start(mproject->checkDirectoriesMode): 0.06102700 1299653899
+end(mproject->checkDirectoriesMode): 0.06109800 1299653899
+end_controller(install->install):0.06135200 1299653899
+end(url):0.06136100 1299653899
+URL:/install/install
+start(url):0.95374100 1299654010
+start_controller(install->install):0.95412500 1299654010
+start(mproject->checkDirectoriesExists): 0.95892100 1299654010
+end(mproject->checkDirectoriesExists): 0.95900200 1299654010
+start(mproject->createDirectories): 0.95902400 1299654010
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.95918700 1299654010
+start(mproject->popError): 0.95921000 1299654010
+end(mproject->popError): 0.95923000 1299654010
+start(mproject->checkDirectoriesMode): 0.95925200 1299654010
+end(mproject->checkDirectoriesMode): 0.95932600 1299654010
+end_controller(install->install):0.95957300 1299654010
+end(url):0.95958300 1299654010
+URL:/install/install
+start(url):0.65828900 1299654042
+start_controller(install->install):0.65859800 1299654042
+start(mproject->checkDirectoriesExists): 0.66470700 1299654042
+end(mproject->checkDirectoriesExists): 0.66479500 1299654042
+start(mproject->createDirectories): 0.66481600 1299654042
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.66498300 1299654042
+start(mproject->popError): 0.66500600 1299654042
+end(mproject->popError): 0.66502700 1299654042
+start(mproject->popError): 0.66504900 1299654042
+end(mproject->popError): 0.66506600 1299654042
+end_controller(install->install):0.66533800 1299654042
+end(url):0.66534900 1299654042
+URL:/install/install
+start(url):0.89603300 1299654106
+start_controller(install->install):0.89636300 1299654106
+start(mproject->checkDirectoriesExists): 0.90120600 1299654106
+end(mproject->checkDirectoriesExists): 0.90129300 1299654106
+start(mproject->createDirectories): 0.90131600 1299654106
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.90147700 1299654106
+start(mproject->popError): 0.90150600 1299654106
+end(mproject->popError): 0.90152600 1299654106
+start(mproject->checkDirectoriesMode): 0.90154700 1299654106
+end(mproject->checkDirectoriesMode): 0.90162500 1299654106
+end_controller(install->install):0.90190000 1299654106
+end(url):0.90191000 1299654106
+URL:/test
+start(url):0.30852200 1299654179
+start_controller(defaultcontroller->index):0.30918900 1299654179
+start(mmenu->getMenu): 0.34529500 1299654179
+end(mmenu->getMenu): 0.35611600 1299654179
+end_controller(defaultcontroller->index):0.35681800 1299654179
+end(url):0.35683200 1299654179
+URL:/css/main.css
+start(url):0.42275000 1299654179
+start_controller(defaultcontroller->main.css):0.42306100 1299654179
+CallStack is NOT empty
+defaultcontroller->missingURL:/test/
+start(url):0.21608400 1299654187
+start_controller(defaultcontroller->index):0.21673000 1299654187
+start(mmenu->getMenu): 0.22255500 1299654187
+end(mmenu->getMenu): 0.22261300 1299654187
+end_controller(defaultcontroller->index):0.22317900 1299654187
+end(url):0.22318800 1299654187
+URL:/css/main.css
+start(url):0.32392200 1299654187
+start_controller(defaultcontroller->main.css):0.32423000 1299654187
+CallStack is NOT empty
+defaultcontroller->missingURL:/test/test
+start(url):0.68519600 1299654191
+start_controller(defaultcontroller->test):0.68584100 1299654191
+CallStack is NOT empty
+defaultcontroller->missingURL:/test
+start(url):0.11252400 1299654210
+start_controller(defaultcontroller->index):0.11283000 1299654210
+start(mmenu->getMenu): 0.11707200 1299654210
+end(mmenu->getMenu): 0.11712900 1299654210
+end_controller(defaultcontroller->index):0.11768100 1299654210
+end(url):0.11769200 1299654210
+URL:/css/main.css
+start(url):0.23149200 1299654210
+start_controller(defaultcontroller->main.css):0.23181900 1299654210
+CallStack is NOT empty
+defaultcontroller->missingURL:/project/listall
+start(url):0.21029900 1299654241
+start_controller(defaultcontroller->listall):0.21061600 1299654241
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.73549400 1299654340
+start_controller(defaultcontroller->index):0.73579800 1299654340
+start(mmenu->getMenu): 0.74013800 1299654340
+end(mmenu->getMenu): 0.74023000 1299654340
+end_controller(defaultcontroller->index):0.74086700 1299654340
+end(url):0.74088000 1299654340
+URL:/css/main.css
+start(url):0.84170500 1299654340
+start_controller(defaultcontroller->main.css):0.84246600 1299654340
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.02481600 1299654365
+start_controller(defaultcontroller->index):0.02513500 1299654365
+start(mmenu->getMenu): 0.02958900 1299654365
+end(mmenu->getMenu): 0.02964200 1299654365
+end_controller(defaultcontroller->index):0.03046000 1299654365
+end(url):0.03047300 1299654365
+URL:/css/main.css
+start(url):0.08991500 1299654365
+start_controller(defaultcontroller->main.css):0.09022800 1299654365
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.47681300 1299654376
+start_controller(defaultcontroller->index):0.47710400 1299654376
+start(mmenu->getMenu): 0.48144600 1299654376
+end(mmenu->getMenu): 0.48149000 1299654376
+end_controller(defaultcontroller->index):0.48199400 1299654376
+end(url):0.48200300 1299654376
+URL:/css/main.css
+start(url):0.56871500 1299654376
+start_controller(defaultcontroller->main.css):0.56902600 1299654376
+CallStack is NOT empty
+defaultcontroller->missingURL:/project/a
+start(url):0.22282600 1299654387
+start_controller(defaultcontroller->a):0.22346000 1299654387
+CallStack is NOT empty
+defaultcontroller->missingURL:/project/a
+start(url):0.28375400 1299654464
+start_controller(defaultcontroller->a):0.28405700 1299654464
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.77641100 1299654614
+start_controller(defaultcontroller->index):0.77670100 1299654614
+start(mmenu->getMenu): 0.78116900 1299654614
+end(mmenu->getMenu): 0.78122400 1299654614
+end_controller(defaultcontroller->index):0.78177300 1299654614
+end(url):0.78178300 1299654614
+URL:/project
+start(url):0.23072000 1299654630
+start_controller(defaultcontroller->index):0.23103300 1299654630
+start(mmenu->getMenu): 0.23540800 1299654630
+end(mmenu->getMenu): 0.23545800 1299654630
+end_controller(defaultcontroller->index):0.23599600 1299654630
+end(url):0.23600700 1299654630
+URL:/project
+start(url):0.21146600 1299654636
+start_controller(defaultcontroller->index):0.21175300 1299654636
+start(mmenu->getMenu): 0.21621600 1299654636
+end(mmenu->getMenu): 0.21627600 1299654636
+end_controller(defaultcontroller->index):0.21682900 1299654636
+end(url):0.21684200 1299654636
+URL:/project
+start(url):0.84923300 1299654664
+start_controller(defaultcontroller->index):0.84953200 1299654664
+start(mmenu->getMenu): 0.85414900 1299654664
+end(mmenu->getMenu): 0.85420600 1299654664
+end_controller(defaultcontroller->index):0.85478800 1299654664
+end(url):0.85480100 1299654664
+URL:/project
+start(url):0.08434800 1299654785
+start_controller(defaultcontroller->index):0.08463200 1299654785
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.39465200 1299654817
+start_controller(defaultcontroller->index):0.39495500 1299654817
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.07448200 1299654835
+start_controller(defaultcontroller->index):0.07479600 1299654835
+CallStack is NOT empty
+defaultcontroller->missingURL:/project
+start(url):0.54638300 1299654865
+start_controller(project->index):0.54669100 1299654865
+end_controller(project->index):0.54682200 1299654865
+end(url):0.54683200 1299654865
+URL:/project
+start(url):0.44801200 1299654889
+start_controller(project->index):0.44831400 1299654889
+end_controller(project->index):0.44844200 1299654889
+end(url):0.44845200 1299654889
+URL:/project/a
+start(url):0.32744600 1299654894
+start_controller(project->a):0.33601100 1299654894
+end_controller(project->a):0.33614800 1299654894
+end(url):0.33615800 1299654894
+URL:/test
+start(url):0.07628000 1299655078
+start_controller(test->index):0.07662400 1299655078
+end_controller(test->index):0.07694900 1299655078
+end(url):0.07695900 1299655078
+URL:/test
+start(url):0.66444900 1299655099
+start_controller(test->index):0.66476000 1299655099
+end_controller(test->index):0.66488200 1299655099
+end(url):0.66489100 1299655099
+URL:/test
+start(url):0.55833000 1299655144
+start_controller(test->index):0.55860100 1299655144
+end_controller(test->index):0.55890700 1299655144
+end(url):0.55891800 1299655144
+URL:/test
+start(url):0.61325000 1299655192
+start_controller(test->index):0.61351600 1299655192
+end_controller(test->index):0.61381800 1299655192
+end(url):0.61382900 1299655192
+URL:/test
+start(url):0.41567900 1299655211
+start_controller(test->index):0.41597600 1299655211
+end_controller(test->index):0.41629800 1299655211
+end(url):0.41630900 1299655211
+URL:/test
+start(url):0.59990200 1299655273
+start_controller(test->index):0.60016600 1299655273
+end_controller(test->index):0.60046600 1299655273
+end(url):0.60047700 1299655273
+URL:/test
+start(url):0.58906100 1299655349
+start_controller(test->index):0.58931800 1299655349
+end_controller(test->index):0.58961900 1299655349
+end(url):0.58962900 1299655349
+URL:/test
+start(url):0.90253900 1299655354
+start_controller(test->index):0.90278300 1299655354
+end_controller(test->index):0.90315000 1299655354
+end(url):0.90316100 1299655354
+URL:/test
+start(url):0.85919900 1299655394
+start_controller(test->index):0.85945100 1299655394
+start(mmenu->getMenu): 0.87087800 1299655394
+end(mmenu->getMenu): 0.87092600 1299655394
+end_controller(test->index):0.87166300 1299655394
+end(url):0.87167200 1299655394
+URL:/test
+start(url):0.61430000 1299655490
+start_controller(test->index):0.61455500 1299655490
+start(mmenu->getMenu): 0.61993800 1299655490
+end(mmenu->getMenu): 0.61998200 1299655490
+end_controller(test->index):0.62065400 1299655490
+end(url):0.62066500 1299655490
+URL:/test
+start(url):0.54611500 1299655721
+start_controller(test->index):0.54632900 1299655721
+end_controller(test->index):0.55968100 1299655721
+end(url):0.55969900 1299655721
+URL:/test
+start(url):0.81391700 1299655731
+start_controller(test->index):0.81414100 1299655731
+end_controller(test->index):0.82258600 1299655731
+end(url):0.82259900 1299655731
+URL:/css/main.css
+start(url):0.88448500 1299655731
+start_controller(css->main.css):0.88477700 1299655731
+end_controller(css->main.css):0.88489600 1299655731
+end(url):0.88490400 1299655731
+URL:/install/installk
+start(url):0.00057800 1299657095
+start_controller(install->installk):0.00135100 1299657095
+end_controller(install->installk):0.00974100 1299657095
+end(url):0.00976900 1299657095
+URL:/install/install
+start(url):0.44400800 1299657096
+start_controller(install->install):0.44431400 1299657096
+start(mproject->checkDirectoriesExists): 0.44949100 1299657096
+end(mproject->checkDirectoriesExists): 0.44957100 1299657096
+start(mproject->createDirectories): 0.44959000 1299657096
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.44974200 1299657096
+start(mproject->popError): 0.44988000 1299657096
+end(mproject->popError): 0.44990000 1299657096
+start(mproject->checkDirectoriesMode): 0.44992000 1299657096
+end(mproject->checkDirectoriesMode): 0.44999500 1299657096
+end_controller(install->install):0.45026600 1299657096
+end(url):0.45027400 1299657096
+URL:/install/install
+start(url):0.91444000 1299657149
+start_controller(install->install):0.91476300 1299657149
+start(mproject->checkDirectoriesExists): 0.92038500 1299657149
+end(mproject->checkDirectoriesExists): 0.92046700 1299657149
+start(mproject->createDirectories): 0.92048700 1299657149
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.92212400 1299657149
+start(mproject->popError): 0.92215400 1299657149
+end(mproject->popError): 0.92217700 1299657149
+start(mproject->checkDirectoriesMode): 0.92219600 1299657149
+end(mproject->checkDirectoriesMode): 0.92227000 1299657149
+end_controller(install->install):0.92251500 1299657149
+end(url):0.92252300 1299657149
+URL:/install/install
+start(url):0.13679000 1299657164
+start_controller(install->install):0.13756400 1299657164
+start(mproject->checkDirectoriesExists): 0.14553800 1299657164
+end(mproject->checkDirectoriesExists): 0.14562200 1299657164
+start(mproject->createDirectories): 0.14564300 1299657164
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.14763300 1299657164
+start(mproject->popError): 0.14767500 1299657164
+end(mproject->popError): 0.14770100 1299657164
+start(mproject->checkDirectoriesMode): 0.14772000 1299657164
+end(mproject->checkDirectoriesMode): 0.14780100 1299657164
+end_controller(install->install):0.14823700 1299657164
+end(url):0.14824500 1299657164
+URL:/install/install
+start(url):0.80716300 1299657187
+start_controller(install->install):0.80747000 1299657187
+start(mproject->checkDirectoriesExists): 0.81292300 1299657187
+end(mproject->checkDirectoriesExists): 0.81301100 1299657187
+start(mproject->createDirectories): 0.81303100 1299657187
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.81318300 1299657187
+start(mproject->popError): 0.81320900 1299657187
+end(mproject->popError): 0.81323100 1299657187
+start(mproject->checkDirectoriesMode): 0.81325100 1299657187
+end(mproject->checkDirectoriesMode): 0.81332100 1299657187
+end_controller(install->install):0.81360300 1299657187
+end(url):0.81361100 1299657187
+URL:/install/install
+start(url):0.94175200 1299657226
+start_controller(install->install):0.94210900 1299657226
+start(mproject->checkDirectoriesExists): 0.94701500 1299657226
+end(mproject->checkDirectoriesExists): 0.94711200 1299657226
+start(mproject->createDirectories): 0.94713400 1299657226
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.94729800 1299657226
+start(mproject->popError): 0.94732300 1299657226
+end(mproject->popError): 0.94734700 1299657226
+start(mproject->checkDirectoriesMode): 0.94736700 1299657226
+end(mproject->checkDirectoriesMode): 0.94744000 1299657226
+end_controller(install->install):0.94772800 1299657226
+end(url):0.94773700 1299657226
+URL:/install/install
+start(url):0.15207600 1299657240
+start_controller(install->install):0.15240900 1299657240
+start(mproject->checkDirectoriesExists): 0.15748600 1299657240
+end(mproject->checkDirectoriesExists): 0.15757600 1299657240
+start(mproject->createDirectories): 0.15759800 1299657240
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.15776500 1299657240
+start(mproject->checkDirectoriesMode): 0.15779700 1299657240
+end(mproject->checkDirectoriesMode): 0.15787900 1299657240
+end_controller(install->install):0.15815800 1299657240
+end(url):0.15816700 1299657240
+URL:/install/install
+start(url):0.26315100 1299657242
+start_controller(install->install):0.26377700 1299657242
+start(mproject->checkDirectoriesExists): 0.26862800 1299657242
+end(mproject->checkDirectoriesExists): 0.26870500 1299657242
+start(mproject->createDirectories): 0.26872300 1299657242
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.26886800 1299657242
+start(mproject->checkDirectoriesMode): 0.26889500 1299657242
+end(mproject->checkDirectoriesMode): 0.26896500 1299657242
+end_controller(install->install):0.26918200 1299657242
+end(url):0.26918900 1299657242
+URL:/install/install
+start(url):0.48013900 1299657243
+start_controller(install->install):0.48082000 1299657243
+start(mproject->checkDirectoriesExists): 0.48903500 1299657243
+end(mproject->checkDirectoriesExists): 0.48911500 1299657243
+start(mproject->createDirectories): 0.48913300 1299657243
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.48927900 1299657243
+start(mproject->checkDirectoriesMode): 0.48930600 1299657243
+end(mproject->checkDirectoriesMode): 0.48937700 1299657243
+end_controller(install->install):0.48958800 1299657243
+end(url):0.48959500 1299657243
+URL:/install/install
+start(url):0.12559300 1299657282
+start_controller(install->install):0.12628900 1299657282
+start(mproject->checkDirectoriesExists): 0.13092500 1299657282
+end(mproject->checkDirectoriesExists): 0.13100000 1299657282
+start(mproject->createDirectories): 0.13101900 1299657282
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.13122400 1299657282
+start(mproject->checkDirectoriesMode): 0.13278100 1299657282
+end(mproject->checkDirectoriesMode): 0.13285900 1299657282
+end_controller(install->install):0.13310500 1299657282
+end(url):0.13311300 1299657282
+URL:/install/install
+start(url):0.64889500 1299657286
+start_controller(install->install):0.64955500 1299657286
+start(mproject->checkDirectoriesExists): 0.65556600 1299657286
+end(mproject->checkDirectoriesExists): 0.65565100 1299657286
+start(mproject->createDirectories): 0.65567100 1299657286
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.65914900 1299657286
+start(mproject->checkDirectoriesMode): 0.66084000 1299657286
+end(mproject->checkDirectoriesMode): 0.66094000 1299657286
+end_controller(install->install):0.66161800 1299657286
+end(url):0.66162800 1299657286
+URL:/install/install
+start(url):0.63675300 1299657303
+start_controller(install->install):0.63708000 1299657303
+start(mproject->checkDirectoriesExists): 0.64242200 1299657303
+end(mproject->checkDirectoriesExists): 0.64250200 1299657303
+start(mproject->createDirectories): 0.64252200 1299657303
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.64268900 1299657303
+start(mproject->popError): 0.64271000 1299657303
+end(mproject->popError): 0.64273100 1299657303
+start(mproject->checkDirectoriesMode): 0.64416500 1299657303
+end(mproject->checkDirectoriesMode): 0.64424300 1299657303
+end_controller(install->install):0.64450500 1299657303
+end(url):0.64451300 1299657303
+URL:/install/install
+start(url):0.63728800 1299657337
+start_controller(install->install):0.63763300 1299657337
+start(mproject->checkDirectoriesExists): 0.65847500 1299657337
+end(mproject->checkDirectoriesExists): 0.65856000 1299657337
+start(mproject->createDirectories): 0.65858100 1299657337
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.65873600 1299657337
+start(mproject->popError): 0.65875600 1299657337
+end(mproject->popError): 0.65877700 1299657337
+start(mproject->checkDirectoriesMode): 0.66553100 1299657337
+end(mproject->checkDirectoriesMode): 0.66563400 1299657337
+end_controller(install->install):0.66617800 1299657337
+end(url):0.66618600 1299657337
+URL:/install/install
+start(url):0.43489500 1299657362
+start_controller(install->install):0.43524400 1299657362
+start(mproject->checkDirectoriesExists): 0.44070400 1299657362
+end(mproject->checkDirectoriesExists): 0.44078600 1299657362
+start(mproject->createDirectories): 0.44080700 1299657362
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.44095800 1299657362
+start(mproject->popError): 0.44097800 1299657362
+end(mproject->popError): 0.44099900 1299657362
+start(mproject->checkDirectoriesMode): 0.44182100 1299657362
+end(mproject->checkDirectoriesMode): 0.44189200 1299657362
+end_controller(install->install):0.73144200 1299657362
+end(url):0.73145700 1299657362
+URL:/install/install
+start(url):0.47534400 1299657373
+start_controller(install->install):0.47567800 1299657373
+start(mproject->checkDirectoriesExists): 0.48107400 1299657373
+end(mproject->checkDirectoriesExists): 0.48115500 1299657373
+start(mproject->createDirectories): 0.48117500 1299657373
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.48132400 1299657373
+start(mproject->popError): 0.48134400 1299657373
+end(mproject->popError): 0.48136600 1299657373
+start(mproject->checkDirectoriesMode): 0.48218500 1299657373
+end(mproject->checkDirectoriesMode): 0.48225600 1299657373
+end_controller(install->install):0.49380500 1299657373
+end(url):0.49382100 1299657373
+URL:/install/install
+start(url):0.82510300 1299657424
+start_controller(install->install):0.82542200 1299657424
+start(mproject->checkDirectoriesExists): 0.83082200 1299657424
+end(mproject->checkDirectoriesExists): 0.83090700 1299657424
+start(mproject->createDirectories): 0.83092800 1299657424
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.83108900 1299657424
+start(mproject->popError): 0.83111000 1299657424
+end(mproject->popError): 0.83113500 1299657424
+start(mproject->checkDirectoriesMode): 0.83198000 1299657424
+end(mproject->checkDirectoriesMode): 0.83205000 1299657424
+end_controller(install->install):0.83303000 1299657424
+end(url):0.83303900 1299657424
+URL:/install/install
+start(url):0.45855700 1299657443
+start_controller(install->install):0.45888400 1299657443
+start(mproject->checkDirectoriesExists): 0.46397600 1299657443
+end(mproject->checkDirectoriesExists): 0.46406100 1299657443
+start(mproject->createDirectories): 0.46408200 1299657443
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.46423800 1299657443
+start(mproject->popError): 0.46426000 1299657443
+end(mproject->popError): 0.46428600 1299657443
+start(mproject->checkDirectoriesMode): 0.46514200 1299657443
+end(mproject->checkDirectoriesMode): 0.46521400 1299657443
+end_controller(install->install):0.46618500 1299657443
+end(url):0.46619500 1299657443
+URL:/install/install
+start(url):0.78906200 1299658357
+start_controller(install->install):0.78940300 1299658357
+start(mproject->checkDirectoriesExists): 0.79465800 1299658357
+end(mproject->checkDirectoriesExists): 0.79475500 1299658357
+start(mproject->createDirectories): 0.79477800 1299658357
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.79495700 1299658357
+start(mproject->popError): 0.79498000 1299658357
+end(mproject->popError): 0.79500600 1299658357
+end_controller(install->install):0.80509500 1299658357
+end(url):0.80511200 1299658357
+URL:/install/install
+start(url):0.41643900 1299658384
+start_controller(install->install):0.41681400 1299658384
+start(mproject->checkDirectoriesExists): 0.42229800 1299658384
+end(mproject->checkDirectoriesExists): 0.42237900 1299658384
+start(mproject->createDirectories): 0.42240000 1299658384
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.42255100 1299658384
+start(mproject->popError): 0.42257100 1299658384
+end(mproject->popError): 0.42259200 1299658384
+end_controller(install->install):0.42432700 1299658384
+end(url):0.42433600 1299658384
+URL:/install/install
+start(url):0.89437600 1299658385
+start_controller(install->install):0.89546700 1299658385
+start(mproject->checkDirectoriesExists): 0.90199900 1299658385
+end(mproject->checkDirectoriesExists): 0.90207900 1299658385
+start(mproject->createDirectories): 0.90210000 1299658385
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.90224900 1299658385
+start(mproject->popError): 0.90226900 1299658385
+end(mproject->popError): 0.90229000 1299658385
+end_controller(install->install):0.90407800 1299658385
+end(url):0.90408700 1299658385
+URL:/install/install
+start(url):0.39582900 1299658418
+start_controller(install->install):0.39618300 1299658418
+start(mproject->checkDirectoriesExists): 0.40161400 1299658418
+end(mproject->checkDirectoriesExists): 0.40169700 1299658418
+start(mproject->createDirectories): 0.40171700 1299658418
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.40186700 1299658418
+start(mproject->popError): 0.40188800 1299658418
+end(mproject->popError): 0.40190900 1299658418
+end_controller(install->install):0.40370800 1299658418
+end(url):0.40371800 1299658418
+URL:/install/install
+start(url):0.44439600 1299658419
+start_controller(install->install):0.44473300 1299658419
+start(mproject->checkDirectoriesExists): 0.44976400 1299658419
+end(mproject->checkDirectoriesExists): 0.44984900 1299658419
+start(mproject->createDirectories): 0.44987000 1299658419
+warning(mproject->createDirectories): Method should not have any output
+end(mproject->createDirectories): 0.45001900 1299658419
+start(mproject->popError): 0.45009100 1299658419
+end(mproject->popError): 0.45011500 1299658419
+end_controller(install->install):0.45222400 1299658419
+end(url):0.45223700 1299658419
+URL:/install/install
+start(url):0.28602100 1299658466
+start_controller(install->install):0.28655300 1299658466
+start(mproject->checkDirectoriesExists): 0.29155800 1299658466
+end(mproject->checkDirectoriesExists): 0.29163800 1299658466
+start(mproject->createDirectories): 0.29171400 1299658466
+end(mproject->createDirectories): 0.29179600 1299658466
+start(mproject->popError): 0.29181900 1299658466
+end(mproject->popError): 0.29183900 1299658466
+end_controller(install->install):0.29365300 1299658466
+end(url):0.29366200 1299658466
+URL:/install/install
+start(url):0.88095300 1299658525
+start_controller(install->install):0.88129100 1299658525
+start(mproject->checkDirectoriesExists): 0.88669300 1299658525
+end(mproject->checkDirectoriesExists): 0.88677900 1299658525
+start(mproject->createDirectories): 0.88680100 1299658525
+end(mproject->createDirectories): 0.88689000 1299658525
+start(mproject->popError): 0.88691000 1299658525
+end(mproject->popError): 0.88693600 1299658525
+end_controller(install->install):0.88873300 1299658525
+end(url):0.88874500 1299658525
+URL:/install/install
+start(url):0.70562400 1299658534
+start_controller(install->install):0.70595400 1299658534
+start(mproject->checkDirectoriesExists): 0.71143300 1299658534
+end(mproject->checkDirectoriesExists): 0.71152000 1299658534
+start(mproject->createDirectories): 0.71154200 1299658534
+end(mproject->createDirectories): 0.71163500 1299658534
+start(mproject->popError): 0.71165800 1299658534
+end(mproject->popError): 0.71168500 1299658534
+end_controller(install->install):0.71348000 1299658534
+end(url):0.71349200 1299658534
+URL:/install/install
+start(url):0.03690200 1299658536
+start_controller(install->install):0.03723000 1299658536
+start(mproject->checkDirectoriesExists): 0.04356300 1299658536
+end(mproject->checkDirectoriesExists): 0.04364900 1299658536
+start(mproject->createDirectories): 0.04366900 1299658536
+end(mproject->createDirectories): 0.04375800 1299658536
+start(mproject->popError): 0.04377900 1299658536
+end(mproject->popError): 0.04380300 1299658536
+end_controller(install->install):0.04557500 1299658536
+end(url):0.04558400 1299658536
+URL:/install/install
+start(url):0.98193700 1299658540
+start_controller(install->install):0.98231800 1299658540
+start(mproject->checkDirectoriesExists): 0.98781800 1299658540
+end(mproject->checkDirectoriesExists): 0.98790400 1299658540
+start(mproject->createDirectories): 0.98792600 1299658540
+end(mproject->createDirectories): 0.98801500 1299658540
+start(mproject->popError): 0.98803700 1299658540
+end(mproject->popError): 0.98806300 1299658540
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.23906200 1299658638
+start_controller(install->install):0.23943100 1299658638
+start(mproject->checkDirectoriesExists): 0.24835400 1299658638
+end(mproject->checkDirectoriesExists): 0.24844000 1299658638
+start(mproject->createDirectories): 0.24846200 1299658638
+end(mproject->createDirectories): 0.24854900 1299658638
+start(mproject->popError): 0.24857100 1299658638
+end(mproject->popError): 0.24859500 1299658638
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.95291400 1299658643
+start_controller(install->install):0.95341800 1299658643
+start(mproject->checkDirectoriesExists): 0.96044100 1299658643
+end(mproject->checkDirectoriesExists): 0.96052600 1299658643
+start(mproject->createDirectories): 0.96054600 1299658643
+end(mproject->createDirectories): 0.96063500 1299658643
+start(mproject->popError): 0.96065500 1299658643
+end(mproject->popError): 0.96068000 1299658643
+end_controller(install->install):0.96252400 1299658643
+end(url):0.96253700 1299658643
+URL:/install/install
+start(url):0.57154600 1299659254
+start_controller(install->install):0.57190700 1299659254
+start(mproject->checkDirectoriesExists): 0.57751700 1299659254
+end(mproject->checkDirectoriesExists): 0.57760100 1299659254
+start(mproject->createDirectories): 0.57762300 1299659254
+end(mproject->createDirectories): 0.57771400 1299659254
+start(mproject->popError): 0.57773500 1299659254
+end(mproject->popError): 0.57775900 1299659254
+end_controller(install->install):0.57960200 1299659254
+end(url):0.57961100 1299659254
+URL:/install/install
+start(url):0.87540400 1299659280
+start_controller(install->install):0.87580600 1299659280
+start(mproject->checkDirectoriesExists): 0.88092600 1299659280
+end(mproject->checkDirectoriesExists): 0.88101000 1299659280
+start(mproject->createDirectories): 0.88103100 1299659280
+end(mproject->createDirectories): 0.88111400 1299659280
+start(mproject->popError): 0.88113500 1299659280
+end(mproject->popError): 0.88115500 1299659280
+end_controller(install->install):0.88139600 1299659280
+end(url):0.88140600 1299659280
+URL:/install/install
+start(url):0.80750700 1299659294
+start_controller(install->install):0.80785800 1299659294
+start(mproject->checkDirectoriesExists): 0.81323200 1299659294
+end(mproject->checkDirectoriesExists): 0.81331400 1299659294
+start(mproject->createDirectories): 0.81333500 1299659294
+end(mproject->createDirectories): 0.81341700 1299659294
+start(mproject->popError): 0.81343800 1299659294
+end(mproject->popError): 0.81345800 1299659294
+end_controller(install->install):0.81370300 1299659294
+end(url):0.81371100 1299659294
+URL:/install/install
+start(url):0.56920200 1299659300
+start_controller(install->install):0.56954300 1299659300
+start(mproject->checkDirectoriesExists): 0.57436000 1299659300
+end(mproject->checkDirectoriesExists): 0.57444100 1299659300
+start(mproject->createDirectories): 0.57446300 1299659300
+end(mproject->createDirectories): 0.57454300 1299659300
+start(mproject->popError): 0.57456500 1299659300
+end(mproject->popError): 0.57458600 1299659300
+end_controller(install->install):0.57482800 1299659300
+end(url):0.57483700 1299659300
+URL:/install/install
+start(url):0.78264700 1299659329
+start_controller(install->install):0.78299200 1299659329
+start(mproject->checkDirectoriesExists): 0.78826500 1299659329
+end(mproject->checkDirectoriesExists): 0.78834700 1299659329
+start(mproject->createDirectories): 0.78836800 1299659329
+end(mproject->createDirectories): 0.78844900 1299659329
+start(mproject->popError): 0.78847000 1299659329
+end(mproject->popError): 0.78849100 1299659329
+end_controller(install->install):0.78874300 1299659329
+end(url):0.78875200 1299659329
+URL:/install/install
+start(url):0.43312400 1299659348
+start_controller(install->install):0.43348900 1299659348
+start(mproject->checkDirectoriesExists): 0.43860300 1299659348
+end(mproject->checkDirectoriesExists): 0.43870800 1299659348
+start(mproject->createDirectories): 0.43872800 1299659348
+end(mproject->createDirectories): 0.43914700 1299659348
+start(mproject->checkDirectoriesMode): 0.43917000 1299659348
+end(mproject->checkDirectoriesMode): 0.43924100 1299659348
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.06776700 1299659366
+start_controller(install->install):0.06810800 1299659366
+start(mproject->checkDirectoriesExists): 0.07357800 1299659366
+end(mproject->checkDirectoriesExists): 0.07368500 1299659366
+start(mproject->createDirectories): 0.07370800 1299659366
+end(mproject->createDirectories): 0.07374200 1299659366
+start(mproject->checkDirectoriesMode): 0.07376300 1299659366
+end(mproject->checkDirectoriesMode): 0.07383400 1299659366
+end_controller(install->install):0.07412000 1299659366
+end(url):0.07413000 1299659366
+URL:/install/install
+start(url):0.48360400 1299659375
+start_controller(install->install):0.48395600 1299659375
+start(mproject->checkDirectoriesExists): 0.48906900 1299659375
+end(mproject->checkDirectoriesExists): 0.48916800 1299659375
+start(mproject->createDirectories): 0.48919000 1299659375
+end(mproject->createDirectories): 0.48922300 1299659375
+start(mproject->checkDirectoriesMode): 0.48924300 1299659375
+end(mproject->checkDirectoriesMode): 0.48931400 1299659375
+end_controller(install->install):0.48955200 1299659375
+end(url):0.48956200 1299659375
+URL:/install/install
+start(url):0.16657800 1299659388
+start_controller(install->install):0.16715300 1299659388
+start(mproject->checkDirectoriesExists): 0.17227200 1299659388
+end(mproject->checkDirectoriesExists): 0.17237200 1299659388
+start(mproject->createDirectories): 0.17239400 1299659388
+end(mproject->createDirectories): 0.17242600 1299659388
+start(mproject->checkDirectoriesMode): 0.17244700 1299659388
+end(mproject->checkDirectoriesMode): 0.17251900 1299659388
+end_controller(install->install):0.17275600 1299659388
+end(url):0.17276600 1299659388
+URL:/install/install
+start(url):0.48009300 1299660147
+start_controller(install->install):0.48049000 1299660147
+start(mproject->checkDirectoriesExists): 0.48588200 1299660147
+end(mproject->checkDirectoriesExists): 0.48597900 1299660147
+start(mproject->createDirectories): 0.48600000 1299660147
+end(mproject->createDirectories): 0.48622400 1299660147
+start(mproject->checkDirectoriesMode): 0.48625100 1299660147
+end(mproject->checkDirectoriesMode): 0.48632300 1299660147
+end_controller(install->install):0.48657700 1299660147
+end(url):0.48658700 1299660147
+URL:/test
+start(url):0.87745100 1299661078
+start_controller(test->index):0.87766300 1299661078
+CallStack is NOT empty
+test->indexURL:/test
+start(url):0.74438700 1299661084
+start_controller(test->index):0.74481100 1299661084
+end_controller(test->index):0.75222100 1299661084
+end(url):0.75223700 1299661084
+URL:/test
+start(url):0.63961100 1299661124
+start_controller(test->index):0.63981400 1299661124
+end_controller(test->index):0.64486400 1299661124
+end(url):0.64487800 1299661124
+URL:/install/install
+start(url):0.99757900 1299661200
+start_controller(install->install):0.99794400 1299661200
+start(mproject->checkDirectoriesExists): 0.00277700 1299661201
+end(mproject->checkDirectoriesExists): 0.00286900 1299661201
+start(mproject->createDirectories): 0.00289000 1299661201
+end(mproject->createDirectories): 0.00292200 1299661201
+start(mproject->checkDirectoriesMode): 0.00294200 1299661201
+end(mproject->checkDirectoriesMode): 0.00301100 1299661201
+end_controller(install->install):0.02517600 1299661201
+end(url):0.02519300 1299661201
+URL:/install/install
+start(url):0.95157100 1299661310
+start_controller(install->install):0.95191600 1299661310
+start(mproject->checkDirectoriesExists): 0.95757100 1299661310
+end(mproject->checkDirectoriesExists): 0.95766700 1299661310
+start(mproject->createDirectories): 0.95768800 1299661310
+end(mproject->createDirectories): 0.95772000 1299661310
+start(mproject->checkDirectoriesMode): 0.95774200 1299661310
+end(mproject->checkDirectoriesMode): 0.95781100 1299661310
+end_controller(install->install):0.95808900 1299661310
+end(url):0.95809800 1299661310
+URL:/install/install
+start(url):0.02430100 1299662270
+start_controller(install->install):0.02483900 1299662270
+start(mproject->checkDirectoriesExists): 0.06442800 1299662270
+end(mproject->checkDirectoriesExists): 0.06463600 1299662270
+start(mproject->createDirectories): 0.06469700 1299662270
+end(mproject->createDirectories): 0.06476500 1299662270
+start(mproject->checkDirectoriesMode): 0.06480600 1299662270
+end(mproject->checkDirectoriesMode): 0.06495900 1299662270
+start(mproject->createFiles): 0.06501800 1299662270
+end(mproject->createFiles): 0.06522900 1299662270
+end_controller(install->install):0.06599900 1299662270
+end(url):0.06601900 1299662270
+URL:/install/install
+start(url):0.77359200 1299662284
+start_controller(install->install):0.77396700 1299662284
+start(mproject->checkDirectoriesExists): 0.77932300 1299662284
+end(mproject->checkDirectoriesExists): 0.77942800 1299662284
+start(mproject->createDirectories): 0.77945200 1299662284
+end(mproject->createDirectories): 0.77948500 1299662284
+start(mproject->checkDirectoriesMode): 0.77950600 1299662284
+end(mproject->checkDirectoriesMode): 0.77957800 1299662284
+start(mproject->createFiles): 0.77960900 1299662284
+end(mproject->createFiles): 0.77976500 1299662284
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.05801400 1299662353
+start_controller(install->install):0.05841400 1299662353
+start(mproject->checkDirectoriesExists): 0.06362800 1299662353
+end(mproject->checkDirectoriesExists): 0.06372100 1299662353
+start(mproject->createDirectories): 0.06374200 1299662353
+end(mproject->createDirectories): 0.06377100 1299662353
+start(mproject->checkDirectoriesMode): 0.06379100 1299662353
+end(mproject->checkDirectoriesMode): 0.06386300 1299662353
+start(mproject->createFiles): 0.06388900 1299662353
+end(mproject->createFiles): 0.06404800 1299662353
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.46408500 1299662422
+start_controller(install->install):0.46445800 1299662422
+start(mproject->checkDirectoriesExists): 0.46993500 1299662422
+end(mproject->checkDirectoriesExists): 0.47003400 1299662422
+start(mproject->createDirectories): 0.47009500 1299662422
+end(mproject->createDirectories): 0.47012700 1299662422
+start(mproject->checkDirectoriesMode): 0.47014800 1299662422
+end(mproject->checkDirectoriesMode): 0.47021800 1299662422
+start(mproject->createFiles): 0.47024700 1299662422
+end(mproject->createFiles): 0.47045700 1299662422
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.59745300 1299662431
+start_controller(install->install):0.59781700 1299662431
+start(mproject->checkDirectoriesExists): 0.60275300 1299662431
+end(mproject->checkDirectoriesExists): 0.60285000 1299662431
+start(mproject->createDirectories): 0.60287100 1299662431
+end(mproject->createDirectories): 0.60290300 1299662431
+start(mproject->checkDirectoriesMode): 0.60292200 1299662431
+end(mproject->checkDirectoriesMode): 0.60299300 1299662431
+start(mproject->createFiles): 0.60302100 1299662431
+end(mproject->createFiles): 0.60346800 1299662431
+end_controller(install->install):0.60373400 1299662431
+end(url):0.60374300 1299662431

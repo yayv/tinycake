@@ -83,6 +83,16 @@ abstract class Controller
 			$this->tpl->compile_dir  = $compile_dir; //COMPILE_DIR.'/'.$this->config['site']['theme'];
 	}
 
+    // TODO: 这个函数这样写不对。assign是针对smarty模板的，这样写等于要求用户必须使用了smarty
+    // TODO: 这个需要再考虑代码结构如何组织，把这个initAssign 转移到用户代码里去，同时还要保持调用的方便
+    function initAssign()
+    {
+        if($this->tpl)
+        {
+            $this->tpl->assign('home', Core::getInstance()->getConfig('baseurl'));
+        }
+    }
+
 	function __call($name, $params)
 	{
 		echo '<pre>';

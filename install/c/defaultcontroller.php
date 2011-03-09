@@ -12,7 +12,7 @@ class defaultcontroller extends Controller
 		
 		if($action=='')
 		{
-			$file = file_get_contents('../framework/templates/controller.template');
+			$file = file_get_contents('../cake/templates/controller.template');
 			
 			echo "控制器 $controller 类程序不存在, 请复制以下代码，并以 $controller.php 为文件名保存在你的 c 目录下。<br/>";
 			echo "<textarea style='width:90%;height:60%;'>";
@@ -21,7 +21,7 @@ class defaultcontroller extends Controller
 		}
 		else
 		{
-			$file = file_get_contents('../framework/templates/ctrl.function.template');
+			$file = file_get_contents('../cake/templates/ctrl.function.template');
 			
 			echo "控制器方法 $action 不存在, 请复制以下代码，增加到你的 c/$controller.php 文件中。<br/>";
 			echo "<textarea style='width:90%;height:60%'>";
@@ -32,7 +32,7 @@ class defaultcontroller extends Controller
 	
 	public function index()
 	{
-		parent::initTemplateEngine('./v/def/','./v/_run/');
+		parent::initTemplateEngine('./v/default/','./v/_run/');
 		parent::initAssign();
 		
 		$body = file_get_contents('data/todo.txt');
