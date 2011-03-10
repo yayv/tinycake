@@ -1,0 +1,11 @@
+<ul>
+{$menuexpand}
+
+{foreach from=$submenu item=val key=k}
+<ul><a href='{$val[0]}'>{$k}</a></ul>
+{/foreach}
+
+{foreach from=$menuarr item=val key=k}
+<li><a href='{$val[0]}'>{$k}</a></li>
+{/foreach}
+</ul>
