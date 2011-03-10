@@ -1672,3 +1672,211 @@ start(mproject->createFiles): 0.60302100 1299662431
 end(mproject->createFiles): 0.60346800 1299662431
 end_controller(install->install):0.60373400 1299662431
 end(url):0.60374300 1299662431
+URL:/install/install
+start(url):0.37412800 1299663438
+start_controller(install->install):0.37449800 1299663438
+start(mproject->checkDirectoriesExists): 0.38050600 1299663438
+end(mproject->checkDirectoriesExists): 0.38059800 1299663438
+start(mproject->createDirectories): 0.38062000 1299663438
+end(mproject->createDirectories): 0.41845000 1299663438
+start(mproject->popError): 0.41850300 1299663438
+end(mproject->popError): 0.41854200 1299663438
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.02917100 1299663508
+start_controller(install->install):0.02952600 1299663508
+start(mproject->checkDirectoriesExists): 0.03530600 1299663508
+end(mproject->checkDirectoriesExists): 0.03539100 1299663508
+start(mproject->createDirectories): 0.03541300 1299663508
+end(mproject->createDirectories): 0.03553000 1299663508
+start(mproject->popError): 0.03555000 1299663508
+end(mproject->popError): 0.03557600 1299663508
+end_controller(install->install):0.05706600 1299663508
+end(url):0.05708200 1299663508
+URL:/install/install
+start(url):0.11582900 1299663520
+start_controller(install->install):0.11619100 1299663520
+start(mproject->checkDirectoriesExists): 0.12160800 1299663520
+end(mproject->checkDirectoriesExists): 0.12171500 1299663520
+start(mproject->createDirectories): 0.12173600 1299663520
+end(mproject->createDirectories): 0.12216600 1299663520
+start(mproject->checkDirectoriesMode): 0.12219100 1299663520
+end(mproject->checkDirectoriesMode): 0.12226000 1299663520
+start(mproject->createFiles): 0.12228900 1299663520
+end(mproject->createFiles): 0.12241900 1299663520
+end_controller(install->install):0.12266500 1299663520
+end(url):0.12267500 1299663520
+URL:/install/install
+start(url):0.93964900 1299664739
+start_controller(install->install):0.94003100 1299664739
+start(mproject->checkDirectoriesExists): 0.94526600 1299664739
+end(mproject->checkDirectoriesExists): 0.94536000 1299664739
+start(mproject->createDirectories): 0.94538200 1299664739
+end(mproject->createDirectories): 0.94541400 1299664739
+start(mproject->checkDirectoriesMode): 0.94543500 1299664739
+end(mproject->checkDirectoriesMode): 0.94550500 1299664739
+start(mproject->createFiles): 0.94553400 1299664739
+end(mproject->createFiles): 0.94577600 1299664739
+end_controller(install->install):0.94605000 1299664739
+end(url):0.94606000 1299664739
+URL:/install/install
+start(url):0.86353300 1299667538
+start_controller(install->install):0.86405700 1299667538
+start(mmenu->getMenu): 0.86934500 1299667538
+end(mmenu->getMenu): 0.87676600 1299667538
+end_controller(install->install):0.01185100 1299667539
+end(url):0.01186700 1299667539
+URL:/css/main.css
+start(url):0.07013900 1299667539
+start_controller(css->main.css):0.07046200 1299667539
+end_controller(css->main.css):0.07059900 1299667539
+end(url):0.07060900 1299667539
+URL:/install/install
+start(url):0.51423700 1299668522
+start_controller(install->install):0.51468900 1299668522
+start(mmenu->getMenu): 0.51915900 1299668522
+end(mmenu->getMenu): 0.51921600 1299668522
+end_controller(install->install):0.51992700 1299668522
+end(url):0.51993600 1299668522
+URL:/css/main.css
+start(url):0.58420000 1299668522
+start_controller(css->main.css):0.58450300 1299668522
+end_controller(css->main.css):0.58463200 1299668522
+end(url):0.58464200 1299668522
+URL:/install/install
+start(url):0.10958300 1299668538
+start_controller(install->install):0.11001700 1299668538
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.68868100 1299668550
+start_controller(install->install):0.68910000 1299668550
+start(mmenu->getMenu): 0.69340800 1299668550
+end(mmenu->getMenu): 0.69346800 1299668550
+end_controller(install->install):0.69424500 1299668550
+end(url):0.69425800 1299668550
+URL:/css/main.css
+start(url):0.75661900 1299668550
+start_controller(css->main.css):0.75693700 1299668550
+end_controller(css->main.css):0.75706500 1299668550
+end(url):0.75707500 1299668550
+URL:/install/install
+start(url):0.66337000 1299668552
+start_controller(install->install):0.66379000 1299668552
+start(mmenu->getMenu): 0.66871000 1299668552
+end(mmenu->getMenu): 0.66876300 1299668552
+end_controller(install->install):0.66942200 1299668552
+end(url):0.66943100 1299668552
+URL:/css/main.css
+start(url):0.72567700 1299668552
+start_controller(css->main.css):0.72596900 1299668552
+end_controller(css->main.css):0.72611600 1299668552
+end(url):0.72612600 1299668552
+URL:/install/install
+start(url):0.15389200 1299668560
+start_controller(install->install):0.15435900 1299668560
+CallStack is NOT empty
+install->installURL:/install/install
+start(url):0.18425800 1299681543
+start_controller(install->install):0.18644000 1299681543
+start(mmenu->getMenu): 0.21464100 1299681543
+end(mmenu->getMenu): 0.21470100 1299681543
+end_controller(install->install):0.25200600 1299681543
+end(url):0.25202400 1299681543
+URL:/css/main.css
+start(url):0.29169400 1299681543
+start_controller(css->main.css):0.29261400 1299681543
+end_controller(css->main.css):0.32040200 1299681543
+end(url):0.32042600 1299681543
+URL:/favicon.ico
+start(url):0.52730200 1299681543
+start_controller(favicon.ico->index):0.52759600 1299681543
+end_controller(favicon.ico->index):0.52771400 1299681543
+end(url):0.52772300 1299681543
+URL:/favicon.ico
+start(url):0.53561800 1299681546
+start_controller(favicon.ico->index):0.53590000 1299681546
+end_controller(favicon.ico->index):0.53601100 1299681546
+end(url):0.53602100 1299681546
+URL:/install/install?=demo
+start(url):0.40828000 1299681759
+start_controller(install->install):0.40882900 1299681759
+start(mmenu->getMenu): 0.41452700 1299681759
+end(mmenu->getMenu): 0.41458700 1299681759
+end_controller(install->install):0.41548700 1299681759
+end(url):0.41550100 1299681759
+URL:/css/main.css
+start(url):0.47931200 1299681759
+start_controller(css->main.css):0.47965900 1299681759
+end_controller(css->main.css):0.47981000 1299681759
+end(url):0.47982100 1299681759
+URL:/install/install?=demo
+start(url):0.16855900 1299685773
+start_controller(install->install):0.19601200 1299685773
+start(mmenu->getMenu): 0.31720000 1299685773
+end(mmenu->getMenu): 0.31727000 1299685773
+end_controller(install->install):0.63961500 1299685773
+end(url):0.63963200 1299685773
+URL:/css/main.css
+start(url):0.74945300 1299685773
+start_controller(css->main.css):0.77773700 1299685773
+end_controller(css->main.css):0.81801900 1299685773
+end(url):0.81804000 1299685773
+URL:/install/doinstall?name=demo&url=http%3A%2F%2Fdemo.local.lvren.cn
+start(url):0.82758300 1299685785
+start_controller(install->doinstall):0.82858600 1299685785
+start(mproject->checkDirectoriesExists): 0.88787900 1299685785
+end(mproject->checkDirectoriesExists): 0.88800100 1299685785
+start(mproject->createDirectories): 0.88802500 1299685785
+end(mproject->createDirectories): 0.88810200 1299685785
+start(mproject->popError): 0.88812400 1299685785
+end(mproject->popError): 0.88814600 1299685785
+end_controller(install->doinstall):0.88841200 1299685785
+end(url):0.88842100 1299685785
+URL:/install/install?=demo
+start(url):0.33966200 1299686173
+start_controller(install->install):0.34026000 1299686173
+start(mmenu->getMenu): 0.34477700 1299686173
+end(mmenu->getMenu): 0.34484100 1299686173
+end_controller(install->install):0.34574300 1299686173
+end(url):0.34575400 1299686173
+URL:/css/main.css
+start(url):0.44993500 1299686173
+start_controller(css->main.css):0.45023400 1299686173
+end_controller(css->main.css):0.45038500 1299686173
+end(url):0.45039300 1299686173
+URL:/install/install?=demo
+start(url):0.08338400 1299686175
+start_controller(install->install):0.08380900 1299686175
+start(mmenu->getMenu): 0.08782400 1299686175
+end(mmenu->getMenu): 0.08788700 1299686175
+end_controller(install->install):0.08854800 1299686175
+end(url):0.08856200 1299686175
+URL:/css/main.css
+start(url):0.15912600 1299686175
+start_controller(css->main.css):0.15970400 1299686175
+end_controller(css->main.css):0.15986600 1299686175
+end(url):0.15987400 1299686175
+URL:/install/doinstall?name=demo&url=http%3A%2F%2Fdemo.local.lvren.cn
+start(url):0.49762900 1299686187
+start_controller(install->doinstall):0.49805400 1299686187
+start(mproject->checkDirectoriesExists): 0.50332800 1299686187
+end(mproject->checkDirectoriesExists): 0.51536900 1299686187
+start(mproject->createDirectories): 0.51541700 1299686187
+end(mproject->createDirectories): 0.51556500 1299686187
+start(mproject->popError): 0.51558800 1299686187
+end(mproject->popError): 0.51561400 1299686187
+end_controller(install->doinstall):0.51597000 1299686187
+end(url):0.51598000 1299686187
+URL:/install/doinstall?name=demo&url=http%3A%2F%2Fdemo.local.lvren.cn
+start(url):0.07276200 1299686213
+start_controller(install->doinstall):0.07346500 1299686213
+start(mproject->checkDirectoriesExists): 0.08751000 1299686213
+end(mproject->checkDirectoriesExists): 0.10916900 1299686213
+start(mproject->createDirectories): 0.10922900 1299686213
+end(mproject->createDirectories): 0.10928500 1299686213
+start(mproject->checkDirectoriesMode): 0.10931400 1299686213
+end(mproject->checkDirectoriesMode): 0.10941900 1299686213
+start(mproject->createFiles): 0.10948000 1299686213
+end(mproject->createFiles): 0.10984800 1299686213
+end_controller(install->doinstall):0.11043200 1299686213
+end(url):0.11045300 1299686213

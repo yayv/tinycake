@@ -10,7 +10,23 @@ class install extends Controller
 		$this->install();
 	}
 	
-	function install()
+    function install()
+    {
+		parent::initTemplateEngine('./v/default','./v/_run');
+		parent::initAssign();
+
+ 		$menu = $this->getModel('mmenu')->getMenu();
+		$this->tpl->assign('menuarr', $menu);
+		$menustr = $this->tpl->fetch('right.menu.tpl.html');
+		$this->tpl->assign('menu', $menustr);	
+		
+		
+		$this->tpl->assign('body', $this->tpl->fetch('left.projectcreateform.html'));
+
+        $this->tpl->display('index.tpl.html');        
+    }
+
+	function doinstall()
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
 		parent::initDb(Core::getInstance()->getConfig('database'));
@@ -18,7 +34,8 @@ class install extends Controller
 
         $alldirsisok = false;
 		// 1. 显示框架路径，提示输入项目代号(英文)，项目名称(中文)
-        $home = realpath('..').'/demo';
+        $home = realpath('..').'/'.$_GET['name'];
+        $url  = realpath('..').$_GET['url'];
         $dirs = array(
             $home,
             $home.'/m/',
@@ -58,7 +75,7 @@ class install extends Controller
         if($alldirsisok)
         {
     		// TODO: 2. 创建默认文件，用模板生成 .htaccess 和 index.php
-            $ret = $this->getModel('mproject')->createFiles($home, '');
+            $ret = $this->getModel('mproject')->createFiles($home, $url);
         }
 
 		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息

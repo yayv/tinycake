@@ -1,11 +1,7 @@
-<ul>
-{$menuexpand}
 
-{foreach from=$submenu item=val key=k}
-<ul><a href='{$val[0]}'>{$k}</a></ul>
-{/foreach}
+<form action='{$home}/install/doinstall'>
+项目代号:<input name='name' type=''>(字母数字组合，不能用中文)<br/>
+项目的访问URL:<input name='url' type='' ><br/>
+<input type='submit' value='创建'><br/>
+</form>
 
-{foreach from=$menuarr item=val key=k}
-<li><a href='{$val[0]}'>{$k}</a></li>
-{/foreach}
-</ul>
