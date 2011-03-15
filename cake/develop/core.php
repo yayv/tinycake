@@ -46,6 +46,7 @@ class Core
 			{
 				$this->pushLog($v);
 			}
+            $this->pushLog("\n");
 			$this->writeLog();
 		}
 	}
@@ -58,7 +59,21 @@ class Core
 			require_once('configs/'."cfg.default.php");
 
 		$this->_config = $CONFIG;		
+
+        // 载入controller map
+        include_once('configs/controller_map.php');
+        $this->_controller_map = isset($cmap)?$cmap:array();
 	}
+
+    function ControllerMap($c, $a)
+    {
+        if(array_key_exists($c.'/'.$a,$this->_controller_map))
+            return $this->_controller_map[$c.'/'.$a] ;
+        else if(array_key_exists($c, $this->_controller_map))
+            return array($this->_controller_map[$c], $a);
+        else
+            return array($c, $a);
+    }
 	
 	function getConfig($key)
 	{
@@ -66,6 +81,11 @@ class Core
 			return $this->_config[$key];
 		else
 			return false;
+	}
+
+	function getAllConfig($key)
+	{
+		return $this->_config;
 	}
 
 	function pushLog($log)
@@ -120,6 +140,8 @@ class Core
     function rebuildUrl_patch_forLIUKEZHI($uri)
     {
 		$arrAction = explode('.',strtolower($_REQUEST['act']));
+        $_GET['class'] = $arrAction[0];
+        $_GET['action'] = $arrAction[1];
 		return $arrAction;
     }
     

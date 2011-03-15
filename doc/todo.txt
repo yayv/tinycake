@@ -1,6 +1,13 @@
 
 TODO:
     1. 安装工具的第一步: 写死目标路径，然后写建立目录树，分配权限，建立默认文件的功能
+    2. initAssign , 需要列出框架内使用的 config 参数表来
+    3. 开发版本的 getConfig 应该回写 cfg.default.php
+
+    n. libraries 里， cls.checkcode.php 还没有调通
+    n. controller 结束之前，应该检查 errorStatck
+    
+    
 
 	有框架提供的系列工具:
 	1. 安装工具: 根据模板和配置，生成指定的index.php和.htaccess

@@ -49,7 +49,7 @@ abstract class Controller
         	include_once('m/'.$mname.'.php');        	
             $this->$mname = new mo;
         	$this->$mname->target = new $mname;
-        	$this->$mname->target->init($this->config, isset($this->db)?$this->db:false);
+        	$this->$mname->target->init(Core::getInstance()->getAllConfig(), isset($this->db)?$this->db:false);
         }
         
         return $this->$mname;
