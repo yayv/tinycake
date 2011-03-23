@@ -15,8 +15,11 @@ TODO:
 	12. acl 的支持如何做呢？ 
 	13. 提供缓存管理方式
 	14. 提供 access recall 功能，方便问题重现
-	15. 提供class alias的功能，可以让多个( /mm/nn )URL中的不同的mm对应同一个 controller。
+    15. 实现在找不到控制器时的页面上，增加一个按钮"创建文件"； 在找不到action的开发页面上，增加按钮"自动增加方法"
+
+DONE:
+	2011年3月23日星期三
+        提供class alias的功能，可以让多个( /mm/nn )URL中的不同的mm对应同一个 controller。
 		当 该url中存在 nn 的时候， 调用 controller的nn方法，如果不存在，则调用controller->mm
-		问题: 
-			我能不能用 /admin/xx 的方式别名一个controller呢？
-			系统的管理功能如何开发？ /admin/ccc/aaa 的url 是否是理想的选择呢？
+
+
