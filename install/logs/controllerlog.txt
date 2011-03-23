@@ -1880,3 +1880,158 @@ start(mproject->createFiles): 0.10948000 1299686213
 end(mproject->createFiles): 0.10984800 1299686213
 end_controller(install->doinstall):0.11043200 1299686213
 end(url):0.11045300 1299686213
+URL:/
+start(url):0.58016900 1299813806
+start_controller(defaultcontroller->index):0.58810300 1299813806
+start(mmenu->getMenu): 0.64432500 1299813806
+end(mmenu->getMenu): 0.64437900 1299813806
+end_controller(defaultcontroller->index):0.68098400 1299813806
+end(url):0.68100200 1299813806
+URL:/css/main.css
+start(url):0.72633500 1299813806
+start_controller(css->main.css):0.72670400 1299813806
+end_controller(css->main.css):0.73890900 1299813806
+end(url):0.73892800 1299813806
+URL:/checkcode.jpg
+start(url):0.22895600 1299816486
+start_controller(checkcode.jpg->index):0.22946200 1299816486
+end_controller(checkcode.jpg->index):0.25146300 1299816486
+end(url):0.25148400 1299816486
+URL:/
+start(url):0.98596500 1299834068
+start_controller(defaultcontroller->index):0.99129200 1299834068
+start(mmenu->getMenu): 0.04978300 1299834069
+end(mmenu->getMenu): 0.04982700 1299834069
+end_controller(defaultcontroller->index):0.08434200 1299834069
+end(url):0.08437100 1299834069
+URL:/css/main.css
+start(url):0.13360100 1299834069
+start_controller(css->main.css):0.13390900 1299834069
+end_controller(css->main.css):0.18564500 1299834069
+end(url):0.18566700 1299834069
+URL:/kz/show
+start(url):0.15826900 1299840438
+start_controller(kz->show):0.15862300 1299840438
+end_controller(kz->show):0.20103100 1299840438
+end(url):0.20105100 1299840438
+URL:/kz/show
+start(url):0.84515000 1299840475
+start_controller(kz->show):0.85375000 1299840475
+end_controller(kz->show):0.88063400 1299840475
+end(url):0.88065400 1299840475
+URL:/kz/show
+start(url):0.26264500 1299840494
+start_controller(kz->show):0.26296300 1299840494
+end_controller(kz->show):0.32798800 1299840494
+end(url):0.32800400 1299840494
+URL:/test
+start(url):0.09948200 1300182293
+start_controller(test->index):0.12752300 1300182293
+end_controller(test->index):0.24280400 1300182293
+end(url):0.24282400 1300182293
+URL:/favicon.ico
+start(url):0.42626600 1300182293
+start_controller(favicon.ico->index):0.44776500 1300182293
+end_controller(favicon.ico->index):0.49974900 1300182293
+end(url):0.49976700 1300182293
+URL:/favicon.ico
+start(url):0.40358800 1300182296
+start_controller(favicon.ico->index):0.40389300 1300182296
+end_controller(favicon.ico->index):0.40401300 1300182296
+end(url):0.40402300 1300182296
+URL:/test/
+start(url):0.04037700 1300182298
+start_controller(test->index):0.04057300 1300182298
+end_controller(test->index):0.04572300 1300182298
+end(url):0.04573800 1300182298
+URL:/
+start(url):0.57052700 1300185092
+start_controller(defaultcontroller->index):0.57085000 1300185092
+start(mmenu->getMenu): 0.62487100 1300185092
+end(mmenu->getMenu): 0.62491900 1300185092
+end_controller(defaultcontroller->index):0.70613500 1300185092
+end(url):0.70615100 1300185092
+URL:/css/main.css
+start(url):0.76006400 1300185092
+start_controller(css->main.css):0.76035700 1300185092
+end_controller(css->main.css):0.76091200 1300185092
+end(url):0.76092400 1300185092
+URL:/woniu/test
+start(url):0.19238900 1300185100
+start_controller(woniu->test):0.19268900 1300185100
+end_controller(woniu->test):0.19280300 1300185100
+end(url):0.19281300 1300185100
+URL:/woniu/test
+start(url):0.45049200 1300185134
+start_controller(woniu->test):0.45100500 1300185134
+end_controller(woniu->test):0.47104600 1300185134
+end(url):0.47106500 1300185134
+URL:/woniu/
+start(url):0.09830200 1300185137
+start_controller(woniu->index):0.09886800 1300185137
+start(mmenu->getMenu): 0.10565600 1300185137
+end(mmenu->getMenu): 0.10569800 1300185137
+end_controller(woniu->index):0.14408200 1300185137
+end(url):0.14409900 1300185137
+URL:/woniu/
+start(url):0.84767000 1300185158
+start_controller(woniu->index):0.84794400 1300185158
+start(mmenu->getMenu): 0.85317800 1300185158
+end(mmenu->getMenu): 0.85322100 1300185158
+end_controller(woniu->index):0.85376600 1300185158
+end(url):0.85377800 1300185158
+URL:/woniu/
+start(url):0.53910800 1300185169
+start_controller(woniu->index):0.53934800 1300185169
+start(mmenu->getMenu): 0.55125000 1300185169
+end(mmenu->getMenu): 0.55129300 1300185169
+end_controller(woniu->index):0.55179100 1300185169
+end(url):0.55180400 1300185169
+URL:/
+start(url):0.76520000 1300847035
+start_controller(defaultcontroller->index):0.76987300 1300847035
+start(mmenu->getMenu): 0.79178000 1300847035
+end(mmenu->getMenu): 0.79182300 1300847035
+end_controller(defaultcontroller->index):0.80780900 1300847035
+end(url):0.80782500 1300847035
+URL:/css/main.css
+start(url):0.57058600 1300847038
+start_controller(css->main.css):0.57095800 1300847038
+end_controller(css->main.css):0.58349600 1300847038
+end(url):0.58351500 1300847038
+URL:/favicon.ico
+start(url):0.16297500 1300847040
+start_controller(favicon.ico->index):0.16371900 1300847040
+end_controller(favicon.ico->index):0.16396400 1300847040
+end(url):0.16398100 1300847040
+URL:/favicon.ico
+start(url):0.16283600 1300847043
+start_controller(favicon.ico->index):0.16354500 1300847043
+end_controller(favicon.ico->index):0.16378300 1300847043
+end(url):0.16380000 1300847043
+URL:/
+start(url):0.49930300 1300847142
+start_controller(defaultcontroller->index):0.50006600 1300847142
+start(mmenu->getMenu): 0.50759700 1300847142
+end(mmenu->getMenu): 0.50764100 1300847142
+end_controller(defaultcontroller->index):0.50817900 1300847142
+end(url):0.50818800 1300847142
+URL:/css/main.css
+start(url):0.54857100 1300847142
+start_controller(css->main.css):0.54896000 1300847142
+end_controller(css->main.css):0.54908300 1300847142
+end(url):0.54909200 1300847142
+URL:/
+start(url):0.02386900 1300847192
+start_controller(defaultcontroller->index):0.02447400 1300847192
+start(mmenu->getMenu): 0.02906200 1300847192
+end(mmenu->getMenu): 0.02911300 1300847192
+end_controller(defaultcontroller->index):0.07829700 1300847192
+end(url):0.07831200 1300847192
+URL:/
+start(url):0.69217800 1300847205
+start_controller(defaultcontroller->index):0.69255900 1300847205
+start(mmenu->getMenu): 0.69680700 1300847205
+end(mmenu->getMenu): 0.69685500 1300847205
+end_controller(defaultcontroller->index):0.69741700 1300847205
+end(url):0.69742600 1300847205
