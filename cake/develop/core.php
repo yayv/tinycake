@@ -61,7 +61,10 @@ class Core
 		$this->_config = $CONFIG;		
 
         // 载入controller map
-        include_once('configs/controller_map.php');
+        if(is_file('configs/controller_map.php'))
+            include_once('configs/controller_map.php');
+
+        
         $this->_controller_map = isset($cmap)?$cmap:array();
 	}
 
@@ -83,7 +86,7 @@ class Core
 			return false;
 	}
 
-	function getAllConfig($key)
+	function getAllConfig()
 	{
 		return $this->_config;
 	}
@@ -97,7 +100,7 @@ class Core
 	{
 		foreach($this->_log as $line)
 		{
-			error_log($line, 3, $this->_logpath.'/logs/controllerlog.txt');
+			error_log($line, 3, $this->_logpath.'/logs/crumbs.'.date('Y-m-d').'.txt');
 		}
 	}
 	
@@ -110,14 +113,14 @@ class Core
 	function loadController($classname)
 	{
 		if(is_file('c/'.$classname.'.php'))
-			include('c/'.$classname.'.php');
+			include_once('c/'.$classname.'.php');
 		else
 		{
-			require('c/defaultcontroller.php');
-			$classname= 'defaultcontroller';
+			require_once('c/defaultcontroller.php');
+			$classname = 'defaultcontroller';
 		}
 
-		return new $classname ;
+		return new $classname;
 	}
 	
 	function clickLog($filename)
@@ -141,7 +144,7 @@ class Core
     {
 		$arrAction = explode('.',strtolower($_REQUEST['act']));
         $_GET['class'] = $arrAction[0];
-        $_GET['action'] = $arrAction[1];
+        $_GET['method'] = $arrAction[1];
 		return $arrAction;
     }
     

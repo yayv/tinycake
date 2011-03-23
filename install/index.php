@@ -1,7 +1,7 @@
 <?php
 	error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
-	set_include_path('./:../cake/develop:../cake/libraries');
+	set_include_path('./:libraries/:../cake/develop:../cake/libraries');
 
 	include_once('core.php');
 	include_once('controller.php');

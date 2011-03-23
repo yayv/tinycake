@@ -36,7 +36,14 @@ class mo
 
 abstract class Controller
 {
-	var $db;
+    /**
+     * $_db 不希望controller直接访问，所以，使用了"_"开头的变量名
+     */
+	var $_db;
+
+    /**
+     * $tpl 需要在controller里访问，所以使用了不带"_"头的变量
+     */
 	var $tpl;
 	
 	/**
@@ -49,7 +56,10 @@ abstract class Controller
         	include_once('m/'.$mname.'.php');        	
             $this->$mname = new mo;
         	$this->$mname->target = new $mname;
-        	$this->$mname->target->init(Core::getInstance()->getAllConfig(), isset($this->db)?$this->db:false);
+        	$this->$mname->target->init(
+                    Core::getInstance()->getAllConfig(), 
+                    isset($this->_db)?$this->_db:false
+            );
         }
         
         return $this->$mname;
@@ -65,7 +75,7 @@ abstract class Controller
 
 		// override it , if you want own database object 
 		//assign the object for db,tpl
-		$this->db 	= new mysql($dbsrv);
+		$this->_db 	= new mysql($dbsrv);
 	}
 	
 	/**

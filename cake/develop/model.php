@@ -1,6 +1,6 @@
 <?php 
 
-class model
+class model 
 {
 	var $_config;
 	var $_db;
