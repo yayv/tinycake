@@ -2,8 +2,8 @@
 	error_reporting(E_ALL & ~E_NOTICE);
 
 	// FIXME: using set_include_path to include path
-	include_once('../framework/kernel/core.php');
-	include_once('../framework/kernel/controller.php');
+	include_once('../cake/kernel/core.php');
+	include_once('../cake/kernel/controller.php');
 
 	$core = Core::getInstance();
 	 
