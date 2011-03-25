@@ -88,9 +88,9 @@ abstract class Controller
 
 		$this->tpl 	= new Smarty;
 		if($templatedir)
-			$this->tpl->template_dir = $templatedir; //THEMES_DIR.$this->_config['site']['theme'];
+			$this->tpl->template_dir = './v/'.$templatedir; 
 		if($compile_dir)
-			$this->tpl->compile_dir  = $compile_dir; //COMPILE_DIR.'/'.$this->config['site']['theme'];
+			$this->tpl->compile_dir  = './v/'.$compile_dir; 
 	}
 
     // TODO: 这个函数这样写不对。assign是针对smarty模板的，这样写等于要求用户必须使用了smarty
@@ -108,6 +108,31 @@ abstract class Controller
 		echo '<pre>';
 		debug_print_backtrace();
 		echo 'the action:'. $name .' you called is not implemented<br/>';
+	}
+
+	public function missing($controller, $action)
+	{
+		#echo "your controller: $controller is MISSING\n";
+		#echo "your $action of controller is MISSING";
+		
+		if($action=='')
+		{
+			$file = file_get_contents('../cake/templates/controller.template');
+			
+			echo "控制器 $controller 类程序不存在, 请复制以下代码，并以 $controller.php 为文件名保存在你的 c 目录下。<br/>";
+			echo "<textarea style='width:90%;height:60%;'>";
+			echo strtr($file, array('{$name}'=>$controller));
+			echo "</textarea>";
+		}
+		else
+		{
+			$file = file_get_contents('../cake/templates/ctrl.function.template');
+			
+			echo "控制器方法 $action 不存在, 请复制以下代码，增加到你的 c/$controller.php 文件中。<br/>";
+			echo "<textarea style='width:90%;height:60%'>";
+			echo strtr($file, array('{$name}'=>$action));
+			echo "</textarea>";
+		}
 	}
 	
 	abstract function index();

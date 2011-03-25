@@ -48,19 +48,38 @@ class mproject extends model
     {
         $templatedir = $this->_config;
 
+        // TODO: 用实际的参数替换模板中的变量
+
         // 1. .htaccess
-        $ret = file_put_contents($home.'/.htaccess', "RewriteEngine On\nRewriteBase /\n");
+        $template = file_get_contents('../cake/templates/htaccess.template');
+        $ret = file_put_contents($home.'/.htaccess', $template);
 
         // 2. index.php
-
-        $ret = file_put_contents($home.'/index.php', '<?php echo "Hello,World!";');
+        $template = file_get_contents('../cake/templates/index.php.template');
+        $ret = file_put_contents($home.'/index.php', $template);
 
         // 3. defaultcontroller.php
-        // 4. cfg.default.php 
-        // 5. index.tpl.html
-        // 6. main.css
+        // 2. index.php
+        $template = file_get_contents('../cake/templates/controller.php.template');
+        $t = strtr($template, array('{$name}'=>'defaultcontroller'));
+        $ret = file_put_contents($home.'/c/defaultcontroller.php', $t);
 
-        // 7. create md5 for .htaccess and index.php
+        // 4. cfg.default.php 
+        $template = file_get_contents('../cake/templates/cfg.default.php.template');
+        $ret = file_put_contents($home.'/configs/cfg.default.php', $template);
+
+        // 5. controller_map.php 
+        $template = file_get_contents('../cake/templates/controller_map.php.template');
+        $ret = file_put_contents($home.'/configs/controller_map.php', $template);
+
+        // 6. index.tpl.html
+        $template = file_get_contents('../cake/templates/index.tpl.html.template');
+        $ret = file_put_contents($home.'/v/default/index.tpl.html', $template);
+
+        // 7. main.css
+        
+
+        // 8. create md5 for .htaccess and index.php
     }
 
 

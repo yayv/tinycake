@@ -12,7 +12,7 @@ class install extends Controller
 	
     function install()
     {
-		parent::initTemplateEngine('./v/default','./v/_run');
+		parent::initTemplateEngine('default','_run');
 		parent::initAssign();
 
  		$menu = $this->getModel('mmenu')->getMenu();
@@ -30,7 +30,7 @@ class install extends Controller
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
 		parent::initDb(Core::getInstance()->getConfig('database'));
-		parent::initTemplateEngine('./v/default','./v/_run');
+		parent::initTemplateEngine('default','_run');
 
         $alldirsisok = false;
 		// 1. 显示框架路径，提示输入项目代号(英文)，项目名称(中文)
@@ -45,7 +45,7 @@ class install extends Controller
             $home.'/v/default/image/',
             $home.'/v/_run/',
             $home.'/c/',
-            $home.'/config/',
+            $home.'/configs/',
             $home.'/logs/',
             $home.'/data/',        
 		);
