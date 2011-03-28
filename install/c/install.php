@@ -36,21 +36,9 @@ class install extends Controller
 		// 1. 显示框架路径，提示输入项目代号(英文)，项目名称(中文)
         $home = realpath('..').'/'.$_GET['name'];
         $url  = realpath('..').$_GET['url'];
-        $dirs = array(
-            $home,
-            $home.'/m/',
-            $home.'/v/',
-            $home.'/v/default/',
-            $home.'/v/default/css/',
-            $home.'/v/default/image/',
-            $home.'/v/_run/',
-            $home.'/c/',
-            $home.'/configs/',
-            $home.'/logs/',
-            $home.'/data/',        
-		);
 
-        $retdirs = $this->getModel('mproject')->checkDirectoriesExists($dirs);
+        $retdirs = $this->getModel('mproject')->checkDirectoriesExists($home);
+
         $ret = $this->getModel('mproject')->createDirectories($home, $retdirs);
         if(!$ret)
         {

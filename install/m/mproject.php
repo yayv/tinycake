@@ -2,6 +2,20 @@
 
 class mproject extends model
 {
+    var $_dirs = array(
+            '/m/',
+            '/v/',
+            '/v/default/',
+            '/v/default/css/',
+            '/v/default/image/',
+            '/v/_run/',
+            '/c/',
+            '/configs/',
+            '/logs/',
+            '/data/',        
+		);
+
+
     function createDirectories($home, $dirs)
     {
         $ret = true;
@@ -23,13 +37,16 @@ class mproject extends model
         return $ret;
     }
 
-    function checkDirectoriesExists($dirs)
+    function checkDirectoriesExists($home)
     {
         $tocreate = array();
 
-        foreach($dirs as $k=>$v)
-            if(!is_dir($v))
-                $tocreate[] = $v;
+        foreach($this->_dirs as $k=>$v)
+            if(!is_dir($home.$v))
+            {
+                $tocreate[] = $home.$v;
+            }
+
         return $tocreate;
     }
 
@@ -79,7 +96,15 @@ class mproject extends model
         // 7. main.css
         
 
-        // 8. create md5 for .htaccess and index.php
+        // 8. todo.txt
+        $ret = file_put_contents($home.'/data/todo.txt', '');
+        $ret = file_put_contents($home.'/data/history.txt', '');
+        
+        // 8. mmenu.php
+        $template = file_get_contents('../cake/templates/mmenu.php.template');
+        $ret = file_put_contents($home.'/m/mmenu.php', $template);
+ 
+       // 8. create md5 for .htaccess and index.php
     }
 
 

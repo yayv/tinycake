@@ -1,9 +1,12 @@
 <?php
 	error_reporting(E_ALL & ~E_NOTICE);
 
+	set_include_path('./:libraries/:../cake/develop:../cake/libraries');
+
 	// FIXME: using set_include_path to include path
-	include_once('../cake/kernel/core.php');
-	include_once('../cake/kernel/controller.php');
+	include_once('../cake/develop/core.php');
+	include_once('../cake/develop/controller.php');
+	include_once('../cake/develop/model.php');
 
 	$core = Core::getInstance();
 	 

@@ -53,7 +53,7 @@ abstract class Controller
 	{
         if(!isset($this->$mname))
         {
-        	include_once('m/'.$mname.'.php');        	
+        	include_once('m/'.$mname.'.php');       
             $this->$mname = new mo;
         	$this->$mname->target = new $mname;
         	$this->$mname->target->init(
