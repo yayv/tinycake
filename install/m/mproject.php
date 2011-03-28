@@ -15,6 +15,19 @@ class mproject extends model
             '/data/',        
 		);
 
+    var $_files = array(
+        # target => source
+        '/.htaccess'               => '../cake/templates/htaccess.template',
+        '/index.php'               => '../cake/templates/index.php.template',
+        #$t = strtr($template, array('{$name}'=>'defaultcontroller'));
+        '/c/defaultcontroller.php' => '../cake/templates/controller.php.template',
+        '/configs/cfg.default.php' => '../cake/templates/cfg.default.php.template',
+        '/configs/controller_map.php' => '../cake/templates/controller_map.php.template',
+        '/v/default/index.tpl.html'=> '../cake/templates/index.tpl.html.template',
+        '/data/todo.txt'           => '/cake/templates/todo.txt.template',
+        '/data/history.txt'        => '/cake/templates/history.txt.template',
+        '/m/mmenu.php'             => '../cake/templates/mmenu.php.template',
+        );
 
     function createDirectories($home, $dirs)
     {
@@ -61,51 +74,35 @@ class mproject extends model
         return $tochmod;
     }
 
-    function createFiles($home, $url)
+    function checkFilesMode($home)
+    {
+        $togenerate = array();
+
+        foreach($this->_files as $k=>$v)
+            if(!is_file($home.$k))
+            {
+                $togenerate[$k] = $v;
+            }
+
+        return $togenerate;
+
+    }    
+
+    function createFiles($home, $files)
     {
         $templatedir = $this->_config;
 
-        // TODO: 用实际的参数替换模板中的变量
+        // 1. TODO: 用实际的参数替换模板中的变量, 构造参数列表
+        $template_values = array('{$name}'=>'defaultcontroller');
 
-        // 1. .htaccess
-        $template = file_get_contents('../cake/templates/htaccess.template');
-        $ret = file_put_contents($home.'/.htaccess', $template);
-
-        // 2. index.php
-        $template = file_get_contents('../cake/templates/index.php.template');
-        $ret = file_put_contents($home.'/index.php', $template);
-
-        // 3. defaultcontroller.php
-        // 2. index.php
-        $template = file_get_contents('../cake/templates/controller.php.template');
-        $t = strtr($template, array('{$name}'=>'defaultcontroller'));
-        $ret = file_put_contents($home.'/c/defaultcontroller.php', $t);
-
-        // 4. cfg.default.php 
-        $template = file_get_contents('../cake/templates/cfg.default.php.template');
-        $ret = file_put_contents($home.'/configs/cfg.default.php', $template);
-
-        // 5. controller_map.php 
-        $template = file_get_contents('../cake/templates/controller_map.php.template');
-        $ret = file_put_contents($home.'/configs/controller_map.php', $template);
-
-        // 6. index.tpl.html
-        $template = file_get_contents('../cake/templates/index.tpl.html.template');
-        $ret = file_put_contents($home.'/v/default/index.tpl.html', $template);
-
-        // 7. main.css
-        
-
-        // 8. todo.txt
-        $ret = file_put_contents($home.'/data/todo.txt', '');
-        $ret = file_put_contents($home.'/data/history.txt', '');
-        
-        // 8. mmenu.php
-        $template = file_get_contents('../cake/templates/mmenu.php.template');
-        $ret = file_put_contents($home.'/m/mmenu.php', $template);
- 
-       // 8. create md5 for .htaccess and index.php
+        // 2. 生成文件
+        foreach($files as $k=>$v)
+        {
+            $template = strtr(file_get_contents($v), $template_values);
+            $ret = file_put_contents($home.$k, $template);
+        }
+         
+        // 3. create md5 for .htaccess and index.php
     }
-
-
 }
+

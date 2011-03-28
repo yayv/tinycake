@@ -63,7 +63,8 @@ class install extends Controller
         if($alldirsisok)
         {
     		// TODO: 2. 创建默认文件，用模板生成 .htaccess 和 index.php
-            $ret = $this->getModel('mproject')->createFiles($home, $url);
+            $files = $this->getModel('mproject')->checkFilesMode($home);
+            $ret = $this->getModel('mproject')->createFiles($home, $files);
         }
 
 		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息
