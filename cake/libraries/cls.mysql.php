@@ -27,7 +27,7 @@ class mysql
 	
 	function connect()
 	{
-		$this->link = @mysql_connect(
+		$this->link = mysql_connect(
 			$this->db['host'].':'.$this->db['port'],
 			$this->db['username'],
 			$this->db['password']);
@@ -36,9 +36,10 @@ class mysql
 		{
 			$this->show_error("Connect failed!");
 		}
-		
-		//$this->select_db($this->db['database']);
-		$this->query("SET NAMES '".$this->db['charset']."';");
+        else
+        {		
+    		$this->query("SET NAMES '".$this->db['charset']."';");
+        }
 	}
 	
 	//mysql_select_db
@@ -55,9 +56,8 @@ class mysql
 	//mysql_query
 	function query($sql)
 	{
-		//$this->querys[] = $sql;
 		$this->count ++;
-		#debug_print_backtrace();
+
 		if(!$this->link)
 		{
 			$this->connect();
