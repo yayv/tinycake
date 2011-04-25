@@ -119,8 +119,8 @@ class Core
 	    $exparams = explode('?', $uri);
 	    $params = explode("/",$exparams[0]);
 
-		$_GET['class']='';
-		$_GET['method']='';
+		$_GET['controller']='';
+		$_GET['action']='';
 	    foreach( $params as $p => $v )
 	    {
 	        $kv = explode('-', $v);
@@ -138,16 +138,16 @@ class Core
 			    switch($p)
 			    {
 			        case 0: continue;break;
-			        case 1:$_GET['class']=$v;break;
-			        case 2:	$_GET['method']=$v;	break;
+			        case 1:$_GET['controller']=$v;break;
+			        case 2:	$_GET['action']=$v;	break;
 			        default: break;
 			    }
 	    }
 	
-	    if($_GET['class']=='') $_GET['class'] = 'defaultcontroller';
-	    if($_GET['method']=='') $_GET['method'] = 'index';
+	    if($_GET['controller']=='') $_GET['controller'] = 'defaultcontroller';
+	    if($_GET['action']=='') $_GET['action'] = 'index';
 
-	    return array($_GET['class'], $_GET['method']);
+	    return array($_GET['controller'], $_GET['action']);
 		}
 	}
     	

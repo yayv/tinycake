@@ -7,7 +7,7 @@ class defaultcontroller extends Controller
 		
 	public function index()
 	{
-		parent::initTemplateEngine('default/','_run/');
+		parent::initTemplateEngine('v/default/','v/_run/');
 		parent::initAssign();
 		
 		$body = file_get_contents('data/todo.txt');

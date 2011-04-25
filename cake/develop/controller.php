@@ -88,9 +88,9 @@ abstract class Controller
 
 		$this->tpl 	= new Smarty;
 		if($templatedir)
-			$this->tpl->template_dir = './v/'.$templatedir; 
+			$this->tpl->template_dir = $templatedir; 
 		if($compile_dir)
-			$this->tpl->compile_dir  = './v/'.$compile_dir; 
+			$this->tpl->compile_dir  = $compile_dir; 
 	}
 
     // TODO: 这个函数这样写不对。assign是针对smarty模板的，这样写等于要求用户必须使用了smarty

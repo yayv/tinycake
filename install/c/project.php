@@ -33,7 +33,9 @@ class project extends Controller
     {
 	    // NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
 	    parent::initDb(Core::getInstance()->getConfig('database'));
-	    parent::initTemplateEngine('./v/def/','./v/_run/');
+	    parent::initTemplateEngine(
+                        Core::getInstance()->getConfig('theme'),
+                        Core::getInstance()->getConfig('compiled_template'));
 	
 	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('todo.tpl.html');	
