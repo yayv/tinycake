@@ -27,7 +27,7 @@ class mysql
 	
 	function connect()
 	{
-		$this->link = mysql_connect(
+		$this->link = @mysql_connect(
 			$this->db['host'].':'.$this->db['port'],
 			$this->db['username'],
 			$this->db['password']);
@@ -36,9 +36,10 @@ class mysql
 		{
 			$this->show_error("Connect failed!");
 		}
-        else
-        {		
-    		$this->query("SET NAMES '".$this->db['charset']."';");
+		else
+        {
+		    //$this->select_db($this->db['database']);
+		    $this->query("SET NAMES '".$this->db['charset']."';");
         }
 	}
 	
@@ -56,8 +57,9 @@ class mysql
 	//mysql_query
 	function query($sql)
 	{
+		//$this->querys[] = $sql;
 		$this->count ++;
-
+		#debug_print_backtrace();
 		if(!$this->link)
 		{
 			$this->connect();
@@ -305,6 +307,34 @@ class mysql
 		return $this->error_info;
 	}
 		
+		//mysql_fetch_object
+	function fetch_all_object($sql,$max=0)
+	{
+		$query = $this->query($sql);
+		while($list_item = $this->fetch_object($query))
+		{
+			$current_index ++;
+			
+			if($current_index > $max && $max != 0)
+			{
+				break;
+			}
+			
+			$all_array[] = $list_item;
+			
+		}
+		
+		return $all_array;
+	}
+
+
+	//mysql_fetch_object
+	function fetch_object($query)
+	{
+        if(!$query)
+            debug_print_backtrace();
+		return mysql_fetch_object($query);
+	}
 
 } // end class
 		

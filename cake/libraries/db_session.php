@@ -5,6 +5,45 @@
  *    
  *  
  */
+
+/*
+//===============================================
+Database Contructure
+//-----------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `sns_session` (
+  `id` char(32) NOT NULL DEFAULT '',
+  `uid` int(11) DEFAULT NULL,
+  `ip` char(15) NOT NULL,
+  `value` text,
+  `dateline` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+//===============================================
+
+//===============================================
+Config Example:
+//-----------------------------------------------
+
+$sessconfig = array();
+$sessconfig['HOST'] = 'dbserver_sns';
+$sessconfig['DATABASE'] = 'sns';
+$sessconfig['USER'] = 'LVRN';
+$sessconfig['PASSWORD'] = 'aCim3)J9n$M';
+$sessconfig['LINKNAME'] = 'con_sns';
+
+//重定义session handler
+require_once(dirname(__FILE__).'/public_dbclass.php');
+
+ini_set("session.save_handler", 'user');
+
+session_set_save_handler(
+        "sess_open", "sess_close", "sess_read", 
+        "sess_write", "sess_destroy", "sess_gc");
+//-----------------------------------------------
+
+*/
+
   
 // set handler
 function sess_open($save_path, $session_name)
