@@ -1,7 +1,8 @@
 <?php
 	error_reporting(E_ALL & ~E_NOTICE);
 
-	set_include_path('./:libraries/:../cake/develop:../cake/libraries');
+    $DS = PATH_SEPARATOR;
+	set_include_path("./${DS}libraries/$DS../cake/develop$DS../cake/libraries");
 
 	include_once('core.php');
 	include_once('controller.php');

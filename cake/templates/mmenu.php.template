@@ -1,5 +1,4 @@
 <?php 
-die('in mmenu');
 class mmenu extends model
 {
 

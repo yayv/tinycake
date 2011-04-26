@@ -1,6 +1,7 @@
 <?php
 
 $CONFIG = array();
-
+$CONFIG['theme'] = 'v/default';
+$CONFIG['compiled_template'] = 'v/_run';
 
 

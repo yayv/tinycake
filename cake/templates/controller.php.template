@@ -25,6 +25,6 @@ class {$name} extends Controller
 		
 		$this->tpl->assign('body', '<p>'.$body.'</p>');
 		$this->tpl->assign('menu', $menustr);	
-		$this->tpl->display('todo.tpl.html');
+		$this->tpl->display('index.tpl.html');
 	}
 }
