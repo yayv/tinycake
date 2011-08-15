@@ -65,6 +65,9 @@ class install extends Controller
     		// TODO: 2. 创建默认文件，用模板生成 .htaccess 和 index.php
             $files = $this->getModel('mproject')->checkFilesMode($home);
             $ret = $this->getModel('mproject')->createFiles($home, $files);
+
+            // TODO: 记录项目信息
+            $this->getModel('mprojectlist')->addProj('地图','/Data/webapps/map.lvren.cn/public');
         }
 
 		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息

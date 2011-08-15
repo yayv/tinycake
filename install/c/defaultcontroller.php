@@ -4,7 +4,7 @@ class defaultcontroller extends Controller
 	public function initParams()
 	{
 	}
-		
+
 	public function index()
 	{
 		parent::initTemplateEngine('v/default/','v/_run/');
