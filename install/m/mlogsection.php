@@ -6,6 +6,8 @@ class mlogsection
     public $_times;
     public $_isBadCallStack;
     public $_callstack ;
+    public $_url_starttime;
+    public $_url_endtime;
 
     function __construct()
     {
@@ -15,6 +17,18 @@ class mlogsection
         $this->_isBadCallStack = false;
         $this->_callstack = "";
     }
+
+	function diffmicrotime($startmsec, $startsec, $endmsec, $endsec)
+	{
+		$diffsec  = $endsec - $startsec;
+		$diffmsec = intval($endmsec) - intval($startmsec); 
+
+		if($diffmsec<0) $diffmsec = 100000000 + $diffmsec;
+
+		$diff =  $diffsec.substr('00000000'.$diffmsec, -8);
+
+		return intval($diff);
+	}
 
     function getUrl()
     {
@@ -30,7 +44,7 @@ class mlogsection
 
     function getDetail()
     {
-        print_r($this->_url);
+		 echo $this->_urltime," : ", $this->_method," ",$this->_url,"<br/>";
     }
 
     function addLine($logline)
@@ -55,8 +69,18 @@ class mlogsection
                 $this->_method = substr($logline,7);
                 break;
             case 0===strpos($logline, 'start(url):'):
+					// get the time
+					//preg_match('/start\(url\):0\.(\d*) (\d*)/', $logline, $matches);
+					//intval($matches[1]);
+					//intval($matches[2]);
+					$this->_url_starttime = substr($logline, 11);
                 break;
             case 0===strpos($logline, 'end(url):'):
+					$time = trim(substr($logline, 9));
+					$this->_url_endtime = $time;
+					preg_match('/0\.(\d*) (\d*)/', $time, $end);
+					preg_match('/0\.(\d*) (\d*)/', $this->_url_starttime, $start);
+					$this->_urltime = $this->diffmicrotime($start[1], $start[2], $end[1], $end[2]);
                 break;
             case 0===strpos($logline, 'start('):
                 break;

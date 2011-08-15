@@ -25,8 +25,8 @@ class log extends Controller
                         Core::getInstance()->getConfig('theme'),
                         Core::getInstance()->getConfig('compiled_template'));
 
-        $path = "/Data/webapps/www.10jing.com/public/logs/";
-        $file = "crumbs.2011-05-09.txt";
+        $path = "/Data/tinycake/install/logs/";
+        $file = "crumbs.2011-07-06.txt";
 
         $this->getModel('mlog')->parseFile($path.$file);
 

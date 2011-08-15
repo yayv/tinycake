@@ -30,8 +30,8 @@ class mlog extends model
                 if($endsection)
                 {
                     $this->appendToAnalyse($log);
-                    $log->getDetail();echo "<br/>";
-                    unset($log);
+                    $log->getDetail();echo "<br/>";print_r($log);
+                    unset($log); break;
                     $log = new mlogsection();
                     $log->addLine($line);
                 }
