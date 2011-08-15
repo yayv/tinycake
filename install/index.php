@@ -1,12 +1,14 @@
 <?php
-	error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+	error_reporting(E_ALL & ~E_NOTICE);
+    ini_set('display_errors','on');
 
 	set_include_path('./:libraries/:../cake/develop:../cake/libraries');
 
 	include_once('core.php');
 	include_once('controller.php');
 	include_once('model.php');
-	
+
+    header('Content-Type:text/html;charset=utf-8');
 	$core = Core::getInstance();
 	
 	// TODO： 1. 统一配置文件
@@ -22,7 +24,7 @@
 	$c = $core->loadController($controller);
 	
 	$core->loadSession();
-	
+
 	// 构造自定义日志
 	if(isset($core->getConfig['clicklog']))
 		$core->clickLog($core->getConfig['clicklog'].'/clicklog.'.date('Y-m-d'));		

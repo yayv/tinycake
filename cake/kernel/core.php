@@ -106,11 +106,11 @@ class Core
 		else
 		{
 	    /*
-	    url example: /class/method/param1-value1/param2-value2/param3-value3?exparams
+	    url example: /controller/action/param1-value1/param2-value2/param3-value3?exparams
 	    => $_GET=> array(
-	        'class' => 'class'
-	        'method' => 'method'
-	        'param1' => 'value1'
+	        'controller' => 'controller'
+	        'action' => 'action'
+	        'param2' => 'value2'
 	        ...
 	    )
 	    

@@ -3,10 +3,10 @@ TODO:
     1. 安装工具的第一步: 写死目标路径，然后写建立目录树，分配权限，建立默认文件的功能
     2. initAssign , 需要列出框架内使用的 config 参数表来
     3. 开发版本的 getConfig 应该回写 cfg.default.php
-
+    4. 应该把 index.php 模板进一步封装，把日志之类的分支处理放到core类里面去
+    5. 做日志分析工具
     n. libraries 里， cls.checkcode.php 还没有调通
     n. controller 结束之前，应该检查 errorStatck
-    
     
 
 	有框架提供的系列工具:
