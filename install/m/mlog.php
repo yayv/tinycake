@@ -212,6 +212,75 @@ class mlog extends model
         include($filename);
     }
 
+    function mergeOtherLog($mlogobj)
+    {
+        foreach($mlogobj->_badcalls as $k=>$v)
+        {
+            if(isset($this->_badcalls[$k]))
+            {
+                $this->_badcalls[$k]['times'] += $v['times'];
+                $this->_badcalls[$k]['runtime'] += $v['runtime'];
+            }
+            else
+                $this->_badcalls[$k] = $v;
+        }
+
+        foreach($mlogobj->_url_times as $k=>$v)
+        {
+            if(isset($this->_url_times[$k]))
+            {
+                $this->_url_times[$k]['times'] += $v['times'];
+                $this->_url_times[$k]['runtime'] += $v['runtime'];
+            }
+            else
+                $this->_url_times[$k] = $v;
+        }
+
+        foreach($mlogobj->_controller_times as $k=>$v)
+        {
+            if(isset($this->_controller_times[$k]))
+            {
+                $this->_controller_times[$k]['times'] += $v['times'];
+                $this->_controller_times[$k]['runtime'] += $v['runtime'];
+            }
+            else
+                $this->_controller_times[$k] = $v;
+        }
+
+        foreach($mlogobj->_action_times as $k=>$v)
+        {
+            if(isset($this->_action_times[$k]))
+            {
+                $this->_action_times[$k]['times'] += $v['times'];
+                $this->_action_times[$k]['runtime'] += $v['runtime'];
+            }
+            else
+                $this->_action_times[$k] = $v;
+        }
+
+        foreach($mlogobj->_model_times as $k=>$v)
+        {
+            if(isset($this->_model_times[$k]))
+            {
+                $this->_model_times[$k]['times'] += $v['times'];
+                $this->_model_times[$k]['runtime'] += $v['runtime'];
+            }
+            else
+                $this->_model_times[$k] = $v;
+        }
+
+        foreach($mlogobj->_method_times as $a=>$v)
+        {
+            if(isset($this->_method_times[$k]))
+            {
+                $this->_method_times[$k]['times'] += $v['times'];
+                $this->_method_times[$k]['runtime'] += $v['runtime'];
+            }
+            else
+                $this->_method_times[$k] = $v;
+        }
+    }
+
     function getBadCalls()
     {
         return $this->_badcalls;

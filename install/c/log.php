@@ -27,8 +27,8 @@ class log extends Controller
                         Core::getInstance()->getConfig('compiled_template'));
 
         $path = "/Data/tinycake/install/logs/";
-        $file = "crumbs.2011-08-14.txt";
-        $file = "head100000.txt";
+        $file = "crumbs.2011-03-14.txt";
+        $file = "all.txt";
 
         if(is_file('/Data/tinycake/install/logs/parselog.php'))
         {
@@ -63,6 +63,5 @@ class log extends Controller
 
 	    $this->tpl->display('index.tpl.html');
     }
-
 }
 
