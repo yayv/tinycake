@@ -30,6 +30,21 @@ class mlogsection
         $this->_badcall = "";
     }
 
+    function __destruct()
+    {
+        $this->_logs = null;
+        $this->_url = null;
+        $this->_urltime = null;
+        $this->_endsection = null;
+        $this->_model_times = null;
+        $this->_method_times = null;
+        $this->_controller_times = null;
+        $this->_action_times = null;
+        $this->_callstack = null;
+        $this->_notclearexit = null;
+        $this->_badcall = null;
+    }
+
     function diffmicrotime($startmsec, $startsec, $endmsec, $endsec)
     {
         $diffsec  = $endsec - $startsec;

@@ -42,10 +42,11 @@ class mlog extends model
                 if($endsection)
                 {
                     $this->appendToAnalyse($log);
-                    unset($log); 
+                    unset($log);
                     $log = new mlogsection();
                     $log->addLine($line);
                 }
+                $line = null;
             }
         fclose($fp);
     }
