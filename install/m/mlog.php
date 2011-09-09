@@ -57,7 +57,14 @@ class mlog extends model
         if(!$logobj->_notclearexit)
         {
             // account url's runtime
-            $key = trim($logobj->_url);
+            $arr = explode('/',trim($logobj->_url),4);
+            if(count($arr)>1)
+            {
+                array_pop($arr);
+                $key = implode('/', $arr);
+            }
+            else
+                $key = $logobj->_url;
             if(!isset($this->_url_times[$key]))
             {
                 $this->_url_times[$key]['times'] = 0;
