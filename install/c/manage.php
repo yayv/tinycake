@@ -29,6 +29,30 @@ class project extends Controller
 		$this->tpl->display('index.tpl.html');
 	}
 
+    function listall()
+    {
+	    // NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
+	    parent::initDb(Core::getInstance()->getConfig('database'));
+	    parent::initTemplateEngine(
+                        Core::getInstance()->getConfig('theme'),
+                        Core::getInstance()->getConfig('compiled_template'));
+	
+        // 列出全部管理中的项目
+        $list = $this->getModel('mprojectlist')->getList();
+
+        $body = $this->tpl->fetch('left.projectlist.html');
+
+        $this->tpl->assign('body', $body);
+
+		$menu = $this->getModel('mmenu')->getMenu();
+		$this->tpl->assign('menuarr', $menu);
+		$menustr = $this->tpl->fetch('right.menu.tpl.html');
+        $this->tpl->assign('menu', $menustr);
+
+	    // TODO: 请在下面实现您的action所要实现的逻辑
+	    $this->tpl->display('index.tpl.html');	
+    }
+
     function parseLog()
     {
         $project = "/Data/webapps/map.lvren.cn/public/logs/";

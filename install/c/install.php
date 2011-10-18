@@ -18,13 +18,36 @@ class install extends Controller
  		$menu = $this->getModel('mmenu')->getMenu();
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
-		$this->tpl->assign('menu', $menustr);	
-		
+		$this->tpl->assign('menu', $menustr);
 		
 		$this->tpl->assign('body', $this->tpl->fetch('left.projectcreateform.html'));
 
         $this->tpl->display('index.tpl.html');        
     }
+
+	function editproject()
+	{
+		parent::initTemplateEngine('v/default','v/_run');
+		parent::initAssign();
+
+		$project = $this->getModel('mprojectlist')->getProject($_GET['name']);
+		if(!$project)
+		{
+			$project = array('name'=>'','path'=>'', 'url'=>'http://');
+		}
+
+		$this->tpl->assign('baseurl','http://install.local.lvren.cn');
+		$this->tpl->assign('project', $project);
+		
+		$this->tpl->assign('body', $this->tpl->fetch('left.projecteditform.html'));
+
+ 		$menu = $this->getModel('mmenu')->getMenu();
+		$this->tpl->assign('menuarr', $menu);
+		$menustr = $this->tpl->fetch('right.menu.tpl.html');
+		$this->tpl->assign('menu', $menustr);	
+
+        $this->tpl->display('index.tpl.html');        
+	}
 
 	function doinstall()
 	{
@@ -79,4 +102,59 @@ class install extends Controller
 		$this->tpl->assign('home', '/v/default');
 		$this->tpl->display('index.tpl.html');
 	}
+
+	function importProject()
+	{
+		parent::initTemplateEngine(
+						Core::getInstance()->getConfig('theme'),
+						Core::getInstance()->getConfig('compiled_template')
+		);
+
+		$body = $this->tpl->fetch('left.importproject.tpl.html');
+
+        $this->tpl->assign('body', $body);
+
+		$menu = $this->getModel('mmenu')->getMenu();
+		$this->tpl->assign('menuarr', $menu);
+		$menustr = $this->tpl->fetch('right.menu.tpl.html');
+        $this->tpl->assign('menu', $menustr);
+
+	    // TODO: 请在下面实现您的action所要实现的逻辑
+	    $this->tpl->display('index.tpl.html');	
+	}
+
+	function doimport()
+	{
+		$name = $_POST['name'];
+		$path = $_POST['path'];
+		$url  = $_POST['url'];
+		$this->getModel('mprojectlist')->addProj($name, $path, $url);
+		header("location:$home/install/listall");
+	}
+
+    function listall()
+    {
+	    // NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
+	    parent::initDb(Core::getInstance()->getConfig('database'));
+	    parent::initTemplateEngine(
+                        Core::getInstance()->getConfig('theme'),
+                        Core::getInstance()->getConfig('compiled_template'));
+	
+        // 列出全部管理中的项目
+        $list = $this->getModel('mprojectlist')->getList();
+        $this->tpl->assign('projectlist', $list);
+        $body = $this->tpl->fetch('left.projectlist.html');
+
+        $this->tpl->assign('body', $body);
+
+		$menu = $this->getModel('mmenu')->getMenu();
+		$this->tpl->assign('menuarr', $menu);
+		$menustr = $this->tpl->fetch('right.menu.tpl.html');
+        $this->tpl->assign('menu', $menustr);
+
+	    // TODO: 请在下面实现您的action所要实现的逻辑
+	    $this->tpl->display('index.tpl.html');	
+    }
+
 }
+

@@ -13,10 +13,17 @@ class mprojectlist extends model
         $this->loadList();
     }
 
+	function __destruct()
+	{
+		$this->saveList();
+	}
+
     function loadList()
     {   
         if(is_file($this->_listfile))
             $this->_projs = unserialize(file_get_contents($this->_listfile));
+		else
+			$this->_projs = array();
     }
 
     function saveList()
@@ -24,9 +31,12 @@ class mprojectlist extends model
         $ret = file_put_contents($this->_listfile, serialize($this->_projs));
     }
     
-    function addProj($projname, $projpath)
+    function addProj($projname, $projpath, $projurl)
     {
-        $this->_projs[$projname] = $projpath;
+        $this->_projs[$projname]['path'] = $projpath;
+        $this->_projs[$projname]['keyname'] = $projname;
+        $this->_projs[$projname]['name'] = $projname;
+        $this->_projs[$projname]['url'] = $projurl;
     }
     
     function getList()
@@ -39,5 +49,12 @@ class mprojectlist extends model
         unset($this->_projs[$projname]);
     }
 
+	function getProject($name)
+	{
+		if(isset($this->_projs[$name]))
+			return $this->_projs[$name];
+		else
+			return false;
+	}
 }
 
