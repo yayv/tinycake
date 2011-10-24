@@ -26,7 +26,7 @@ class mlog extends model
         $this->_logfile = $file;
     }
 
-    public function parseFile($file)
+    public function parseFile($file, $urlpatterns=false)
     {
         require_once('mlogsection.php');
 
@@ -41,7 +41,7 @@ class mlog extends model
 
                 if($endsection)
                 {
-                    $this->appendToAnalyse($log);
+                    $this->appendToAnalyse($log, $urlpatterns);
                     unset($log);
                     $log = new mlogsection();
                     $log->addLine($line);
@@ -51,20 +51,30 @@ class mlog extends model
         fclose($fp);
     }
 
-    function appendToAnalyse($logobj)
+    function appendToAnalyse($logobj, $urlpatterns=false)
     {
 
         if(!$logobj->_notclearexit)
         {
-            // account url's runtime
-            #$arr = explode('/',trim($logobj->_url),4);
-            #if(count($arr)>1)
-            #{
-            #    array_pop($arr);
-            #    $key = implode('/', $arr);
-            #}
-            #else
-            $key = trim($logobj->_url);
+			$key = trim($logobj->_url);
+			if(is_array($urlpatterns))
+			foreach ($urlpatterns as $urlPattern )
+			{
+				if(preg_match($urlPattern,$key))
+				{
+					$key = $urlPattern;
+				}				
+/*
+				if(strpos($logobj->_url,'lvyou')>0)
+				{
+					echo "<hr>";
+					echo $urlPattern,"<br/>",$logobj->_url,"<br/>";
+					echo $key,"<br/>";
+					die();
+				}
+*/			}
+
+            
             if(!isset($this->_url_times[$key]))
             {
                 $this->_url_times[$key]['times'] = 0;

@@ -36,7 +36,29 @@ class log extends Controller
         }
         else
         {
-            $this->getModel('mlog')->parseFile($path.$file);
+            $this->getModel('mlog')->parseFile($path.$file, 
+							array(
+									'/\/lvyou\/.*/',
+									'/\/tupian\/.*/',
+									'/\/jiudian\/.*/',
+									'/\/ditu\/.*/',
+									'/\/gonglue\/.*/',
+									'/\/quguo\/.*/',
+									'/\/plan\/.*/',
+									'/\/youji\/.*/',
+									'/\/jingdian\/.*/',
+									'/\/jiaotong\/.*/',
+									'/\/jianjie\/.*/',
+									'/\/dianping\/.*/',
+									'/\/menpiao\/.*/',
+									'/\/zhusu\/.*/',
+									'/\/tianqi\/.*/',
+									'/\/fengjing\/.*/',
+									'/d.top.js.*/',
+									'/d.footer.js.*/',
+									'/index.php?.*/',
+							)
+			);
             $this->getModel('mlog')->calcAvgTime();
             $this->getModel('mlog')->dumpToFile('/Data/tinycake/install/logs/parselog.php');
         }

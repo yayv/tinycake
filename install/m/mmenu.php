@@ -15,6 +15,24 @@ class mmenu extends model
 		return $menu;
 	}
 
+	public function getProjectMenu($prj)
+	{
+		$menu = array();
+
+        $menu = array(
+            '项目目录检查' => array("/project/checkpermission/name-$prj"),
+            '日志管理' => array("/project/logmanage/name-$prj"),
+            '代码分析' => array("/project/codeanalystics/name-$prj"),
+            '无效代码列表' => array("/project/codeanalyze/name-$prj"),
+            'TODO列表' => array("/project/todo/name-$prj"),
+            '' => array(),
+            '项目列表' => array("/install/listall"),
+            '返回首页' => array("/"),
+        );
+		
+		return $menu;
+	}
+
 	public function getSubMenu($ctrl)
 	{
 		$submenu = array();
