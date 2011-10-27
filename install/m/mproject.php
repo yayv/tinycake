@@ -29,6 +29,57 @@ class mproject extends model
         '/m/mmenu.php'             => '../cake/templates/mmenu.php.template',
         );
 
+	// SOME PRIVATE DATA
+	var $_path;
+	var $_keyname;
+	var $_name;
+	var $_url;
+
+	function setProject($proj)
+	{
+		$this->_path 	= $proj['path'];
+		$this->_keyname	= $proj['keyname'];
+		$this->_name	= $proj['name'];
+		$this->_url		= $proj['url'];
+
+		unset($this->loglist);
+	}
+
+	function getLogList()
+	{
+		if(isset($this->_loglist)) 
+			return $this->_loglist;
+
+		$path = $this->_path. '/logs/';
+		$d = dir($path);
+
+		$patterns = array(
+			'txt' => '/crumbs\.(\d{4}-\d{2}-\d{2})\.txt/',
+			'php' => '/parsedcrumbs\.(\d{4}-\d{2}-\d{2})\.php/',
+		);
+
+		$loglist = array();
+		while (false !== ($entry = $d->read())) 
+		{
+			if(preg_match($patterns['txt'],$entry, $date))
+			{
+				$loglist[$date[1]]['txt']  = 1;
+				$loglist[$date[1]]['date'] = $date[1];
+			}
+			else if(preg_match($patterns['txt'],$entry, $date))
+			{
+				$loglist[$date[1]]['php']  = 1;
+				$loglist[$date[1]]['date'] = $date[1];
+			}
+
+		}
+
+		$d->close();
+
+		$this->_loglist = $loglist;
+		return $loglist;
+	}
+
     function createDirectories($home, $dirs)
     {
         $ret = true;

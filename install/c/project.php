@@ -28,6 +28,36 @@ class project extends Controller
 		$this->tpl->display('index.tpl.html');	
 	}
 
+	function logmanage()
+	{
+		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
+		parent::initDb(Core::getInstance()->getConfig('database'));
+		parent::initTemplateEngine(
+                Core::getInstance()->getConfig('theme'),
+                Core::getInstance()->getConfig('compiled_template')
+		);
+
+        $proj = $this->getModel('mprojectlist')->getProject($_GET['name']);
+
+		$this->getModel('mproject')->setProject($proj);
+		$this->tpl->assign('projectinfo', $proj);
+		$this->tpl->assign('loglist', $this->getModel('mproject')->getLogList());
+
+		$body = $this->tpl->fetch('left.loglist.tpl.html');
+
+
+		// TODO: 请在下面实现您的action所要实现的逻辑
+		$menu = $this->getModel('mmenu')->getProjectMenu($name);
+		$this->tpl->assign('menuarr', $menu);
+		$menustr = $this->tpl->fetch('right.menu.tpl.html');
+		
+		$this->tpl->assign('body', '<p>'.$body.'</p>');
+		$this->tpl->assign('menu', $menustr);	
+
+		// TODO: 请在下面实现您的action所要实现的逻辑
+		$this->tpl->display('index.tpl.html');	
+	}
+
 	public function index()
 	{
 		// NOTE:如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
