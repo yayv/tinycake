@@ -19,6 +19,11 @@ class log extends Controller
 
     function analyse()
     {
+		$projectname = $_GET['name'];
+		$logdate	 = urldecode($_GET['date']);
+
+        $proj = $this->getModel('mprojectlist')->getProject($projectname);
+
         set_time_limit(0);
 	    // NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
 	    parent::initDb(Core::getInstance()->getConfig('database'));
@@ -26,17 +31,16 @@ class log extends Controller
                         Core::getInstance()->getConfig('theme'),
                         Core::getInstance()->getConfig('compiled_template'));
 
-        $path = "/Data/tinycake/install/logs/";
-        $file = "crumbs.2011-03-14.txt";
-        $file = "all.txt";
-
-        if(is_file('/Data/tinycake/install/logs/parselog.php'))
+        $path = $proj["path"].'/logs';
+        $logfile = "/crumbs.".$logdate.".txt";
+		$resultfile = '/parse.'.$logdate.'.php';
+        if(is_file($path.$resultfile))
         {
-            $this->getModel('mlog')->loadFromFile('/Data/tinycake/install/logs/parselog.php');
+            $this->getModel('mlog')->loadFromFile($path.$resultfile);
         }
         else
         {
-            $this->getModel('mlog')->parseFile($path.$file, 
+            $this->getModel('mlog')->parseFile($path.$logfile, 
 							array(
 									'/\/lvyou\/.*/',
 									'/\/tupian\/.*/',
@@ -57,10 +61,14 @@ class log extends Controller
 									'/d.top.js.*/',
 									'/d.footer.js.*/',
 									'/index.php?.*/',
+
+									'/\/api\/scenic_lite\/id=.*/',
+									'/\/api\/scenic\/id=.*/',
+									'/\/api\/scenic_simple\/id=.*/',
 							)
 			);
             $this->getModel('mlog')->calcAvgTime();
-            $this->getModel('mlog')->dumpToFile('/Data/tinycake/install/logs/parselog.php');
+            $this->getModel('mlog')->dumpToFile($path.$resultfile);
         }
 
         #$this->getModel('mlog')->showDetails();die();

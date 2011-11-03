@@ -41,7 +41,15 @@ class project extends Controller
 
 		$this->getModel('mproject')->setProject($proj);
 		$this->tpl->assign('projectinfo', $proj);
-		$this->tpl->assign('loglist', $this->getModel('mproject')->getLogList());
+
+		$logs = $this->getModel('mproject')->getLogList();
+
+		foreach($logs as $k=>$v)
+		{
+			$logs[$k]['url'] = strtr($v['date'], array('-'=>'%2D'));
+		}
+
+		$this->tpl->assign('loglist', $logs);
 
 		$body = $this->tpl->fetch('left.loglist.tpl.html');
 
