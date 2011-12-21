@@ -1,4 +1,7 @@
 
+TODO：
+	为模型的基类实现一个调试用的输出接口
+
 总结过程之后的重构步骤:
 	1. 建立  public/c 目录，建立 defaultcontroller.php 程序，并把public/index.php的内容建立为main方法
 	2. 移动 commons 下的目录到 public下， commons/kernel 下的那几个类，已经在新的framework里默认包含了
