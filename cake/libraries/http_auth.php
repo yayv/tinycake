@@ -8,7 +8,10 @@ function doHttpAuth()
         $pwd = $_SERVER['PHP_AUTH_PW'];
     
         // TODO: add your username/password check method, if ok then set $ret to true, other wise set it to false
-        $ret = true;
+        if(function_exists('checkUserPassforHttpAuth'))
+            $ret = checkUserPassforHttpAuth($usr, $pwd);
+        else
+            $ret = true;
     
         if($ret!='PASSWD_OK')
         {
