@@ -1,5 +1,5 @@
 <?php
-class log extends Controller
+class log extends CommonController
 {
 	public function __construct()
 	{

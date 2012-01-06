@@ -1,5 +1,5 @@
 <?php
-class install extends Controller
+class install extends CommonController
 {
 	public function __construct()
 	{

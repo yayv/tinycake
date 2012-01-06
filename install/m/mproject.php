@@ -20,6 +20,7 @@ class mproject extends model
         '/.htaccess'               => '../cake/templates/htaccess.template',
         '/index.php'               => '../cake/templates/index.php.template',
         #$t = strtr($template, array('{$name}'=>'defaultcontroller'));
+        '/c/commoncontroller.php'  => '../cake/templates/commoncontroller.php.template',
         '/c/defaultcontroller.php' => '../cake/templates/controller.php.template',
         '/configs/cfg.default.php' => '../cake/templates/cfg.default.php.template',
         '/configs/controller_map.php' => '../cake/templates/controller_map.php.template',

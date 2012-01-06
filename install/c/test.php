@@ -1,5 +1,5 @@
 <?php
-class test extends Controller
+class test extends CommonController
 {
 	public function __construct()
 	{

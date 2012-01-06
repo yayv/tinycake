@@ -1,5 +1,5 @@
 <?php 
-class defaultcontroller extends Controller
+class defaultcontroller extends CommonController
 {
 	public function initParams()
 	{
