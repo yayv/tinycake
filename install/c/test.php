@@ -1,4 +1,6 @@
 <?php
+include_once('commoncontroller.php');
+
 class test extends CommonController
 {
 	public function __construct()

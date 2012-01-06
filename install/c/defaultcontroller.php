@@ -1,4 +1,6 @@
 <?php 
+include_once('commoncontroller.php');
+
 class defaultcontroller extends CommonController
 {
 	public function initParams()
