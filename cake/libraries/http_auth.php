@@ -1,6 +1,6 @@
 <?php
 
-function doHttpAuth()
+function doHttpAuth($realm='Basic HTTP AUTH')
 {
     if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']))
     {
@@ -12,10 +12,10 @@ function doHttpAuth()
             $ret = checkUserPassforHttpAuth($usr, $pwd);
         else
             $ret = true;
-    
-        if($ret!='PASSWD_OK')
+
+        if(!is_array($ret) || $ret['password']!='PASSWD_OK')
         {
-            header('WWW-Authenticate: Basic realm="Top-secret area"');
+            header("WWW-Authenticate: Basic realm='$realm'");
             header('HTTP/1.0 401 Unauthorized');
     
             // Error message
@@ -26,7 +26,7 @@ function doHttpAuth()
     }
     else
     {
-        header('WWW-Authenticate: Basic realm="Top-secret area"');
+        header("WWW-Authenticate: Basic realm='$realm'");
         header('HTTP/1.0 401 Unauthorized');
     
         // Error message

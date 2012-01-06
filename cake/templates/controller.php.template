@@ -1,5 +1,5 @@
 <?php
-class {$name} extends Controller
+class {$name} extends CommonController
 {
 	public function __construct()
 	{
