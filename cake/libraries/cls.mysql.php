@@ -1,7 +1,4 @@
 <?php
-//Last Modified By Thatday
-//2010.01.21
-
 class mysql
 {
 	var $link;
@@ -57,9 +54,8 @@ class mysql
 	//mysql_query
 	function query($sql)
 	{
-		//$this->querys[] = $sql;
 		$this->count ++;
-		#debug_print_backtrace();
+
 		if(!$this->link)
 		{
 			$this->connect();
@@ -84,39 +80,6 @@ class mysql
 		return mysql_insert_id($this->link);
 	}
 	
-	//delete
-	function delete($table_name,$where,$returnids = false)
-	{
-		$table_name = str_replace('#',$this->db['prefix'],$table_name);
-		
-		$sql_where = " WHERE ".$where;
-		
-		if($returnids)
-		{
-			$sql		= "SELECT ".$returnids." FROM ".$table_name.$sql_where;
-			$query		= $this->query($sql);
-			
-			while($list_item = $this->fetch_array($query))
-			{
-				$all_array[] = $list_item[0];
-			}
-			
-			if(is_array($all_array))
-			{
-				$strIds	= implode(',',$all_array);
-			}
-			
-			$sql		= "DELETE FROM ".$table_name.$sql_where;
-			return $strIds;
-		}
-		else 
-		{
-			$sql		= "DELETE FROM ".$table_name.$sql_where;
-			return $this->query($sql);
-		}
-
-	}
-
 	//get a value from result of the sql for special field
 	function fetch_value($sql,$fieldname)
 	{
@@ -211,77 +174,6 @@ class mysql
 		return mysql_fetch_row($query);
 	}
 	
-	//Add By Thatday 2007-02-24
-	function insert_array($table_name,$arr_item,$is_ignore = false)
-	{
-		
-		$table_name = str_replace('#',$this->db['prefix'],$table_name);
-		
-		//重组sql语句
-		foreach($arr_item as $key=>$value)
-		{
-			$sql_item[] = $key."='".addslashes($value)."'";
-		}
-		
-		$sql_set = implode($sql_item,",");
-		
-		if($is_ignore)
-		{
-			$sql_ignore = ' IGNORE ';
-		}
-		
-		$sql	= "INSERT ".$sql_ignore." INTO ".$table_name." SET ".$sql_set;
-		
-		$query	= $this->query($sql);
-		
-		$id		= $this->insert_id();
-		
-		//file_put_contents('c:/aa.sql',$sql);
-		
-		return $id;
-	}
-	
-	function replace_array($table_name,$arr_item)
-	{
-		$table_name = str_replace('#',$this->db['prefix'],$table_name);
-
-		//重组sql语句
-		foreach($arr_item as $key=>$value)
-		{
-			$sql_item[] = $key."='".addslashes($value)."'";
-		}
-		
-		$sql_set = implode($sql_item,",");
-		$sql	= "REPLACE INTO ".$table_name." SET ".$sql_set;
-		
-		return $this->query($sql);
-	}		
-
-	//Add By Thatday 2007-02-24
-	function update_array($table_name,$arr_item,$where)
-	{
-		
-		$table_name = str_replace('#',$this->db['prefix'],$table_name);
-		
-		//重组sql语句
-		foreach($arr_item as $key=>$value)
-		{
-			$sql_item[] = $key."='".addslashes($value)."'";
-		}
-		
-		if($where<>'')
-		{
-			$sql_where = " WHERE ".$where;
-		}
-		
-		$sql_set 	= implode($sql_item,",");
-		
-		$sql		= "UPDATE ".$table_name." SET ".$sql_set." ".$sql_where;
-		
-		return $this->query($sql);
-	
-	}
-
 	//get the number id and description of error
 	function get_error()
 	{
@@ -331,8 +223,6 @@ class mysql
 	//mysql_fetch_object
 	function fetch_object($query)
 	{
-        if(!$query)
-            debug_print_backtrace();
 		return mysql_fetch_object($query);
 	}
 
