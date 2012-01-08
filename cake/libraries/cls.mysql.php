@@ -64,6 +64,7 @@ class mysql
 		$this->sql = $sql;
 
 		$this->select_db($this->db['database']);
+        $this->last_sql = $sql;
 		$result = mysql_query($sql,$this->link);
 
 		if(!$result)
@@ -179,11 +180,13 @@ class mysql
 	{
 		if($this->link)
 		{
+            $error['sql']           = $this->last_sql;
 			$error['number']		= mysql_errno($this->link);
 			$error['description']	= mysql_error($this->link);
 		}
 		else 
 		{
+            $error['sql']           = $this->last_sql;
 			$error['number']		= mysql_errno();
 			$error['description']	= mysql_error();			
 		}
