@@ -13,6 +13,14 @@ class mysql
 	
 	var $query = array();
 	
+    /**
+     * Parameter must be an array, defined as:
+     *  server['host']
+     *  server['port']
+     *  server['username']
+     *  server['password']
+     *  server['charset']
+     */
 	function __construct($server)
 	{
 		$server['port']		= $server['port']?$server['port']:'3306';
@@ -51,6 +59,14 @@ class mysql
 		}
 	}
 	
+    function affected_rows()
+    {
+        if($this->link)
+            return mysql_affected_rows($this->link);
+        else
+            return false;
+    }
+
 	//mysql_query
 	function query($sql)
 	{
