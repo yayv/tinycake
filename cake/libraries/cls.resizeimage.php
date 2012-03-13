@@ -131,15 +131,40 @@ class ImageResizer
 	}
 	
 	// 横向裁剪图片 取y1到y2之间部分, 宽度不变
-	public function cutImageHeight($y1, $height)
+	public function cutImageHeight($height, $y1)
 	{
-		$this->__fromh	= $this->__fromw * $height / $this->__width ;
+		if($y1===false || $y1<0)
+			$y1 = 0 ;
+		else if(is_int($y1) && $y1>=0 && $y1<$this->__height){
+			/* do nothing  */ }
+		else if($y1=='middle')
+			$y1  = ($this->__height - $height ) * $this->__fromh / ( $this->__height * 2 );
+		else if($y1=='bottom')
+			$y1 = $this->__fromh - $this->__fromh * $height / $this->__height; 
+		else 
+			$y1 = 0;
+			
+		$this->__fromy = $y1;
+		$this->__fromh = $this->__fromw * $height / $this->__width;
 		$this->__height = $height;
 	}
 	
 	// 纵向裁剪图片 取x1到x2之间部分，高度不变
-	public function cutImageWidth($x1, $width)
+	// Param x1 can be a string in ('left', 'middle', 'right') or any int number
+	public function cutImageWidth($width, $x1=false)
 	{
+		if($x1===false || $x1<0)
+			$x1 = 0 ;
+		else if(is_int($x1) && $x1>=0 && $x1<$this->__width){
+			/* do nothing  */ }
+		else if($x1=='middle'){
+			$x1  = ($this->__width - $width ) * $this->__fromw / ( $this->__width * 2 );}
+		else if($x1=='right')
+			$x1 = $this->__fromw - $this->__fromw * $width / $this->__width; 
+		else 
+			$x1 = 0;
+			
+		$this->__fromx = $x1;
 		$this->__fromw = $this->__fromh * $width / $this->__height;
 		$this->__width = $width;
 	}
