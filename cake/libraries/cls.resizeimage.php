@@ -74,6 +74,9 @@ class ImageResizer
 	
 	public function doScale()
 	{
+		if($this->__dest)
+			imagedestroy($this->__dest);
+			
 		$this->__dest = imagecreatetruecolor($this->__width, $this->__height);
 		imagecopyresampled($this->__dest,$this->__srcimage,
 							0,0,$this->__fromx,$this->__fromy,
@@ -83,23 +86,18 @@ class ImageResizer
 		
 	public function saveImage($type, $dest_filepath=false)
 	{
-		$this->doScale();
-		
 		if(!$dest_filepath) 
 			$dest_filepath = $this->__dest;
-			
-		imageJpeg($this->__srcimage, $dest_filepath);
+
+		$this->doScale();
+		imageJpeg($this->__dest, $dest_filepath);
 	}
 	
 	public function showImage()
-	{
-		$this->doScale();
-		
+	{		
 		header('Content-Type:image/jpeg');
-		if($this->__dest)
-			imageJpeg($this->__dest);
-		else
-			imageJpeg($this->__srcimage);
+		$this->doScale();
+		imageJpeg($this->__dest);
 	}
 		
 	// 等比缩放图片到指定宽度, 
