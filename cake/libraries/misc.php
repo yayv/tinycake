@@ -170,3 +170,43 @@ function getRemoteIp() {
 	return $realip;
 }
 
+function getTimeDiff($strTime,$strBaseTime='')
+{
+	if($strBaseTime=='')
+	{
+		$intBaseTime = time();
+	}
+	else
+	{
+		$intBaseTime = strtotime($strBaseTime);
+	}
+
+	$intTime = strtotime($strTime);
+
+	$intTimeDiff = abs($intTime - $intBaseTime);
+
+	if($intTimeDiff < 60)
+	{
+		$strTimeDiff = $intTimeDiff.'秒前';
+	}elseif ($intTimeDiff < 60*60)
+	{
+		$strTimeDiff = round($intTimeDiff/60).'分钟前';
+	}elseif ($intTimeDiff < 60*60*24)
+	{
+		$strTimeDiff = round($intTimeDiff/3600).'小时前';
+	}
+	elseif ($intTimeDiff < 60*60*24*2)
+	{
+		$strTimeDiff = '昨天';
+	}
+	elseif ($intTimeDiff < 60*60*24*4)
+	{
+		$strTimeDiff = '前天';
+	}
+	else
+	{
+		$strTimeDiff = $strTime;
+	}
+
+	return $strTimeDiff;
+}

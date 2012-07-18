@@ -23,7 +23,7 @@ class mysql
      */
 	function __construct($server)
 	{
-		$server['port']		= $server['port']?$server['port']:'3306';
+		$server['port']		= isset($server['port'])?$server['port']:'3306';
 		$server['charset']	= $server['charset']?$server['charset']:'utf8';
 		
 		$this->db		= $server;
