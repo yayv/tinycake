@@ -13,6 +13,9 @@ class mysql
 	
 	var $query = array();
 	
+	var $last_sql = "";
+
+	var $logfile  = '';
     /**
      * Parameter must be an array, defined as:
      *  server['host']
@@ -25,18 +28,25 @@ class mysql
 	{
 		$server['port']		= isset($server['port'])?$server['port']:'3306';
 		$server['charset']	= $server['charset']?$server['charset']:'utf8';
-		
+
+		$this->logfile  = isset($server['logfile'])?$server['logfile']:'php://output';
 		$this->db		= $server;
 		$this->prefix	= $server['prefix'];
+		$this->count 	= 0;
 	}
 	
+	function setLogfile($logfile='php://output')
+	{
+		$this->logfile = $logfile;
+	}
+
 	function connect()
 	{
-		$this->link = @mysql_connect(
+		$this->link = mysql_connect(
 			$this->db['host'].':'.$this->db['port'],
 			$this->db['username'],
 			$this->db['password']);
-		
+
 		if(!$this->link)
 		{
 			$this->show_error("Connect failed!");
@@ -76,7 +86,7 @@ class mysql
 		{
 			$this->connect();
 		}
-		
+
 		$this->sql = $sql;
 
 		$this->select_db($this->db['database']);
@@ -140,7 +150,8 @@ class mysql
 			$query = $this->query($sql);
 		else
 			$query = $sql;
-	
+
+		$all_array = array();print_r($query);die();
 		while($list_item = $this->fetch_array($query))
 		{
 			$current_index ++;
@@ -154,7 +165,7 @@ class mysql
 			
 		}
 		
-		return $all_array;
+		return $all_array;	
 	}
 
 	//mysql_fetch_array
@@ -220,10 +231,14 @@ class mysql
 	//display the error information to client browsers
 	function show_error($title)
 	{
-		$this->error_info['info'] = $this->get_error();
-		$this->error_info['title'] = $title;
-				
-		return $this->error_info;
+		$content = "--------------------\n";
+		$content.= $title."\n";
+		$content.= $this->link?mysql_error($this->link):mysql_error();
+		$content.= "\n";
+
+		error_log($content, 3, $this->logfile);
+
+		return $content;
 	}
 		
 		//mysql_fetch_object
