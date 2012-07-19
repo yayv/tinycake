@@ -134,9 +134,13 @@ class mysql
 	}	
 	
 	//mysql_fetch_array
-	function fetch_all_array($query,$max=0)
+	function fetch_all_array($sql,$max=0)
 	{
-		
+		if(is_string($sql))	
+			$query = $this->query($sql);
+		else
+			$query = $sql;
+	
 		while($list_item = $this->fetch_array($query))
 		{
 			$current_index ++;
@@ -156,7 +160,11 @@ class mysql
 	//mysql_fetch_array
 	function fetch_all_assoc($sql,$max=0)
 	{
-		$query = $this->query($sql);
+		if(is_string($sql))	
+			$query = $this->query($sql);
+		else
+			$query = $sql;
+
 		while($list_item = $this->fetch_assoc($query))
 		{
 			$current_index ++;
