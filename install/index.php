@@ -20,6 +20,7 @@
     // TODO： 2. 统一解析URL, 如果 $_GET['act'] 有设置，则外面的rewrite规则还在生效
     // TODO: 3. in debug mode, this program will scan user's controller's directory 
 	list($controller, $action) = $core->rebuildUrl($_SERVER['REQUEST_URI']);
+    list($controller, $action) = $core->ControllerMap($controller, $action);
 
 	$c = $core->loadController($controller);
 	
