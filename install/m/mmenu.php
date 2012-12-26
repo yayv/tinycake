@@ -6,7 +6,7 @@ class mmenu extends model
 	public function getMenu()
 	{
 		$menu = array(
-			"新建项目" => array('/install/install', ''),
+			"新建项目" => array('/install/create', ''),
 			"导入项目" => array('/install/importproject', ''),
 			"项目列表" => array('/install/listall', ''),
 			"代码升级" => array('/install/upgrade', ''),

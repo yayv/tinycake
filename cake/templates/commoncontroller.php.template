@@ -7,6 +7,9 @@ abstract class CommonController extends Controller
 	 */
 	function initDb($dbsrv)
 	{
+        if('mysql'==get_class($this->_db))
+            return ;
+
 		include_once('cls.mysql.php');
 
 		// override it , if you want own database object 
@@ -20,6 +23,9 @@ abstract class CommonController extends Controller
 	 */
 	function initTemplateEngine($templatedir='v/default/', $compile_dir='v/_run')
 	{
+        if('Smarty'==get_class($this->tpl))
+            return ;
+
 		include('smarty/Smarty.class.php');
 
 		$this->tpl 	= new Smarty;

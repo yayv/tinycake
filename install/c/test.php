@@ -1,5 +1,6 @@
 <?php
 include_once('commoncontroller.php');
+include_once('cls.resizeimage.php');
 
 class test extends CommonController
 {
@@ -15,6 +16,15 @@ class test extends CommonController
 		
         // Do something for test    
         print_r($this->getModel('mproject')->_config);
+	}
+	
+	public function test()
+	{
+		$a = new ImageResizer('/Data/tinycake/install/data/1.jpeg');
+		$a->scaleToHeight(300);
+		$a->cutImageWidth(300,'right');
+
+		$a->showImage();
 	}
 }
 

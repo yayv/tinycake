@@ -1,6 +1,8 @@
 
-<form action='{$home}/install/doinstall'>
-项目代号:<input name='name' value='{$name}'>(字母数字组合，不能用中文)<br/>
+<form action='{$home}/install/doinstall'><br/>
+安装系统所在路径:{$installsys}<br/>
+项目名称:<input name='showname' value='{$showname}'><br/>
+项目代号:<input name='name' value='{$name}'>(字母数字组合，不能用中文, 主要用于系统内部使)<br/>
 项目的本机路径:<input name='path' value='{$path}' ><br/>
 项目的URL:<input name='url' value='{$url}' ><br/>
 <input type='submit' value='创建'><br/>

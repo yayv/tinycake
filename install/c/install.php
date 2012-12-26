@@ -12,16 +12,18 @@ class install extends CommonController
 		$this->install();
 	}
 	
-    function install()
+    function create()
     {
 		parent::initTemplateEngine('v/default','v/_run');
 		parent::initAssign();
+
 
  		$menu = $this->getModel('mmenu')->getMenu();
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
 		$this->tpl->assign('menu', $menustr);
-		
+
+		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);		
 		$this->tpl->assign('body', $this->tpl->fetch('left.projectcreateform.html'));
 
         $this->tpl->display('index.tpl.html');        
@@ -59,8 +61,8 @@ class install extends CommonController
 
         $alldirsisok = false;
 		// 1. 显示框架路径，提示输入项目代号(英文)，项目名称(中文)
-        $home = realpath('..').'/'.$_GET['name'];
-        $url  = realpath('..').$_GET['url'];
+        $home = $_GET['path'];
+        $url  = $_GET['url'];
 
         $retdirs = $this->getModel('mproject')->checkDirectoriesExists($home);
 
@@ -72,7 +74,9 @@ class install extends CommonController
         }
         else
         {
-            $chmoddirs = $this->getModel('mproject')->checkDirectoriesMode($dirs);
+        	if(count($retdirs)>0)
+            	$chmoddirs = $this->getModel('mproject')->checkDirectoriesMode($retdirs);
+
             if(count($chmoddirs)==0)
             {
                 $this->tpl->assign('body', '目录创建成功<br/>');
@@ -92,7 +96,7 @@ class install extends CommonController
             $ret = $this->getModel('mproject')->createFiles($home, $files);
 
             // TODO: 记录项目信息
-            $this->getModel('mprojectlist')->addProj('地图','/Data/webapps/map.lvren.cn/public');
+            $this->getModel('mprojectlist')->addProj($_GET['showname'],$_GET['path'],$_GET['url']);
         }
 
 		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息

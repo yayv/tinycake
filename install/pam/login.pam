@@ -1,0 +1,6 @@
+#function-class	control-flag	module-path	arguments
+#function-class : auth account session password 
+#control-flag	: required requisite sufficient binding optional [include]
+#model-path	: module-name
+#arguments	: [key=value] ...
+

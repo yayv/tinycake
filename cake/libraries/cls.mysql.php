@@ -235,6 +235,7 @@ class mysql
 		$content.= $title."\n";
 		$content.= $this->link?mysql_error($this->link):mysql_error();
 		$content.= "\n";
+		$content.= "$this->last_sql\n";
 
 		error_log($content, 3, $this->logfile);
 

@@ -107,10 +107,12 @@ class mproject extends model
         $tocreate = array();
 
         foreach($this->_dirs as $k=>$v)
+        {
             if(!is_dir($home.$v))
             {
                 $tocreate[] = $home.$v;
             }
+        }
 
         return $tocreate;
     }
