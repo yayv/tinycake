@@ -17,11 +17,24 @@ class project extends CommonController
 		);
 
 		$name = $_GET['name'];
-		$body = 'show project"s details here';
+		$proj = $this->getModel('mprojectlist')->getProject($_GET['name']);
+		
+		$this->tpl->assign('installsys',$_SERVER['DOCUMENT_ROOT']);
+		$this->tpl->assign('action','update');
+		$this->tpl->assign('buttonname','修改');
+		$this->tpl->assign('keyname',$proj['keyname']);
+		$this->tpl->assign('showname',$proj['name']);
+		$this->tpl->assign('url',$proj['url']);
+		$this->tpl->assign('path',$proj['path']);
+		
+		$body = $this->tpl->fetch('left.projectform.html');
+		
+		#$body = print_r($proj,true);
+		//$body = 'show project"s details here';
 
 	
 		// TODO: 请在下面实现您的action所要实现的逻辑
-		$menu = $this->getModel('mmenu')->getProjectMenu($name);
+		$menu = $this->getModel('mmenu')->getProjectMenu($_GET['name']);
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
 		

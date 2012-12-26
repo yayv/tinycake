@@ -31,12 +31,11 @@ class mprojectlist extends model
         $ret = file_put_contents($this->_listfile, serialize($this->_projs));
     }
     
-    function addProj($projshowname, $projname, $projpath, $projurl)
+    function addProj($projshowname, $projkeyname, $projpath, $projurl)
     {
-        $this->_projs[$projname]['showname'] = $projshowname;
         $this->_projs[$projname]['path'] = $projpath;
-        $this->_projs[$projname]['keyname'] = $projname;
-        $this->_projs[$projname]['name'] = $projname;
+        $this->_projs[$projname]['keyname'] = $projkeyname;
+        $this->_projs[$projname]['name'] = $projshowSname;
         $this->_projs[$projname]['url'] = $projurl;
     }
     

@@ -23,8 +23,10 @@ class install extends CommonController
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
 		$this->tpl->assign('menu', $menustr);
 
-		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);		
-		$this->tpl->assign('body', $this->tpl->fetch('left.projectcreateform.html'));
+		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);	
+		$this->tpl->assign('action','doinstall');
+		$this->tpl->assign('buttonname','创建');	
+		$this->tpl->assign('body', $this->tpl->fetch('left.projectform.html'));
 
         $this->tpl->display('index.tpl.html');        
     }
@@ -43,7 +45,7 @@ class install extends CommonController
 		$this->tpl->assign('baseurl','http://install.local.lvren.cn');
 		$this->tpl->assign('project', $project);
 		
-		$this->tpl->assign('body', $this->tpl->fetch('left.projecteditform.html'));
+		$this->tpl->assign('body', $this->tpl->fetch('left.projecteditform.tpl.html'));
 
  		$menu = $this->getModel('mmenu')->getMenu();
 		$this->tpl->assign('menuarr', $menu);
@@ -96,7 +98,7 @@ class install extends CommonController
             $ret = $this->getModel('mproject')->createFiles($home, $files);
 
             // TODO: 记录项目信息
-            $this->getModel('mprojectlist')->addProj($_GET['showname'],$_GET['path'],$_GET['url']);
+            $this->getModel('mprojectlist')->addProj($_GET['showname'],$_GET['keyname'],$_GET['path'],$_GET['url']);
         }
 
 		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息
@@ -116,7 +118,10 @@ class install extends CommonController
 						Core::getInstance()->getConfig('compiled_template')
 		);
 
-		$body = $this->tpl->fetch('left.importproject.tpl.html');
+		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);	
+		$this->tpl->assign('action','doimport');
+		$this->tpl->assign('buttonname','导入');	
+		$body = $this->tpl->fetch('left.projectform.tpl.html');
 
         $this->tpl->assign('body', $body);
 
@@ -131,10 +136,11 @@ class install extends CommonController
 
 	function doimport()
 	{
-		$name = $_POST['name'];
+		$keyname = $_POST['keyname'];
+		$name = $_POST['showname'];
 		$path = $_POST['path'];
 		$url  = $_POST['url'];
-		$this->getModel('mprojectlist')->addProj($name, $path, $url);
+		$this->getModel('mprojectlist')->addProj($name, $keyname, $path, $url);
 		header("location:$home/install/listall");
 	}
 
@@ -148,6 +154,7 @@ class install extends CommonController
 	
         // 列出全部管理中的项目
         $list = $this->getModel('mprojectlist')->getList();
+
         $this->tpl->assign('projectlist', $list);
         $body = $this->tpl->fetch('left.projectlist.html');
 
@@ -161,6 +168,24 @@ class install extends CommonController
 	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('index.tpl.html');	
     }
+
+    function removeproject()
+    {
+		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
+		parent::initDb(Core::getInstance()->getConfig('database'));
+		parent::initTemplateEngine(
+			Core::getInstance()->getConfig('theme'),
+			Core::getInstance()->getConfig('compiled_template')
+		);
+
+		// TODO: 
+		$this->getModel('mprojectlist')->rmProj($_GET['name']);
+
+		// TODO: 请在下面实现您的action所要实现的逻辑
+	    header('location:/install/listall');
+	    die();
+    }
+
 
 }
 

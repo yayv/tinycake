@@ -11,6 +11,15 @@ abstract class CommonController extends Controller
 
 		// override it , if you want own database object 
 		//assign the object for db,tpl
+		/*
+		$server['port']		= isset($server['port'])?$server['port']:'3306';
+		$server['charset']	= $server['charset']?$server['charset']:'utf8';
+
+		$this->logfile  = isset($server['logfile'])?$server['logfile']:'php://output';
+		$this->db		= $server;
+		$this->prefix	= $server['prefix'];
+		$this->count 	= 0;
+		*/
 		$this->_db 	= new mysql($dbsrv);
 	}
 	
