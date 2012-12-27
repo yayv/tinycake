@@ -6,7 +6,7 @@ class project extends CommonController
 	public function __construct()
 	{
 	}
-	
+
 	function info()
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
@@ -23,11 +23,11 @@ class project extends CommonController
 		$this->tpl->assign('action','update');
 		$this->tpl->assign('buttonname','修改');
 		$this->tpl->assign('keyname',$proj['keyname']);
-		$this->tpl->assign('showname',$proj['name']);
+		$this->tpl->assign('showname',$proj['showname']);
 		$this->tpl->assign('url',$proj['url']);
 		$this->tpl->assign('path',$proj['path']);
 		
-		$body = $this->tpl->fetch('left.projectform.html');
+		$body = $this->tpl->fetch('left.projectform.tpl.html');
 		
 		#$body = print_r($proj,true);
 		//$body = 'show project"s details here';

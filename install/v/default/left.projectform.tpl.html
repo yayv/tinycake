@@ -1,6 +1,7 @@
 
-<form action='{$home}/install/{$action}'><br/>
+<form method='POST' action='{$home}/install/{$action}'><br/>
 安装系统所在路径:{$installsys}<br/>
+<input type='hidden' name='old_keyname' value='{$keyname}'>
 项目名称:<input name='showname' value='{$showname}'><br/>
 项目代号:<input name='keyname' value='{$keyname}'>(字母数字组合，不能用中文, 主要用于系统内部使)<br/>
 项目的本机路径:<input name='path' value='{$path}' ><br/>

@@ -33,10 +33,10 @@ class mprojectlist extends model
     
     function addProj($projshowname, $projkeyname, $projpath, $projurl)
     {
-        $this->_projs[$projname]['path'] = $projpath;
-        $this->_projs[$projname]['keyname'] = $projkeyname;
-        $this->_projs[$projname]['name'] = $projshowSname;
-        $this->_projs[$projname]['url'] = $projurl;
+        $this->_projs[$projkeyname]['path'] = $projpath;
+        $this->_projs[$projkeyname]['keyname'] = $projkeyname;
+        $this->_projs[$projkeyname]['showname'] = $projshowname;
+        $this->_projs[$projkeyname]['url'] = $projurl;
     }
     
     function getList()
