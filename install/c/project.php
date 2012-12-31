@@ -7,10 +7,23 @@ class project extends CommonController
 	{
 	}
 
+	function todo()
+	{
+		parent::initTemplateEngine(
+				Core::getInstance()->getConfig('theme'),
+				Core::getInstance()->getConfig('compiled_template')
+			);
+
+		#$menu = $this->getModel('mmenu')->getProjectMenu($_GET['name']);
+
+		$this->tpl->assign('body','Hello, World!');
+		#$this->tpl->assign('menu', $menustr);
+		$this->tpl->display('index.tpl.html');
+	}
+
 	function info()
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
-		parent::initDb(Core::getInstance()->getConfig('database'));
 		parent::initTemplateEngine(
                 Core::getInstance()->getConfig('theme'),
                 Core::getInstance()->getConfig('compiled_template')
@@ -46,7 +59,6 @@ class project extends CommonController
 	function logmanage()
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
-		parent::initDb(Core::getInstance()->getConfig('database'));
 		parent::initTemplateEngine(
                 Core::getInstance()->getConfig('theme'),
                 Core::getInstance()->getConfig('compiled_template')
@@ -70,7 +82,7 @@ class project extends CommonController
 
 
 		// TODO: 请在下面实现您的action所要实现的逻辑
-		$menu = $this->getModel('mmenu')->getProjectMenu($name);
+		$menu = $this->getModel('mmenu')->getProjectMenu($_GET['name']);
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
 		
@@ -84,7 +96,7 @@ class project extends CommonController
 	public function index()
 	{
 		// NOTE:如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
-		parent::initDb(Core::getInstance()->getConfig('database'));
+		// parent::initDb(Core::getInstance()->getConfig('database'));
 
 		parent::initTemplateEngine(
                 Core::getInstance()->getConfig('theme'),

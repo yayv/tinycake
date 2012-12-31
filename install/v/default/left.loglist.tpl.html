@@ -4,11 +4,12 @@
 {$projectinfo.url}<br/>
 <hr>
 <table width='100%'>
-<tbody>
+<tbody >
     {foreach from=$loglist item=it index=i}
 		{* <tr><td>{$loglist[i][1]}</td><td>{$loglist[i][0]}</td><td>{$loglist[i][1]}</td></tr> *}
-		<tr><td>{$it.date} [text] [php] [<a href='/log/analyse/name-{$projectinfo.keyname}/date-{$it.url}'>VIEW</a>]</td></tr>
+		<tr><td width='10'><input type='checkbox' /></td><td>{$it.date} [text] [php] [<a href='/log/analyse/name-{$projectinfo.keyname}/date-{$it.url}'>VIEW</a>]</td></tr>
     {/foreach}
 </tbody>
 </table>
+<button>合并</button><button>删除文本日志</button>
 <hr>
