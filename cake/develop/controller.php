@@ -1,4 +1,14 @@
 <?php 
+class emptymodel
+{
+	var $classname ;
+
+	function __call($name, $params)
+	{
+		$core->pushLog('CLASS:'.$this->classname.' is not exist'."\n");
+	}
+}
+
 class mo
 {
 	function __call($name, $params)
@@ -53,13 +63,23 @@ abstract class Controller
 	{
         if(!isset($this->$mname))
         {
-        	include_once('m/'.$mname.'.php');       
-            $this->$mname = new mo;
-        	$this->$mname->target = new $mname;
-        	$this->$mname->target->init(
-                    Core::getInstance()->getAllConfig(), 
-                    isset($this->_db)?$this->_db:false
-            );
+        	if (!is_file('m/'.$mname.'.php')) 
+        	{
+        		$core = core::getInstance();
+        		$core->pushLog("Model($mname) DOES NOT Exists\n");
+        		$this->$mname = new emptymodel;
+        		$this->$mname->classname = $mname;
+        	}
+        	else
+        	{
+	        	include_once('m/'.$mname.'.php');       
+	            $this->$mname = new mo;
+	        	$this->$mname->target = new $mname;
+	        	$this->$mname->target->init(
+	                    Core::getInstance()->getAllConfig(), 
+	                    isset($this->_db)?$this->_db:false
+	            );
+        	}
         }
         
         return $this->$mname;
