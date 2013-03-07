@@ -25,8 +25,8 @@ class mproject extends model
         '/configs/cfg.default.php' => '../cake/templates/cfg.default.php.template',
         '/configs/controller_map.php' => '../cake/templates/controller_map.php.template',
         '/v/default/index.tpl.html'=> '../cake/templates/index.tpl.html.template',
-        '/data/todo.txt'           => '/cake/templates/todo.txt.template',
-        '/data/history.txt'        => '/cake/templates/history.txt.template',
+        '/data/todo.txt'           => '../cake/templates/todo.txt.template',
+        '/data/history.txt'        => '../cake/templates/history.txt.template',
         '/m/mmenu.php'             => '../cake/templates/mmenu.php.template',
         );
 

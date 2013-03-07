@@ -142,30 +142,6 @@ class mysql
 		$list_array = $this->fetch_assoc($list);
 		return $list_array;
 	}	
-
-	function fetch_all_objects($sql, $max=0)
-	{
-		if(is_string($sql))	
-			$query = $this->query($sql);
-		else
-			$query = $sql;
-
-		$all_array = array();
-		while($list_item = $this->fetch_object($query))
-		{
-			$current_index ++;
-			
-			if($current_index > $max && $max != 0)
-			{
-				break;
-			}
-			
-			$all_array[] = $list_item;
-			
-		}
-		
-		return $all_array;	
-	}
 	
 	//mysql_fetch_array
 	function fetch_all_array($sql,$max=0)
@@ -214,11 +190,6 @@ class mysql
 		}
 		
 		return $all_array;
-	}
-
-	function fetch_object($query)
-	{
-		return mysql_fetch_object($query);
 	}
 
 	//mysql_fetch_array
