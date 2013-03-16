@@ -26,12 +26,14 @@ class mysql
      */
 	function __construct($server)
 	{
+		$server['host']     = isset($server['host'])?$server['host']:'localhost';
 		$server['port']		= isset($server['port'])?$server['port']:'3306';
-		$server['charset']	= $server['charset']?$server['charset']:'utf8';
+		$server['charset']	= isset($server['charset'])?$server['charset']:'utf8';
+		$server['database'] = isset($server['database'])?$server['database']:'nodata';
 
 		$this->logfile  = isset($server['logfile'])?$server['logfile']:'php://output';
 		$this->db		= $server;
-		$this->prefix	= $server['prefix'];
+		$this->prefix	= isset($server['prefix'])?$server['prefix']:'';
 		$this->count 	= 0;
 	}
 	

@@ -1,24 +1,23 @@
 
 TODO:
-	1. 为模型添加一个可以做测试的简单界面,为以后的单元测试和自动化测试做准备
-	0. 新建项目的参数还少，需要完善
 	1. 新建项目的生成过程要增强
 	2. 增加代码建模工具，用于将来分析无效代码使用
-	3. TODO获取，并呈现的方法
+	3. TODO获取，并呈现的方法, 增加TODO管理功能
 	4. 项目的目录权限检查工具
 	5. 日志URL合并规则的管理。
 	6. 为日志增加删除 txt日志和删除php日志的功能
 	7. 为日志列表增加合并2个/多个日志文件的功能
 	8. 为模型的基类增加一个用于调试的输出接口
-
-    1. 安装工具的第一步: 写死目标路径，然后写建立目录树，分配权限，建立默认文件的功能
-    2. initAssign , 需要列出框架内使用的 config 参数表来
-    3. 开发版本的 getConfig 应该回写 cfg.default.php
-    4. 应该把 index.php 模板进一步封装，把日志之类的分支处理放到core类里面去
-    n. libraries 里， cls.checkcode.php 还没有调通
-    n. controller 结束之前，应该检查 errorStatck    
-	7. 增加TODO管理功能
-	8. 增加源文件建模工具
+	9. 为模型添加一个可以做测试的简单界面,为以后的单元测试和自动化测试做准备
+    11. initAssign , 需要列出框架内使用的 config 参数表来
+    12. 开发版本的 getConfig 应该回写 cfg.default.php
+    13. 应该把 index.php 模板进一步封装，把日志之类的分支处理放到core类里面去
+    14. libraries 里， cls.checkcode.php 还没有调通
+    15. controller 结束之前，应该检查 errorStatck    
+	16. 增加源文件建模工具
+	17. .htaccess 文件管理
+	18. SVN支持
+	19. git支持
 
 	有框架提供的系列工具:
 	1. 安装工具: 根据模板和配置，生成指定的index.php和.htaccess
@@ -57,6 +56,8 @@ TODO:
     考虑把默认的数据库连接和smarty模板改为标准的库调用，从而让 index.php 的唯一入口不再依赖 public_connect和smarty 库
 
 DONE:
+	2012年12月31日 星期一
+		重新调整了项目安装过程
 	2011年3月23日星期三
         提供class alias的功能，可以让多个( /mm/nn )URL中的不同的mm对应同一个 controller。
 		当 该url中存在 nn 的时候， 调用 controller的nn方法，如果不存在，则调用controller->mm

@@ -79,7 +79,7 @@ class Core
 	
 	function getConfig($key)
 	{
-		if(isset($this->_config))
+		if(isset($this->_config) && array_key_exists($key, $this->_config))
 			return $this->_config[$key];
 		else
 			return false;
