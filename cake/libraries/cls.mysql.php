@@ -173,6 +173,9 @@ class mysql
 	//mysql_fetch_array
 	function fetch_all_assoc($sql,$max=0)
 	{
+		$current_index = 0;
+		$all_array = array();
+		
 		if(is_string($sql))	
 			$query = $this->query($sql);
 		else

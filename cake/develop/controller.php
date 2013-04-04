@@ -5,6 +5,7 @@ class emptymodel
 
 	function __call($name, $params)
 	{
+		$core = core::getInstance();
 		$core->pushLog('CLASS:'.$this->classname.' is not exist'."\n");
 	}
 }
