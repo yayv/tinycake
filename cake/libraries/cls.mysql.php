@@ -251,6 +251,7 @@ class mysql
 	function fetch_all_object($sql,$max=0)
 	{
 		$query = $this->query($sql);
+
 		while($list_item = $this->fetch_object($query))
 		{
 			$current_index ++;
@@ -268,9 +269,20 @@ class mysql
 	}
 
 
+	function fetch_one_object($sql,$max=0)
+	{
+		$query = $this->query($sql);
+
+		return $this->fetch_object($query);
+	}
+
 	//mysql_fetch_object
 	function fetch_object($query)
 	{
+		#print_r($query);
+		##echo '<pre>';
+		#debug_print_backtrace();
+		#print_r($query);
 		return mysql_fetch_object($query);
 	}
 
