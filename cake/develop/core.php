@@ -70,9 +70,9 @@ class Core
     function ControllerMap($c, $a)
     {
         if(array_key_exists($c.'/'.$a,$this->_controller_map))
-            return $this->_controller_map[$c.'/'.$a] ;
+        	return $this->_controller_map[$c.'/'.$a] ;
         else if(array_key_exists($c, $this->_controller_map))
-            return array($this->_controller_map[$c], $a);
+            return array($this->_controller_map[$c], 'index');
         else
             return array($c, $a);
     }
