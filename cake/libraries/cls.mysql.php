@@ -250,6 +250,7 @@ class mysql
 		//mysql_fetch_object
 	function fetch_all_object($sql,$max=0)
 	{
+		$current_index = 0;
 		$query = $this->query($sql);
 
 		while($list_item = $this->fetch_object($query))
