@@ -220,11 +220,19 @@ class Core
     	
 	public static function getInstance()
 	{
-        if (!isset(self::$instance)) {
-            $c = __CLASS__;
-            self::$instance = new $c;
-        }
+		try {
+	        if (!isset(self::$instance)) {
+	            $c = __CLASS__;
+	            #debug_print_backtrace();
+	            self::$instance = new $c;
+	        }
 
-        return self::$instance;
+	        return self::$instance;
+
+		} catch (Exception $e) {        // Skipped
+			debug_print_backtrace();
+		    echo "Caught Default Exception\n", $e;
+		}
+
 	} 
 }
