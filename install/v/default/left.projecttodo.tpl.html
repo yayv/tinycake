@@ -1,0 +1,17 @@
+{$projectinfo.name}<br/>
+{$projectinfo.keyname}<br/>
+{$projectinfo.path}<br/>
+{$projectinfo.url}<br/>
+<hr>
+    {foreach item=it from=$todo key=i}
+		<table width='100%'>
+    	<thead><th align='left'>{$i}</th></thead>
+    	<tbody>
+    	{section loop=$it name=p}
+    		<tr><td>{$it[p]}</td></tr>
+    	{/section}
+		</tbody>
+		</table>
+		<hr>
+    {/foreach}
+

@@ -16,7 +16,27 @@ class project extends CommonController
 
 		#$menu = $this->getModel('mmenu')->getProjectMenu($_GET['name']);
 
-		$this->tpl->assign('body','Hello, World!');
+		$proj = $this->getModel('mprojectlist')->getProject($_GET['name']);
+		// TODO: 1. 获得项目根目录
+		// TODO: 2. 获取 php 文件列表
+		// TODO: 3. 获取 js 文件列表
+		// TODO: 4. 获取 html 文件列表
+		// TODO: 5. 获取 css 文件列表
+		// TODO: 6. 获取 SQL 文件列表
+		// TODO: 7. 获取 txt 文件列表
+		// TODO: 8. TODO要入库吗？
+		$this->getModel('mprojectinfo')->initProj(
+						$proj['path'],
+						$proj['url'],
+						$proj['keyname'],
+						$proj['showname']
+				);
+		$todoofproject = $this->getModel('mprojectinfo')->findTodoList();
+
+		$this->tpl->assign('projectinfo',$proj);
+		$this->tpl->assign('todo',$todoofproject);
+		$body = $this->tpl->fetch('left.projecttodo.tpl.html');
+		$this->tpl->assign('body',$body);
 		#$this->tpl->assign('menu', $menustr);
 		$this->tpl->display('index.tpl.html');
 	}
