@@ -7,9 +7,16 @@ class install extends CommonController
 	{
 	}
 	
+	protected function frame($body)
+	{
+		
+		$this->tpl->display('index.tpl.html');
+		return ;
+	}
+
 	public function index()
 	{
-		$this->install();
+		$this->listall();
 	}
 	
 	function update()
@@ -22,7 +29,7 @@ class install extends CommonController
 		$this->getModel('mprojectlist')->saveList();
 		$this->getModel('mprojectlist')->loadList();
 		header('location:/install/listall');
-		die();
+		return ;
 	}
 
     function create()
@@ -41,7 +48,7 @@ class install extends CommonController
 		$this->tpl->assign('buttonname','创建');	
 		$this->tpl->assign('body', $this->tpl->fetch('left.projectform.tpl.html'));
 
-        $this->tpl->display('index.tpl.html');        
+        $this->tpl->display('index.tpl.html');
     }
 
 	function doinstall()
@@ -148,12 +155,14 @@ class install extends CommonController
         $this->tpl->assign('projectlist', $list);
         $body = $this->tpl->fetch('left.projectlist.html');
 
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('body', $body);
 
 		$menu = $this->getModel('mmenu')->getMenu();
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
         $this->tpl->assign('menu', $menustr);
+        $this->tpl->assign('navigatebar',$nav);
 
 	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('index.tpl.html');	
@@ -173,9 +182,8 @@ class install extends CommonController
 
 		// TODO: 请在下面实现您的action所要实现的逻辑
 	    header('location:/install/listall');
-	    die();
+	    return ;
     }
-
 
 }
 

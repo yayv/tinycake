@@ -1,25 +1,33 @@
+<!DOCTYPE html>
 <HTML>
+
 <head>
-<link rel="stylesheet" type="text/css" href="{$home}/v/default/css/main.css" />
+    <title>{$title}</title>
+    <meta name='viewport' content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{$home}/v/bootstrap3/css/bootstrap.css" media='screen'/>
 </head>
+
 <body>
-<div id='header'>
-<h1>TinyCake</h1><h3>-- a php framework</h3> 
-</div>
+	{$navigatebar}
 
-<div id='main'>
-{$body}
-</div>
-<div id='guide'>
-{$menu}
-</div>
+    <div class="container" style="margin-top:30px">
+        {$body}
+    </div>
 
-<div style='clear:both;'></div>
-<div id='footer'>
-Powered By liuce&lt;yayv.cn{ldelim}a{rdelim}gmail.com&gt;
-</div>
-<pre>
-{$errmsg}
-</pre>
+	<div id='guide'>
+	{$menu}
+	</div>
+
+	<div style='clear:both;'></div>
+	<div id='footer'>
+	{$footer}
+	</div>
+	<pre>
+	{$errmsg}
+	</pre>
+
+<script type='text/javascript' src='{$home}/v/default/js/jquery.js'></script>
+<script type='text/javascript' src='{$home}/v/bootstrap3/js/bootstrap.js'></script>
 </body>
 </HTML>
