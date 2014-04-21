@@ -1,11 +1,13 @@
 
 
 {foreach from=$projectlist item=index}
-	<dl>
-	<dt><a href='{$index.url}'>{$index.showname}</a></dt>
+	<dl class='item-projectlist'>
+	<dt><a href='{$home}/project/info/name-{$index.keyname}'>{$index.showname}</a></dt>
 	<dd>访问地址:{$index.url}</dd>
 	<dd>本地路径:{$index.path}</dd>
-	<dd><a href='{$home}/project/info/name-{$index.keyname}'>管理</a> | 
+	<dd>
+		<a href='{$index.url}'>访问</a> |
+		<a href='{$home}/project/info/name-{$index.keyname}'>管理</a> | 
 	<a href='{$home}/install/removeproject/name-{$index.keyname}'>删除</a></dd>
 	</dl>
 {/foreach}

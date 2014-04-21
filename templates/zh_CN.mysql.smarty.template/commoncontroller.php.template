@@ -14,15 +14,6 @@ abstract class CommonController extends Controller
 
 		// override it , if you want own database object 
 		//assign the object for db,tpl
-		/*
-		$dbsrv['host']
-		$dbsrv['port']
-		$dbsrv['username']
-		$dbsrv['password']		
-		$dbsrv['charset']
-		$dbsrv['logfile']  default:$dbsrv['logfile']='php://output'
-		$dbsrv['prefix']   table prefix
-		*/		
 		$this->_db 	= new mysql($dbsrv);
 	}
 	

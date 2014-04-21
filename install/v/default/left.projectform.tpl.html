@@ -1,11 +1,55 @@
 
-<form method='POST' action='{$home}/install/{$action}'><br/>
-安装系统所在路径:{$installsys}<br/>
-<input type='hidden' name='old_keyname' value='{$keyname}'>
-项目名称:<input name='showname' value='{$showname}'><br/>
-项目代号:<input name='keyname' value='{$keyname}'>(字母数字组合，不能用中文, 主要用于系统内部使)<br/>
-项目的本机路径:<input name='path' value='{$path}' ><br/>
-项目的URL:<input name='url' value='{$url}' ><br/>
-<input type='submit' value='{$buttonname}'><br/>
-</form>
+<div class='col-md-9'>
+	<br/>
 
+	<h3>WARNING:</h3>
+	<ul class="list-group" id='project-warning'>
+	  <li class="list-group-item">Cras justo odio</li>
+	  <li class="list-group-item">Dapibus ac facilisis in</li>
+	  <li class="list-group-item">Morbi leo risus</li>
+	  <li class="list-group-item">Porta ac consectetur ac</li>
+	  <li class="list-group-item">Vestibulum at eros</li>
+	</ul>
+
+	<h3>TODO:</h3>
+	<ul class="list-group" id='project-warning'>
+	  <li class="list-group-item">Cras justo odio</li>
+	  <li class="list-group-item">Dapibus ac facilisis in</li>
+	  <li class="list-group-item">Morbi leo risus</li>
+	  <li class="list-group-item">Porta ac consectetur ac</li>
+	  <li class="list-group-item">Vestibulum at eros</li>
+	  <li class="list-group-item">Cras justo odio</li>
+	  <li class="list-group-item">Dapibus ac facilisis in</li>
+	  <li class="list-group-item">Morbi leo risus</li>
+	  <li class="list-group-item">Porta ac consectetur ac</li>
+	  <li class="list-group-item">Vestibulum at eros</li>
+	  <li class="list-group-item">Cras justo odio</li>
+	  <li class="list-group-item">Dapibus ac facilisis in</li>
+	  <li class="list-group-item">Morbi leo risus</li>
+	  <li class="list-group-item">Porta ac consectetur ac</li>
+	  <li class="list-group-item">Vestibulum at eros</li>
+	  <li class="list-group-item">Cras justo odio</li>
+	  <li class="list-group-item">Dapibus ac facilisis in</li>
+	  <li class="list-group-item">Morbi leo risus</li>
+	  <li class="list-group-item">Porta ac consectetur ac</li>
+	  <li class="list-group-item">Vestibulum at eros</li>
+	  <li class="list-group-item">Cras justo odio</li>
+	  <li class="list-group-item">Dapibus ac facilisis in</li>
+	  <li class="list-group-item">Morbi leo risus</li>
+	  <li class="list-group-item">Porta ac consectetur ac</li>
+	  <li class="list-group-item">Vestibulum at eros</li>
+	</ul>
+</div>
+
+<div class='col-md-3'>
+	<div class='bs-docs-sidebar affix'>
+		<ul class='nav bs-docs-sidenav' id='project-info'>
+			<li>系统路径:<span>{$installsys}</span></li>
+			{* <input type='hidden' name='old_keyname' value='{$keyname}'> *}
+			<li>项目名称:<span>{$showname}</span></li>
+			<li>项目代号:<span>{$keyname}</span></li>
+			<li>本机路径:<span>{$path}</span></li>
+			<li>项目URL:<span>{$url}</span></li>
+		</ul>
+	</div>
+</div>

@@ -60,19 +60,30 @@ class project extends CommonController
 		$this->tpl->assign('url',$proj['url']);
 		$this->tpl->assign('path',$proj['path']);
 		
-		$body = $this->tpl->fetch('left.projectform.tpl.html');
 		
-		#$body = print_r($proj,true);
-		//$body = 'show project"s details here';
+        // 定制导航菜单
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'###','title'=>'|'),
+        			array('href'=>'/project/info/name-'.$name,'title'=>$proj['showname']),
+        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'代码分析'),
+					array('href'=>'/project/checkdir/name-'.$name, 'title'=>'重新扫描')
+        	));
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
 
-	
+		$body = $this->tpl->fetch('left.projectform.tpl.html');
+        $this->tpl->assign('body', $body);
+
 		// TODO: 请在下面实现您的action所要实现的逻辑
 		$menu = $this->getModel('mmenu')->getProjectMenu($_GET['name']);
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
 		
 		$this->tpl->assign('body', '<p>'.$body.'</p>');
-		$this->tpl->assign('menu', $menustr);	
+		#$this->tpl->assign('menu', $menustr);	
 		$this->tpl->display('index.tpl.html');	
 	}
 

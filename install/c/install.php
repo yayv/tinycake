@@ -154,15 +154,24 @@ class install extends CommonController
         $list = $this->getModel('mprojectlist')->getList();
         $this->tpl->assign('projectlist', $list);
         $body = $this->tpl->fetch('left.projectlist.html');
-
-        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('body', $body);
 
+        // 定制导航菜单
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'/install/create','title'=>'新建项目'),
+        			array('href'=>'/install/importproject', 'title'=>'导入项目'))
+        	);
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
+
+        // TODO: remove this
 		$menu = $this->getModel('mmenu')->getMenu();
 		$this->tpl->assign('menuarr', $menu);
 		$menustr = $this->tpl->fetch('right.menu.tpl.html');
-        $this->tpl->assign('menu', $menustr);
-        $this->tpl->assign('navigatebar',$nav);
+		#$this->tpl->assign('menu', $menustr);
+		// END TODO: remove this section
+
 
 	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('index.tpl.html');	
