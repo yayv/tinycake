@@ -37,12 +37,16 @@ class install extends CommonController
 		parent::initTemplateEngine('v/default','v/_run');
 		parent::initAssign();
 
+        // 定制导航菜单
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'/install/create','title'=>'新建项目'),
+        			array('href'=>'/install/importproject', 'title'=>'导入项目'))
+        	);
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
 
- 		$menu = $this->getModel('mmenu')->getMenu();
-		$this->tpl->assign('menuarr', $menu);
-		$menustr = $this->tpl->fetch('right.menu.tpl.html');
-		$this->tpl->assign('menu', $menustr);
-
+        // TODO: 根据需求， 这里的创建项目的页面模板需要重写
 		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);	
 		$this->tpl->assign('action','doinstall');
 		$this->tpl->assign('buttonname','创建');	
@@ -118,16 +122,21 @@ class install extends CommonController
 		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);	
 		$this->tpl->assign('action','doimport');
 		$this->tpl->assign('buttonname','导入');	
+
+		// TODO: @liuce 这个模板换了，需要写一个新模板给这个Action
 		$body = $this->tpl->fetch('left.projectform.tpl.html');
 
         $this->tpl->assign('body', $body);
 
-		$menu = $this->getModel('mmenu')->getMenu();
-		$this->tpl->assign('menuarr', $menu);
-		$menustr = $this->tpl->fetch('right.menu.tpl.html');
-        $this->tpl->assign('menu', $menustr);
+        // 定制导航菜单
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'/install/create','title'=>'新建项目'),
+        			array('href'=>'/install/importproject', 'title'=>'导入项目'))
+        	);
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
 
-	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('index.tpl.html');	
 	}
 
@@ -164,14 +173,6 @@ class install extends CommonController
         	);
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
-
-        // TODO: remove this
-		$menu = $this->getModel('mmenu')->getMenu();
-		$this->tpl->assign('menuarr', $menu);
-		$menustr = $this->tpl->fetch('right.menu.tpl.html');
-		#$this->tpl->assign('menu', $menustr);
-		// END TODO: remove this section
-
 
 	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('index.tpl.html');	

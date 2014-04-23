@@ -42,6 +42,7 @@ class log extends CommonController
         }
         else
         {
+        	// TODO: 这里的合并规则，可以写到项目的某个目录下，作为配置来使用
             $this->getModel('mlog')->parseFile($path.$logfile, 
 							array(
 									'/\/lvyou\/.*/',
@@ -84,14 +85,25 @@ class log extends CommonController
 
         $body = $this->tpl->fetch('left.logparse.tpl.html');
 
+
         // 处理界面
         $this->tpl->clear_all_assign();
- 		$menu = $this->getModel('mmenu')->getMenu();
-		$this->tpl->assign('menuarr', $menu);
-		$menustr = $this->tpl->fetch('right.menu.tpl.html');
-		$this->tpl->assign('menu', $menustr);	
 
         $this->tpl->assign('body', $body);
+
+        // 定制导航菜单
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'###','title'=>'|'),
+        			array('href'=>'/project/info/name-'.$name,'title'=>"<span style='font-weight:bold;'>".$proj['showname']."</span>"),
+        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        	));
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
+
 
 	    $this->tpl->display('index.tpl.html');
     }

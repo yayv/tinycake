@@ -26,7 +26,7 @@ class mlog extends model
         $this->_logfile = $file;
     }
 
-    public function parseFile($file, $urlpatterns=false)
+    public function parseFile($file, $urlpatterns4merge=false)
     {
         require_once('mlogsection.php');
 
@@ -41,7 +41,7 @@ class mlog extends model
 
                 if($endsection)
                 {
-                    $this->appendToAnalyse($log, $urlpatterns);
+                    $this->appendToAnalyse($log, $urlpatterns4merge);
                     unset($log);
                     $log = new mlogsection();
                     $log->addLine($line);
@@ -51,14 +51,14 @@ class mlog extends model
         fclose($fp);
     }
 
-    function appendToAnalyse($logobj, $urlpatterns=false)
+    function appendToAnalyse($logobj, $urlpatterns4merge=false)
     {
 
         if(!$logobj->_notclearexit)
         {
 			$key = trim($logobj->_url);
-			if(is_array($urlpatterns))
-			foreach ($urlpatterns as $urlPattern )
+			if(is_array($urlpatterns4merge))
+			foreach ($urlpatterns4merge as $urlPattern )
 			{
 				if(preg_match($urlPattern,$key))
 				{
@@ -72,7 +72,8 @@ class mlog extends model
 					echo $key,"<br/>";
 					die();
 				}
-*/			}
+*/			
+            }
 
             
             if(!isset($this->_url_times[$key]))

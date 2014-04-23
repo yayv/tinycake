@@ -1,4 +1,5 @@
 
+<br/>
 
 {foreach from=$projectlist item=index}
 	<dl class='item-projectlist'>
@@ -8,8 +9,8 @@
 	<dd>
 		<a href='{$index.url}'>访问</a> |
 		<a href='{$home}/project/info/name-{$index.keyname}'>管理</a> | 
-	<a href='{$home}/install/removeproject/name-{$index.keyname}'>删除</a></dd>
+	<a href='{$home}/install/removeproject/name-{$index.keyname}'>解除管理</a></dd>
 	</dl>
 {/foreach}
 
-
+<br/>
