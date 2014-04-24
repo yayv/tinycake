@@ -1,32 +1,35 @@
 <div class='col-md-9'>
 	<br/>
-	<table width='100%'>
-	<tbody >
-	    {foreach from=$loglist item=it index=i}
-			{* <tr><td>{$loglist[i][1]}</td><td>{$loglist[i][0]}</td><td>{$loglist[i][1]}</td></tr> *}
-			<tr><td width='10'><input type='checkbox' /></td><td>{$it.date} [text] [php] [<a href='/log/analyse/name-{$projectinfo.keyname}/date-{$it.url}'>VIEW</a>]</td></tr>
-	    {/foreach}
-	</tbody>
-	</table>
-	<button>合并</button><button>删除文本日志</button>
-	<br/>
+	<h2>日志管理</h2><br/>
+	<ul class="list-group" id='project-warning'>
+	  	{foreach from=$loglist item=it index=i}
+		<li class="list-group-item">
+	  	<input type='checkbox' /> {$it.date} 
+	  	{if $it.txt and $it.php}
+	  	[<a href='/log/removeText/name-{$projectinfo.keyname}/date-{$it.url}'>删除txt</a>][<a href='/log/removePhp/name-{$projectinfo.keyname}/date-{$it.url}'>删除php</a>]
+	  	{elseif $it.txt}
+	  	[txt][<a href='/log/parseText/name-{$projectinfo.keyname}/date-{$it.url}'>生成php</a>]
+	  	{elseif $it.php}
+	  	[txt][<a href='/log/removePhp/name-{$projectinfo.keyname}/date-{$it.url}'>删除php</a>]
+	  	{/if} 
+	  	[<a href='/log/analyse/name-{$projectinfo.keyname}/date-{$it.url}'>VIEW</a>]
+	  </li>
+	  	{/foreach}
+	</ul>
 
+	<button class='btn btn-primary'>解析</button> <button class='btn btn-danger'>删除文本日志，合并解析后的日志</button>
+	<br/><br/><br/>
 </div>
 
 <div class='col-md-3'>
 	<div class='bs-docs-sidebar affix'>
 		<ul class='nav bs-docs-sidenav' id='project-info'>
-			<li>{$projectinfo.name}</li>
-			<li>{$projectinfo.keyname}</li>
-			<li>{$projectinfo.path}</li>
-			<li>{$projectinfo.url}</li>
-
 			<li>系统路径:<span>{$installsys}</span></li>
 			{* <input type='hidden' name='old_keyname' value='{$keyname}'> *}
-			<li>项目名称:<span>{$showname}</span></li>
-			<li>项目代号:<span>{$keyname}</span></li>
-			<li>本机路径:<span>{$path}</span></li>
-			<li>项目URL:<span>{$url}</span></li>
+			<li>项目名称:<span>{$projectinfo.showname}</span></li>
+			<li>项目代号:<span>{$projectinfo.keyname}</span></li>
+			<li>本机路径:<span>{$projectinfo.path}</span></li>
+			<li>项目URL:<span>{$projectinfo.url}</span></li>
 		</ul>
 	</div>
 </div>

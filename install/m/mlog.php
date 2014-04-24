@@ -231,6 +231,7 @@ class mlog extends model
         include($filename);
     }
 
+    // TODO: 研究一下这个代码是否完整，是否可以直接调用乐
     function mergeOtherLog($mlogobj)
     {
         foreach($mlogobj->_badcalls as $k=>$v)
@@ -334,6 +335,15 @@ class mlog extends model
     {
         // 计算平均时间 和 最大响应时间
         // 
+    }
+
+    // TODO: 这个方法比较危险，考虑一个什么方法来提升安全性吧
+    public function removeFile($filename)
+    {
+        $ret = unlink($filename);
+        if(!$ret)
+            die($filename);
+        return ;
     }
 
     public function showDetails()

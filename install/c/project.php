@@ -14,28 +14,31 @@ class project extends CommonController
 				Core::getInstance()->getConfig('compiled_template')
 			);
 
-		$proj = $this->getModel('mprojectlist')->getProject($_GET['name']);
-		// TODO: 1. 获得项目根目录
-		// TODO: 2. 获取 php 文件列表
-		// TODO: 3. 获取 js 文件列表
-		// TODO: 4. 获取 html 文件列表
-		// TODO: 5. 获取 css 文件列表
-		// TODO: 6. 获取 SQL 文件列表
-		// TODO: 7. 获取 txt 文件列表
-		// TODO: 8. TODO要入库吗？
+		$name = $_GET['name'];
+		$proj = $this->getModel('mprojectlist')->getProject($name);
+		// TODO: 获得项目根目录
+		// TODO: 获取 php 文件列表
+		// TODO: 获取 js 文件列表
+		// TODO: 获取 html 文件列表
+		// TODO: 获取 css 文件列表
+		// TODO: 获取 SQL 文件列表
+		// TODO: 获取 txt 文件列表
+		// TODO: TODO要入库吗？要入库，而且要记录修改，要记录时间
+		// TODO: 这里还要保留这个展示页面吗？还是直接跳回项目首页？
 		$this->getModel('mprojectinfo')->initProj(
 						$proj['path'],
 						$proj['url'],
 						$proj['keyname'],
 						$proj['showname']
 				);
+
 		$todoofproject = $this->getModel('mprojectinfo')->findTodoList();
 
 		$this->tpl->assign('projectinfo',$proj);
 		$this->tpl->assign('todo',$todoofproject);
 		$body = $this->tpl->fetch('left.projecttodo.tpl.html');
 		$this->tpl->assign('body',$body);
-		#$this->tpl->assign('menu', $menustr);
+		
 		$this->tpl->display('index.tpl.html');
 	}
 
@@ -63,10 +66,11 @@ class project extends CommonController
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>$proj['showname']),
+        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
         			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
         			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
         			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
 					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
@@ -88,7 +92,8 @@ class project extends CommonController
                 Core::getInstance()->getConfig('compiled_template')
 		);
 
-        $proj = $this->getModel('mprojectlist')->getProject($_GET['name']);
+		$name = $_GET['name'];
+        $proj = $this->getModel('mprojectlist')->getProject($name);
 
 		$this->getModel('mproject')->setProject($proj);
 		$this->tpl->assign('projectinfo', $proj);
@@ -101,26 +106,25 @@ class project extends CommonController
 		}
 
 		$this->tpl->assign('loglist', $logs);
-
+#echo '<pre>';print_r($logs);die();
 		$body = $this->tpl->fetch('left.loglist.tpl.html');
 
         // 定制导航菜单
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>$proj['showname']),
+        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
         			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
         			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
         			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
 					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
 		
-		$this->tpl->assign('body', '<p>'.$body.'</p>');
-		$this->tpl->assign('menu', $menustr);	
+		$this->tpl->assign('body', $body);
 
-		// TODO: 请在下面实现您的action所要实现的逻辑
 		$this->tpl->display('index.tpl.html');	
 	}
 

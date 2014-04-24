@@ -22,7 +22,6 @@ class install extends CommonController
 	function update()
 	{
 		// TODO: update project info
-		#print_r($_POST);die();
 		if($_POST['old_keyname']!=$_POST['keyname'])
 			$this->getModel('mprojectlist')->rmProj($_POST['old_keyname']);
 		$this->getModel('mprojectlist')->addProj($_POST['showname'],$_POST['keyname'],$_POST['path'],$_POST['url']);
@@ -101,9 +100,7 @@ class install extends CommonController
             $this->getModel('mprojectlist')->addProj($_POST['showname'],$_POST['keyname'],$_POST['path'],$_POST['url']);
         }
 
-		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息
-        // 每个站一个目录呢？还是每个站一个文件呢？
-        // 先用1个文件，放不在再分目录
+		// TODO: 3. 在 data 目录下，记录此项目及相关md5信息,每个站一个目录呢？还是每个站一个文件呢？先用1个文件，放不在再分目录
 
         $this->tpl->assign('body', $body);            
         $this->tpl->assign('errmsg', $errmsg['msg']);
@@ -164,7 +161,7 @@ class install extends CommonController
         $this->tpl->assign('projectlist', $list);
         $body = $this->tpl->fetch('left.projectlist.html');
         $this->tpl->assign('body', $body);
-
+echo '<pre>';print_r($_GET);die();
         // 定制导航菜单
         $this->tpl->assign('currentItems',
         		array(

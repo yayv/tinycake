@@ -1,8 +1,9 @@
 RewriteEngine On
 RewriteBase /
 
+RewriteCond %{REQUEST_URI} !^/index\.php
 RewriteCond %{REQUEST_URI} !^/favicon.ico
 RewriteCond %{REQUEST_URI} !^/(v|images|css|js)/.*
-RewriteRule ^(.*)$  index.php
+RewriteRule ^(.*)$  /index.php?
 
 

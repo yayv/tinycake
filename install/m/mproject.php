@@ -12,8 +12,16 @@ class mproject extends model
             '/c/',
             '/configs/',
             '/logs/',
-            '/data/',        
+            '/data/',
+            '/data/powdry_yeast/',
 		);
+
+    var $_write = array(
+            '/v/_run/',
+            '/logs/',
+            '/configs/',
+            '/data/powdry_yeast/',            
+        );
 
     var $_files = array(
         # target => source
@@ -56,23 +64,25 @@ class mproject extends model
 
 		$patterns = array(
 			'txt' => '/crumbs\.(\d{4}-\d{2}-\d{2})\.txt/',
-			'php' => '/parsedcrumbs\.(\d{4}-\d{2}-\d{2})\.php/',
+			'php' => '/pickedcrumbs\.(\d{4}-\d{2}-\d{2})\.php/',
 		);
 
 		$loglist = array();
 		while (false !== ($entry = $d->read())) 
 		{
+            #$loglist[$date[1]]['txt']  = 0;
+            #$loglist[$date[1]]['php']  = 0;
+
 			if(preg_match($patterns['txt'],$entry, $date))
 			{
 				$loglist[$date[1]]['txt']  = 1;
 				$loglist[$date[1]]['date'] = $date[1];
 			}
-			else if(preg_match($patterns['txt'],$entry, $date))
+			else if(preg_match($patterns['php'],$entry, $date))
 			{
 				$loglist[$date[1]]['php']  = 1;
 				$loglist[$date[1]]['date'] = $date[1];
 			}
-
 		}
 
 		$d->close();

@@ -32,8 +32,6 @@ class defaultcontroller extends CommonController
                 Core::getInstance()->getConfig('compiled_template')
 		);
 
-		// TODO: 
-		
 		// TODO: 请在下面实现您的action所要实现的逻辑
 		$this->tpl->display('example.html');	
 	}
