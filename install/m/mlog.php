@@ -63,18 +63,8 @@ class mlog extends model
 				if(preg_match($urlPattern,$key))
 				{
 					$key = $urlPattern;
-				}				
-/*
-				if(strpos($logobj->_url,'lvyou')>0)
-				{
-					echo "<hr>";
-					echo $urlPattern,"<br/>",$logobj->_url,"<br/>";
-					echo $key,"<br/>";
-					die();
 				}
-*/			
             }
-
             
             if(!isset($this->_url_times[$key]))
             {
@@ -231,8 +221,15 @@ class mlog extends model
         include($filename);
     }
 
-    // TODO: 研究一下这个代码是否完整，是否可以直接调用乐
-    function mergeOtherLog($mlogobj)
+    function mergeAnotherFile($file)
+    {
+        $fno = new mlog();
+        $fno->loadFromFile($file);
+        $this->mergeAnotherLog($fno);
+        unset($fno);
+    }
+
+    function mergeAnotherLog($mlogobj)
     {
         foreach($mlogobj->_badcalls as $k=>$v)
         {
@@ -289,7 +286,7 @@ class mlog extends model
                 $this->_model_times[$k] = $v;
         }
 
-        foreach($mlogobj->_method_times as $a=>$v)
+        foreach($mlogobj->_method_times as $k=>$v)
         {
             if(isset($this->_method_times[$k]))
             {
@@ -357,5 +354,16 @@ class mlog extends model
         print_r($this->_method_times);
         echo '</pre>';
     }
+
+    public function loadPhpLog($filename)
+    {
+
+    }
+
+    public function mergePhpLog($obj1, $obj2)
+    {
+
+    }
+
 }
 

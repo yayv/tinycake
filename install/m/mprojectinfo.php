@@ -37,13 +37,21 @@ class mprojectinfo extends model
 		$f = file($filename);
 		foreach($f as $k=>$v)
 		{
-			$ret = preg_match('/ TODO:(.*)/',$v,$matches);
-			if($ret)
+			$ret1 = preg_match('/ TODO\:(.*)/',$v,$matches1);
+			$ret2 = preg_match('/ WARNING\:(.*)/',$v,$matches2);
+			if($ret1)
 			{
 				if(!array_key_exists($filename, $this->todo))
 					$this->todo[$filename] = array();
 
-				$this->todo[$filename][] = $k.':'.$matches[1];
+				$this->todo[$filename][] = $k.':'.$matches1[0];
+			}
+			if($ret2)
+			{
+				if(!array_key_exists($filename, $this->todo))
+					$this->todo[$filename] = array();
+
+				$this->todo[$filename][] = $k.':<b style="color:red">'.$matches2[0]."</b>";
 			}
 		}
 

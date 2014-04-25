@@ -106,7 +106,7 @@ class project extends CommonController
 		}
 
 		$this->tpl->assign('loglist', $logs);
-#echo '<pre>';print_r($logs);die();
+
 		$body = $this->tpl->fetch('left.loglist.tpl.html');
 
         // 定制导航菜单
@@ -136,44 +136,12 @@ class project extends CommonController
 		return ;
 	}
 
-    function parseLog()
+    public function codeanalyse()
     {
-        $project = "/Data/webapps/map.lvren.cn/public/logs/";
-        $file    = "crumbs.2011-05-06.txt";
-
-        $f       = fopen($project.$file, 'r');
-
-        while(!feof($f))
-        {
-            $line = fgets($f);
-            #URL:
-            if(0===strpos($line, 'URL:'))
-            {
-                $url = substr($line, 4);
-            }
-            else if(0===strpos($line, 'start(url):'))
-            {
-                $time = substr($line, 11);
-                list($ms,$s) = explode(' ', $time);
-                $ms = doubleval($ms);
-                $s  = intval($s);
-            }
-            else if(0===strpos($line, 'end(url):'))
-            {
-                $etime = substr($line, 9);
-                list($ems,$es) = explode(' ', $etime);
-                $ems = doubleval($ems);
-                $es  = intval($es);
-
-                $t = $es-$s+$ems-$ms;
-                if($t>0.5)
-                    echo $t,"|<font color=red>",$url,"</font><br/>";
-                else
-                    echo $t,"|",$url,"<br/>";
-            }
-        }
-
-        fclose($f);
+    	// TODO: 这里要实现分层列出关键函数名文件名
+    	// TODO: 下一步就要考虑如何呈现MVC直接的调用和支持关系
+    	
+    	return ;
     }
 }
 

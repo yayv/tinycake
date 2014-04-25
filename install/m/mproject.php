@@ -87,6 +87,9 @@ class mproject extends model
 
 		$d->close();
 
+        ksort($loglist);
+
+        // TODO: 这个赋值是为了什么呢？忘记了，想想看
 		$this->_loglist = $loglist;
 		return $loglist;
 	}

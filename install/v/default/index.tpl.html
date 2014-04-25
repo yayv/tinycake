@@ -33,4 +33,16 @@
 <script type='text/javascript' src='{$home}/v/default/js/jquery.js'></script>
 <script type='text/javascript' src='{$home}/v/bootstrap3/js/bootstrap.js'></script>
 </body>
+
+  <script>
+  {literal}
+  function test(){}
+  $(document).ready(function(){
+    if('function'==typeof(head_ready)) head_ready();
+    if('function'==typeof(body_ready)) body_ready();
+    if('function'==typeof(foot_ready)) foot_ready();
+  });
+  {/literal}
+  </script>
+
 </HTML>

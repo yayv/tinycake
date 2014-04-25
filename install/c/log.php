@@ -43,7 +43,6 @@ class log extends CommonController
         else
         {
         	$this->parseText();
-
         }
 
         $this->tpl->assign('badcalls', $this->getModel('mlog')->getBadCalls());
@@ -121,8 +120,20 @@ class log extends CommonController
 
         if('parseText'==$_GET['action'])
         {
-        	// call this function from url
-        	header('location:/project/logmanage/name-'.$name);
+        	$pos = strpos( $_SERVER["HTTP_ACCEPT"], 'application/json');
+
+        	if($pos===false)
+        	{
+        		header('X-Debug:false');
+	        	// call this function from url
+	        	header('location:/project/logmanage/name-'.$name);        		
+        	}
+        	else
+        	{
+        		header('X-Debug:true');
+        		header('Content-Type:application/json');
+        		echo json_encode(array('ret'=>0,'msg'=>'parse done'));
+        	}
         	return ;
         }
         else
@@ -130,6 +141,113 @@ class log extends CommonController
         	// call this function from another function
         	return ;
         }
+    }
+
+    public function mergePhp()
+    {
+		// WARNING: 这个功能是一个大坑，如果有人按照规则写了php文件进来，则可能引发整个系统的漏洞
+		$name = $_GET['name'];
+		$logdate	 = urldecode($_GET['date']);
+
+		$proj = $this->getModel('mprojectlist')->getProject($name);
+        $path = $proj["path"].'/logs';
+
+        $tmpphp = $path.'/pickedcrumbs.tmp.php';
+        $tmptxt = $path.'/crumbs.tmp.txt';
+
+        if(is_file($tmpphp) || is_file($tmptxt))
+        {
+        	header("Content-Type:application/json");
+
+        	echo json_encode(array('ret'=>0, 'msg'=>'请等待'));
+        	return ;
+        }
+
+		$dates = explode(',', $logdate);
+
+		foreach($dates as $k=>$v)
+		{
+			if('0'==$v)
+			{
+				unset($dates[$k]);
+				continue;
+			}
+
+			$thatday = date('Y-m-d',strtotime($v));
+			$dates[$k] = $thatday;
+
+	        $logfile = "/crumbs.".$thatday.".txt";
+			$resultfile = '/pickedcrumbs.'.$thatday.'.php';
+		}
+
+		rsort($dates);
+
+		$targetdate = $dates[0];
+
+		// TODO: 根据 $targetdate 来判断模式
+		$mphp = is_file($path."/pickedcrumbs.".$targetdate.".php");
+		$mtxt = is_file($path."/crumbs.".$targetdate.".txt");
+
+		if($mtxt)
+		{
+			$ftxt = fopen($tmptxt,'a');
+		}
+
+		if($mphp)
+		{
+			$ophp = $this->getModel('mlog');
+		}
+
+		foreach($dates as $k=>$v)
+		{
+			// merge to $tmptxt , $tmpphp 
+			$iphp  = $path."/pickedcrumbs.".$v.".php";
+			$itxt  = $path."/crumbs.".$v.".txt";
+
+			$maphp = is_file($iphp);
+			$matxt = is_file($itxt);
+			$buffer = "";
+			#print_r(array($maphp,$mphp,$matxt,$mtxt));
+			if($maphp==$mphp && $matxt==$mtxt)
+			{
+				if($mtxt)
+				{
+					$fotxt = fopen($itxt,'r');
+				    while (($buffer = fgets($fotxt, 409600)) !== false) 
+				    {
+				        fputs($ftxt, $buffer);
+				    }
+				    fclose($fotxt);
+				    unlink($itxt);
+				}
+			    
+			    if($mphp)
+			    {
+			    	$this->getModel('mlog')->mergeAnotherFile($iphp);
+			    	unlink($iphp);
+			    }
+			}
+			else
+			{
+
+				continue;
+			}
+		}
+
+		if($mtxt)
+		{
+			fclose($ftxt);
+			rename($tmptxt, $path."/crumbs.".$targetdate.".txt");
+		}
+
+		if($mphp)
+		{
+			$this->getModel('mlog')->dumpToFile($tmpphp);
+			rename($tmpphp, $path."/pickedcrumbs.".$targetdate.".php");
+		}
+
+		header('Content-Type:application/json');
+		echo json_encode(array('ret'=>1,'msg'=>'ok'));
     }
 
     public function removeText()
@@ -164,16 +282,6 @@ class log extends CommonController
 
         header("location:/project/logmanage/name-".$name);
         return ;
-    }
-
-    public function mergeText()
-    {
-
-    }
-
-    public function mergePhp()
-    {
-
     }
 }
 

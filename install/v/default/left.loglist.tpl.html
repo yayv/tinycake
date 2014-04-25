@@ -2,22 +2,24 @@
 	<br/>
 	<h2>日志管理</h2><br/>
 	<ul class="list-group" id='project-warning'>
-	  	{foreach from=$loglist item=it index=i}
-		<li class="list-group-item">
-	  	<input type='checkbox' /> {$it.date} 
+	  	{foreach from=$loglist item=it key=i}
+		<li class="list-group-item" >
+	  	<input id='{$i}' type='checkbox' class='checkdate' 
+	  		data-value='{$it.url}' data-txt='{$it.txt}' 
+	  		data-php='{$it.php}' data-date='{$it.date}'/> {$it.date} 
 	  	{if $it.txt and $it.php}
 	  	[<a href='/log/removeText/name-{$projectinfo.keyname}/date-{$it.url}'>删除txt</a>][<a href='/log/removePhp/name-{$projectinfo.keyname}/date-{$it.url}'>删除php</a>]
 	  	{elseif $it.txt}
-	  	[txt][<a href='/log/parseText/name-{$projectinfo.keyname}/date-{$it.url}'>生成php</a>]
+	  	[还有txt][<a href='/log/parseText/name-{$projectinfo.keyname}/date-{$it.url}'>生成php</a>]
 	  	{elseif $it.php}
-	  	[txt][<a href='/log/removePhp/name-{$projectinfo.keyname}/date-{$it.url}'>删除php</a>]
+	  	[没有txt][<a href='/log/removePhp/name-{$projectinfo.keyname}/date-{$it.url}'>删除php</a>]
 	  	{/if} 
 	  	[<a href='/log/analyse/name-{$projectinfo.keyname}/date-{$it.url}'>VIEW</a>]
 	  </li>
 	  	{/foreach}
 	</ul>
 
-	<button class='btn btn-primary'>解析</button> <button class='btn btn-danger'>删除文本日志，合并解析后的日志</button>
+	<button class='btn btn-primary' id='parsemore'>解析</button> <button class='btn btn-danger' id='mergemore' title='同状态的日志才能合并'>日志合并</button>
 	<br/><br/><br/>
 </div>
 
@@ -33,3 +35,66 @@
 		</ul>
 	</div>
 </div>
+
+<script type='text/javascript'>
+name = '{$projectinfo.keyname}';
+{literal}
+function parseMore()
+{
+	date = [];
+	key  = [];
+	$(".checkdate").each(function()
+	{
+		if($(this).attr('checked') 
+			&& "1"==$(this).attr('data-txt') 
+			&& ''==$(this).attr('data-php'))
+		{
+			date.push($(this).attr('data-value')) ;
+			key.push($(this).attr('data-date'));
+		}
+		else
+		{
+			$(this).attr('checked',false);
+		}
+			
+	});
+	
+	// TODO: parse more files
+	$.each(date,function(i,item){
+		$.getJSON('/log/parseText/name-'+name+'/date-'+item,function(dddd){
+			$('#'+key[i]).attr('checked',false);
+			console.log(dddd['msg']);
+		});
+	});
+
+	//window.location.reload();
+}
+
+function mergeMore()
+{
+	date = '0';
+	$(".checkdate").each(function()
+	{
+		// 需要有php日志，
+		if($(this).attr('checked'))
+		{
+			date = date + ',' + $(this).attr('data-value');
+		}
+		else
+		{
+			$(this).attr('checked',false);
+		}
+	});
+	
+	$.post("/log/mergePhp/name-"+name+'/date-'+date,function(data){
+
+	},'json');
+}
+
+function body_ready()
+{
+	$('#parsemore').click(parseMore);
+	$('#mergemore').click(mergeMore);
+}
+{/literal}
+</script>
