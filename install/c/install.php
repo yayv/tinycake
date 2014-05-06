@@ -161,7 +161,7 @@ class install extends CommonController
         $this->tpl->assign('projectlist', $list);
         $body = $this->tpl->fetch('left.projectlist.html');
         $this->tpl->assign('body', $body);
-echo '<pre>';print_r($_GET);die();
+
         // 定制导航菜单
         $this->tpl->assign('currentItems',
         		array(

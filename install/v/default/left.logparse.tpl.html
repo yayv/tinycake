@@ -1,6 +1,6 @@
 <br/>
 Bad Callstacks:<br/>
-<div style='background-color:red;'>
+<div style='background-color:red;color:white;'>
 {foreach from=$badcalls item=i key=k name=n}
 <span>call at:{$k}</span>
      <span>
@@ -37,7 +37,7 @@ Bad Callstacks:<br/>
     <tr></tr>
     <tr><td>次序</td>
         <td>控制器</td>
-        <td><a href='#' onclick="this.blur();return sortTable('controller',2,true);">执行次数</a></td>
+        <td><a style="color:blue;" href='#' onclick="this.blur();return sortTable('controller',2,true);">执行次数</a></td>
         <td><a href='#' onclick="this.blur();return sortTable('controller',3,true);">总耗时</a></td>
         <td><a href='#' onclick="this.blur();return sortTable('controller',4,true);">平均耗时</a></td>
     </tr>

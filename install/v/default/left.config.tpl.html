@@ -1,0 +1,31 @@
+
+<div class='col-md-9'>
+	<br/>
+
+	<h3><span class="glyphicon glyphicon-warning-sign" style='color:red;'></span> 主配置文件:</h3>
+	<ul class="list-group" id='project-warning'>
+	{foreach key=i item=domain from=$domains}
+	  <li class="list-group-item"><a href='{$domain}'>{$i}</a></li>
+	{/foreach}
+	</ul>
+
+	<h3><span class="glyphicon glyphicon-ok" style='color:green;'></span> 扩展配置文件:</h3>
+	<ul class="list-group" id='project-warning'>
+	{section name=i loop=$others}
+	  <li class="list-group-item">{$others[i]}</li>
+	{/section}
+	</ul>
+</div>
+
+<div class='col-md-3'>
+	<div class='bs-docs-sidebar affix'>
+		<ul class='nav bs-docs-sidenav' id='project-info'>
+			<li>系统路径:<span>{$installsys}</span></li>
+			{* <input type='hidden' name='old_keyname' value='{$keyname}'> *}
+			<li>项目名称:<span>{$projectinfo.showname}</span></li>
+			<li>项目代号:<span>{$projectinfo.keyname}</span></li>
+			<li>本机路径:<span>{$projectinfo.path}</span></li>
+			<li>项目URL:<span>{$projectinfo.url}</span></li>
+		</ul>
+	</div>
+</div>

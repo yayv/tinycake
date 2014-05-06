@@ -50,9 +50,14 @@ abstract class CommonController extends Controller
 
     public function init()
     {
-        $this->initDb();
-        $this->initTemplateEngine();
+		$this->initTemplateEngine(
+				Core::getInstance()->getConfig('theme'),
+				Core::getInstance()->getConfig('compiled_template')
+			);
+        
         $this->initAssign();
+
+        // $this->initDb();
     }
 }
 

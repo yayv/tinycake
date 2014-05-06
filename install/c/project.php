@@ -9,10 +9,7 @@ class project extends CommonController
 
 	function todo()
 	{
-		parent::initTemplateEngine(
-				Core::getInstance()->getConfig('theme'),
-				Core::getInstance()->getConfig('compiled_template')
-			);
+		parent::init();
 
 		$name = $_GET['name'];
 		$proj = $this->getModel('mprojectlist')->getProject($name);
@@ -45,10 +42,7 @@ class project extends CommonController
 	function info()
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
-		parent::initTemplateEngine(
-                Core::getInstance()->getConfig('theme'),
-                Core::getInstance()->getConfig('compiled_template')
-		);
+		parent::init();
 
 		$name = $_GET['name'];
 		$proj = $this->getModel('mprojectlist')->getProject($_GET['name']);
@@ -87,10 +81,7 @@ class project extends CommonController
 	function logmanage()
 	{
 		// NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
-		parent::initTemplateEngine(
-                Core::getInstance()->getConfig('theme'),
-                Core::getInstance()->getConfig('compiled_template')
-		);
+		parent::init();
 
 		$name = $_GET['name'];
         $proj = $this->getModel('mprojectlist')->getProject($name);
@@ -138,9 +129,51 @@ class project extends CommonController
 
     public function codeanalyse()
     {
+    	parent::init();
+    	
     	// TODO: 这里要实现分层列出关键函数名文件名
     	// TODO: 下一步就要考虑如何呈现MVC直接的调用和支持关系
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
+		
+		$this->tpl->assign('body', $body);
+
+		$this->tpl->display('index.tpl.html');	
     	
+    	return ;
+    }
+
+    public function config()
+    {
+    	parent::init();
+		$name = $_GET['name'];
+        $proj = $this->getModel('mprojectlist')->getProject($name);
+
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'###','title'=>'|'),
+        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        	));
+
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
+
+		$this->tpl->assign('projectinfo', $proj);
+
+		$files = $this->getModel('mconfig')->getAllConfigFiles();
+		
+		$this->tpl->assign("domains",$files['domains']);
+		$this->tpl->assign("others",$files['others']);
+    	$body = $this->tpl->fetch("left.config.tpl.html");
+
+    	$this->tpl->assign('body', $body);
+    	$this->tpl->display('index.tpl.html');
+
     	return ;
     }
 }
