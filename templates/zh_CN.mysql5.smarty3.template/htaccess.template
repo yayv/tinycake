@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !^/v/.*/(images|css|js)/.*
+RewriteRule ^(.*)$  index.php
+
+

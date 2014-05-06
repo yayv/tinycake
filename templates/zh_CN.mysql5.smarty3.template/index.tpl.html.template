@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$title}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="yayv" />
+    <meta name="generator" content="tinycake" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="{$description}" />
+    <link rel="stylesheet" href="/v/default/css/style.css" media="screen" charset="utf-8">
+    <link rel="Shortcut Icon" href="/favicon.ico" />
+    <link rel="Bookmark" href="/favicon.ico" />
+    <link rel="prefetch" href="http://im-img.qq.com/macqq/images/icon.png?t=20130201">
+    <!--[if IE]>
+    <script type="text/javascript" src="http://im.qq.com/macqq/js/2/html5.js?t=3"></script>
+    <![endif]-->
+</head>
+<body>
+
+
+</body>
+
+</html>

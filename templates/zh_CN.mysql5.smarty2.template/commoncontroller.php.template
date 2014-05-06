@@ -26,7 +26,7 @@ abstract class CommonController extends Controller
         if('Smarty'==get_class($this->tpl))
             return ;
 
-		include('smarty3/Smarty.class.php');
+		include('smarty2/Smarty.class.php');
 
 		$this->tpl 	= new Smarty;
 		if($templatedir)

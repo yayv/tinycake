@@ -1,0 +1,16 @@
+<?php
+
+$CONFIG = array();
+$CONFIG['theme'] = 'v/default';
+$CONFIG['compiled_template'] = 'v/_run';
+
+$CONFIG['database'] = array(
+	'host' 		=> 'localhost',
+	'port' 		=> '3306',
+	'username' 	=> 'demo',
+	'password' 	=> 'demopass',
+	'database' 	=> 'demodatabase',
+	);
+
+
+

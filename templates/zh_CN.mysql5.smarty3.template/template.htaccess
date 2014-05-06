@@ -1,0 +1,71 @@
+
+# rewrite engine
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^\/?(index.html|index.htm)?$ index.php?act=index.main
+
+RewriteRule ^q\/(.*)$ index.php?act=index.main&$1
+
+
+#map.lvren.cn
+RewriteRule ^city\/?$                       index.php?act=map.city
+RewriteRule ^city\/([^\/]*)\/?$             index.php?act=map.city&key=$1
+
+RewriteRule ^cityfornews\/?$                index.php?act=map.citysForNews
+
+RewriteRule ^ditu\/(.*)$                    index.php?act=index.main&scenickey=$1
+
+RewriteRule ^ajaxGetScenicInfo/(.*)\/?$     index.php?act=scenic.ajaxGetScenicInfo&scenicid=$1
+RewriteRule ^ajaxGetHotelServices/(.*)\/?$  index.php?act=hotel.ajaxGetHotelServices&hotelid=$1
+
+RewriteRule ^jsGetScenicContent/(.*)\/?$    index.php?act=scenic.jsGetScenicContent&scenicid=$1
+
+RewriteRule ^citylist\/?$                   index.php?act=index.citylist
+
+RewriteRule ^zhusu/([^\/]*)\/?$             index.php?act=hotel.main&citykey=$1
+
+RewriteRule ^([^\/]+)\/(a|m|z|s|d|t|b)_(.*)\/?$ index.php?act=hotel.main&citykey=$1&_query=$2_$3
+
+RewriteRule ^([^\/]*)\/search\/?$           index.php?act=hotel.main&citykey=$1
+
+RewriteRule ^getdata\/(scenic|hotel)?$      index.php?act=$1.filter
+RewriteRule ^get\/(scenic|hotel)\/?$        index.php?act=$1.data
+RewriteRule ^get\/(scenic|hotel)\/([^\/]*)\/?$ index.php?act=$1.$2
+
+RewriteRule ^search\/?$                     index.php?act=hotel.search
+
+RewriteRule ^aget\/location\/([^\/]*)\/?$   index.php?act=hotel.city_location&cityname=$1
+RewriteRule ^aget\/location_show\/([^\/]*)\/?$ index.php?act=hotel.city_location&cityname=$1&type=box
+RewriteRule ^aget\/comments\/([^\/]*)\/p(\d+)\/?$ index.php?act=hotel.comments&key=$1&page=$2
+
+RewriteRule ^city\/?$                       index.php?act=hotel.city
+RewriteRule ^city_p\/?$                     index.php?act=hotel.city&type=pinyin
+
+RewriteRule ^hotel\/comment_add\/([^\/]*)\/?$   index.php?act=hotel.comment_add&key=$1
+RewriteRule ^hotel\/comment_save\/([^\/]*)\/?$  index.php?act=hotel.comment_save&key=$1
+RewriteRule ^hotel\/photo_add\/([^\/]*)\/?$     index.php?act=hotel.photo_add&key=$1
+RewriteRule ^hotel\/photo_save\/([^\/]*)\/?$    index.php?act=hotel.photo_save&key=$1
+RewriteRule ^hotel\/has_arrived\/([^\/]*)\/?$   index.php?act=hotel.has_arrived&key=$1
+
+RewriteRule ^pinpai\/?$                         index.php?act=hotel.brand
+RewriteRule ^pinpai\/(.*)$                      index.php?act=hotel.brand_city&key=$1
+
+RewriteRule ^member\/(login|chklogin|logout|mlist|registerdo|register|agreement|password|info|logo|space|privacy|getpass)\/?([a-z]*)\/?(index.html|index.htm)?$ index.php?act=member.$1&type=$2
+RewriteRule ^(account|video|photo|member|feedback)\/?(index.html|index.htm)?$ index.php?act=$1.main
+RewriteRule ^checkcode.jpg$ /checkcode/index.php
+RewriteRule ^showinfo\/?([a-zA-Z0-9]*)\/?(index.html|index.htm)?$ index.php?act=showinfo.main
+RewriteRule ^sitemap.xml$ index.php?act=index.sitemap
+RewriteRule ^rss.xml$ index.php?act=index.rss
+RewriteRule ^feed\/?$ index.php?act=index.rss&count=10
+
+RewriteRule ^start\/?$ show.php?act=scenic.start
+
+
+
+
+# error document 404
+
+
+# 
+
