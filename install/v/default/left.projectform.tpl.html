@@ -1,55 +1,36 @@
 
 <div class='col-md-9'>
-	<br/>
+	<div class='row'><br/>&nbsp;<br/></div>
 
-	<h3><span class="glyphicon glyphicon-warning-sign" style='color:red;'></span> WARNING&#58;</h3>
-	<ul class="list-group" id='project-warning'>
-	  <li class="list-group-item">Cras justo odio</li>
-	  <li class="list-group-item">Dapibus ac facilisis in</li>
-	  <li class="list-group-item">Morbi leo risus</li>
-	  <li class="list-group-item">Porta ac consectetur ac</li>
-	  <li class="list-group-item">Vestibulum at eros</li>
-	</ul>
-
-	<h3><span class="glyphicon glyphicon-ok" style='color:green;'></span> TODO&#58;</h3>
-	<ul class="list-group" id='project-warning'>
-	  <li class="list-group-item">Cras justo odio</li>
-	  <li class="list-group-item">Dapibus ac facilisis in</li>
-	  <li class="list-group-item">Morbi leo risus</li>
-	  <li class="list-group-item">Porta ac consectetur ac</li>
-	  <li class="list-group-item">Vestibulum at eros</li>
-	  <li class="list-group-item">Cras justo odio</li>
-	  <li class="list-group-item">Dapibus ac facilisis in</li>
-	  <li class="list-group-item">Morbi leo risus</li>
-	  <li class="list-group-item">Porta ac consectetur ac</li>
-	  <li class="list-group-item">Vestibulum at eros</li>
-	  <li class="list-group-item">Cras justo odio</li>
-	  <li class="list-group-item">Dapibus ac facilisis in</li>
-	  <li class="list-group-item">Morbi leo risus</li>
-	  <li class="list-group-item">Porta ac consectetur ac</li>
-	  <li class="list-group-item">Vestibulum at eros</li>
-	  <li class="list-group-item">Cras justo odio</li>
-	  <li class="list-group-item">Dapibus ac facilisis in</li>
-	  <li class="list-group-item">Morbi leo risus</li>
-	  <li class="list-group-item">Porta ac consectetur ac</li>
-	  <li class="list-group-item">Vestibulum at eros</li>
-	  <li class="list-group-item">Cras justo odio</li>
-	  <li class="list-group-item">Dapibus ac facilisis in</li>
-	  <li class="list-group-item">Morbi leo risus</li>
-	  <li class="list-group-item">Porta ac consectetur ac</li>
-	  <li class="list-group-item">Vestibulum at eros</li>
-	</ul>
+<div class='row'>
+	<form method='POST' action='{$home}/install/{$action}'>
+		<input type='hidden' name='old_keyname' value='{$keyname}'>
+<ul class='list-group'>
+	<li class='list-group-item'>
+		<span class='text-right col-md-3'>安装系统所在路径:</span>
+		<span class='text-left'>{$installsys}</span>
+	</li>
+	<li class='list-group-item'>
+		<span class='text-right col-md-3'>项目名称:</span>
+		<span class='text-left'><input name='showname' value='{$showname}'></span>
+	</li>
+	<li class='list-group-item'>
+		<span class='text-right col-md-3'>项目代号:</span>
+		<span class='text-left'><input name='keyname' value='{$keyname}'>(字母数字组合，不能用中文, 主要用于系统内部使)</span>
+	</li>
+	<li class='list-group-item'>
+		<span class='text-right col-md-3'>项目的本机路径:</span>
+		<span class='text-left'><input name='path' value='{$path}' ></span>
+	</li>
+	<li class='list-group-item'>
+		<span class='text-right col-md-3'>项目的URL:</span>
+		<span class='text-left'><input name='url' value='{$url}' ></span>
+	</li>
+	<li class='list-group-item' style='line-height:170%'>
+		<span class='text-right col-md-3'></span>
+		<span class='text-left'><input type='submit' class='btn btn-primary' value='{$buttonname}'></span>
+	</li>
+</ul>
+</form>
 </div>
-
-<div class='col-md-3'>
-	<div class='bs-docs-sidebar affix'>
-		<ul class='nav bs-docs-sidenav' id='project-info'>
-			<li>系统路径:<span>{$installsys}</span></li>
-			{* <input type='hidden' name='old_keyname' value='{$keyname}'> *}
-			<li>项目名称:<span>{$showname}</span></li>
-			<li>项目代号:<span>{$keyname}</span></li>
-			<li>本机路径:<span>{$path}</span></li>
-			<li>项目URL:<span>{$url}</span></li>
-		</ul>
-	</div>
 </div>

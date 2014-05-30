@@ -13,6 +13,8 @@ Bad Callstacks:<br/>
 
 <hr>
 
+URL PATTERNS: <input type=text size='100' id='re'> <button id='retest' onclick='check_re()'>Match It!</button> <button>Add It To Rules!</button><br/><br/>
+
 <table style='border:solid 1px green;' width='100%'>
 <thead style='background-color:gray;color:white;'>
     <tr></tr>
@@ -25,7 +27,7 @@ Bad Callstacks:<br/>
 </thead>
 <tbody id='url'>
 {foreach from=$url_times item=i key=k name=n}
-<tr><td></td><td>{$k}</td><td>{$i.times}</td><td>{$i.runtime}</td><td>{$i.avgtime}</td></tr>
+<tr><td></td><td class='url_log'>{$k}</td><td>{$i.times}</td><td>{$i.runtime}</td><td>{$i.avgtime}</td></tr>
 {/foreach}
 </tbody>
 </table>
@@ -385,6 +387,18 @@ function setRanks(tblEl, col, rev) {
       lastRank = rowEl.rank;
     }
   }
+}
+
+function check_re()
+{
+
+var patt1=new RegExp($('#re').val());
+$('.url_log').each(function(index,item){
+    if(patt1.test($(item).text()))
+      $(item).css('background-color','yellow');
+    else
+      $(item).css('background-color','');
+});
 }
 {/literal}
 </SCRIPT>

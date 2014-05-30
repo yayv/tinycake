@@ -86,34 +86,19 @@ class log extends CommonController
         $path = $proj["path"].'/logs';
         $logfile = "/crumbs.".$logdate.".txt";
 		$resultfile = '/pickedcrumbs.'.$logdate.'.php';
+    	
+    	if(is_file($proj["path"].'/configs/urlpatterns.php'))
+    	{
+    		// TODO: 这里的合并规则，从项目的配置文件里读取进来的，
+    		// TODO: 因此存在被篡改或者被注入的风险，考虑将来增加配置文件的语法检查
+    		include($proj['path'].'/configs/urlpatterns.php');
+    	}
+    	else
+    		$patterns = array();
 
-    	// TODO: 这里的合并规则，可以写到项目的某个目录下，作为配置来使用
-        $this->getModel('mlog')->parseFile($path.$logfile, 
-						array(
-								'/\/lvyou\/.*/',
-								'/\/tupian\/.*/',
-								'/\/jiudian\/.*/',
-								'/\/ditu\/.*/',
-								'/\/gonglue\/.*/',
-								'/\/quguo\/.*/',
-								'/\/plan\/.*/',
-								'/\/youji\/.*/',
-								'/\/jingdian\/.*/',
-								'/\/jiaotong\/.*/',
-								'/\/jianjie\/.*/',
-								'/\/dianping\/.*/',
-								'/\/menpiao\/.*/',
-								'/\/zhusu\/.*/',
-								'/\/tianqi\/.*/',
-								'/\/fengjing\/.*/',
-								'/d.top.js.*/',
-								'/d.footer.js.*/',
-								'/index.php?.*/',
-
-								'/\/api\/scenic_lite\/id=.*/',
-								'/\/api\/scenic\/id=.*/',
-								'/\/api\/scenic_simple\/id=.*/',
-						)
+        $this->getModel('mlog')->parseFile(
+        			$path.$logfile, 
+					$patterns
 		);
         $this->getModel('mlog')->calcAvgTime();
         $this->getModel('mlog')->dumpToFile($path.$resultfile);
@@ -154,6 +139,8 @@ class log extends CommonController
 
         $tmpphp = $path.'/pickedcrumbs.tmp.php';
         $tmptxt = $path.'/crumbs.tmp.txt';
+
+        // TODO: merge url, by array
 
         if(is_file($tmpphp) || is_file($tmptxt))
         {
