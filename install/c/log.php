@@ -52,7 +52,7 @@ class log extends CommonController
         $this->tpl->assign('model_times', $this->getModel('mlog')->getModelTimes());
         $this->tpl->assign('method_times', $this->getModel('mlog')->getMethodTimes());
 
-        $body = $this->tpl->fetch('left.logparse.tpl.html');
+        $body = $this->tpl->fetch('body.logparse.tpl.html');
 
         // 处理界面
         $this->tpl->clear_all_assign();

@@ -1,0 +1,31 @@
+
+<div class='col-md-9'>
+	<br/>
+
+	<h3><span class="glyphicon glyphicon-warning-sign" style='color:red;'></span> 缺失的目录:<a href='' class='btn btn-primary'>修复</a></h3>
+	<ul class="list-group" id='project-warning'>
+	{foreach key=i item=dir from=$missed}
+	  <li class="list-group-item">{$dir}</li>
+	{/foreach}
+	</ul>
+
+	<h3><span class="glyphicon glyphicon-ok" style='color:green;'></span> 读写权限不正确的:<a href='' class='btn btn-primary'>修复</a></h3>
+	<ul class="list-group" id='project-warning'>
+	{section name=i loop=$rights}
+	  <li class="list-group-item">{$rights[i]}</li>
+	{/section}
+	</ul>
+</div>
+
+<div class='col-md-3'>
+	<div class='bs-docs-sidebar affix'>
+		<ul class='nav bs-docs-sidenav' id='project-info'>
+			<li>系统路径:<span>{$installsys}</span></li>
+			{* <input type='hidden' name='old_keyname' value='{$keyname}'> *}
+			<li>项目名称:<span>{$projectinfo.showname}</span></li>
+			<li>项目代号:<span>{$projectinfo.keyname}</span></li>
+			<li>本机路径:<span>{$projectinfo.path}</span></li>
+			<li>项目URL:<span>{$projectinfo.url}</span></li>
+		</ul>
+	</div>
+</div>

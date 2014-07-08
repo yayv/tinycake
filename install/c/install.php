@@ -49,7 +49,7 @@ class install extends CommonController
 		$this->tpl->assign('installsys',$_SERVER["DOCUMENT_ROOT"]);	
 		$this->tpl->assign('action','doinstall');
 		$this->tpl->assign('buttonname','创建');	
-		$this->tpl->assign('body', $this->tpl->fetch('left.projectform.tpl.html'));
+		$this->tpl->assign('body', $this->tpl->fetch('body.projectform.tpl.html'));
 
         $this->tpl->display('index.tpl.html');
     }
@@ -121,7 +121,7 @@ class install extends CommonController
 		$this->tpl->assign('buttonname','导入');	
 
 		// TODO: @liuce 这个模板换了，需要写一个新模板给这个Action
-		$body = $this->tpl->fetch('left.projectform.tpl.html');
+		$body = $this->tpl->fetch('body.projectform.tpl.html');
 
         $this->tpl->assign('body', $body);
 
@@ -159,7 +159,7 @@ class install extends CommonController
         // 列出全部管理中的项目
         $list = $this->getModel('mprojectlist')->getList();
         $this->tpl->assign('projectlist', $list);
-        $body = $this->tpl->fetch('left.projectlist.html');
+        $body = $this->tpl->fetch('body.projectlist.tpl.html');
         $this->tpl->assign('body', $body);
 
         // 定制导航菜单

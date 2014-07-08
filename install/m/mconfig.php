@@ -3,13 +3,14 @@
 class mconfig extends model
 {
 
-	public function getAllConfigFiles()
+	public function getAllConfigFiles($projectroot)
 	{
 		$files = array(
 			'domains'=>array(),
 			'others'=>array()
 		);
-		$d = dir('./configs/');
+
+		$d = dir("$projectroot/configs/");
 
 		while (false !== ($entry = $d->read())) 
 		{
@@ -19,7 +20,7 @@ class mconfig extends model
 			if($ret = preg_match("/cfg\.(.*)\.php/",$entry,$matches))
 				$files['domains'][$matches[1]] = $entry;
 			else
-				$files['others'][] = $entry;
+				$files['others'][] = substr($entry,0,-4);
 		}
 		$d->close();
 

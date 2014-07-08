@@ -33,7 +33,7 @@ class project extends CommonController
 
 		$this->tpl->assign('projectinfo',$proj);
 		$this->tpl->assign('todo',$todoofproject);
-		$body = $this->tpl->fetch('left.projecttodo.tpl.html');
+		$body = $this->tpl->fetch('body.projecttodo.tpl.html');
 		$this->tpl->assign('body',$body);
 		
 		$this->tpl->display('index.tpl.html');
@@ -70,7 +70,7 @@ class project extends CommonController
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
 
-		$body = $this->tpl->fetch('left.projectform.tpl.html');
+		$body = $this->tpl->fetch('body.projectform.tpl.html');
         $this->tpl->assign('body', $body);
 		
 		$this->tpl->assign('body', '<p>'.$body.'</p>');
@@ -98,7 +98,7 @@ class project extends CommonController
 
 		$this->tpl->assign('loglist', $logs);
 
-		$body = $this->tpl->fetch('left.loglist.tpl.html');
+		$body = $this->tpl->fetch('body.loglist.tpl.html');
 
         // 定制导航菜单
         $this->tpl->assign('currentItems',
@@ -143,6 +143,73 @@ class project extends CommonController
     	return ;
     }
 
+	function checkdir()
+	{
+    	parent::init();
+
+    	// TODO: 这里要实现分层列出关键函数名文件名
+    	// TODO: 下一步就要考虑如何呈现MVC直接的调用和支持关系
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
+		$name = $_GET['name'];
+
+		$proj = $this->getModel('mprojectlist')->getProject($name);		
+		$this->tpl->assign('projectinfo', $proj);
+
+		$ret = $this->getModel('mproject')->checkDirectoriesExists($proj['path']);
+
+		$this->tpl->assign('missed', $ret);
+/*
+    function 
+    {
+        $tocreate = array();
+
+        foreach($this->_dirs as $k=>$v)
+        {
+            if(!is_dir($home.$v))
+            {
+                $tocreate[] = $home.$v;
+            }
+        }
+
+        return $tocreate;
+    }
+
+    function checkDirectoriesMode($dirs)
+    {
+        $tochmod = array();
+
+        foreach($dirs as $k=>$v)
+            if(!is_writable($v))
+                $tochmod[] = $v;
+
+        return $tochmod;
+    }
+
+    function checkFilesMode($home)
+    {
+        $togenerate = array();
+
+        foreach($this->_files as $k=>$v)
+            if(!is_file($home.$k))
+            {
+                $togenerate[$k] = $v;
+            }
+
+        return $togenerate;
+
+    }    
+*/
+		$this->tpl->assign('rights', range(1,3));
+		$body = $this->tpl->fetch('body.directories.tpl.html');
+		$this->tpl->assign('body', "<br/><br/><br/>".$body);
+
+		$this->tpl->display('index.tpl.html');	
+    	
+    	return ;
+	}
+
+
     public function config()
     {
     	parent::init();
@@ -165,11 +232,45 @@ class project extends CommonController
 
 		$this->tpl->assign('projectinfo', $proj);
 
-		$files = $this->getModel('mconfig')->getAllConfigFiles();
+		$files = $this->getModel('mconfig')->getAllConfigFiles($proj['path']);
 		
 		$this->tpl->assign("domains",$files['domains']);
 		$this->tpl->assign("others",$files['others']);
-    	$body = $this->tpl->fetch("left.config.tpl.html");
+    	$body = $this->tpl->fetch("body.config.tpl.html");
+
+    	$this->tpl->assign('body', $body);
+    	$this->tpl->display('index.tpl.html');
+
+    	return ;
+    }
+
+    public function showconfig()
+    {
+    	parent::init();
+		$name = $_GET['name'];
+        $proj = $this->getModel('mprojectlist')->getProject($name);
+
+        $this->tpl->assign('currentItems',
+        		array(
+        			array('href'=>'###','title'=>'|'),
+        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        	));
+
+        $nav  = $this->tpl->fetch('navigatebar.tpl.html');
+        $this->tpl->assign('navigatebar',$nav);
+
+		$this->tpl->assign('projectinfo', $proj);
+
+		$files = $this->getModel('mconfig')->getAllConfigFiles($proj['path']);
+		
+		$this->tpl->assign("domains",$files['domains']);
+		$this->tpl->assign("others",$files['others']);
+    	$body = $this->tpl->fetch("body.config.tpl.html");
 
     	$this->tpl->assign('body', $body);
     	$this->tpl->display('index.tpl.html');
