@@ -5,14 +5,14 @@
 	<h3><span class="glyphicon glyphicon-warning-sign" style='color:red;'></span> 主配置文件:</h3>
 	<ul class="list-group" id='project-warning'>
 	{foreach key=i item=domain from=$domains}
-	  <li class="list-group-item"><a href='{$domain}'>{$i}</a></li>
+	  <li class="list-group-item"><a href='/project/showconfig/name-{$projectinfo.keyname}/cfg-{$domain}'>{$i}</a></li>
 	{/foreach}
 	</ul>
 
 	<h3><span class="glyphicon glyphicon-ok" style='color:green;'></span> 扩展配置文件:</h3>
 	<ul class="list-group" id='project-warning'>
 	{section name=i loop=$others}
-	  <li class="list-group-item">{$others[i]}</li>
+	  <li class="list-group-item"><a href='/project/showconfig/name-{$projectinfo.keyname}/cfg-{$others[i]}'>{$others[i]}</a></li>
 	{/section}
 	</ul>
 </div>
