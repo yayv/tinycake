@@ -1,291 +1,263 @@
 <?php
+/**
+  * Note: 这个类是为了对之前所用的mysql类进行过度而进行封装的。将来，有可能在tinycake类中直接使用mysqli
+  * 
+  */
 class mysql
 {
-	var $link;
-	
+	// mysqli 对象
+	var $mi;
+	// 日志文件句柄
+	var $logfile;
+	// 链接mysql服务器的参数
 	var $db;
-	var $prefix;
-	
-	var $count;
-	
-	var $error_info;
-	var $sql;
-	
-	var $query = array();
-	
-	var $last_sql = "";
 
-	var $logfile  = '';
-    /**
-     * Parameter must be an array, defined as:
-     *  server['host']
-     *  server['port']
-     *  server['username']
-     *  server['password']
-     *  server['charset']
-     */
-	function __construct($server)
-	{
-		$server['host']     = isset($server['host'])?$server['host']:'localhost';
-		$server['port']		= isset($server['port'])?$server['port']:'3306';
-		$server['charset']	= isset($server['charset'])?$server['charset']:'utf8';
-		$server['database'] = isset($server['database'])?$server['database']:'nodata';
+    function __construct($server)
+    {
+		// 如果$server有配置，则用server,如果没有，则使用defcfg的默认配置
+		$defcfg = array(
+				"host"=>'127.0.0.1',
+				"port"=>"3306",
+				'username'=>'', 
+				'password'=>'', 
+				'database'=>'', 
+				'socket'=>'', 
+				'charset'=>'utf8',
 
-		$this->logfile  = isset($server['logfile'])?$server['logfile']:'php://output';
-		$this->db		= $server;
-		$this->prefix	= isset($server['prefix'])?$server['prefix']:'';
-		$this->count 	= 0;
-	}
-	
-	function setLogfile($logfile='php://output')
-	{
+			);
+
+		$res = array_diff_key($defcfg, $server);
+		$this->db = array_merge($res, $server);
+
+		// 建立链接
+    	$this->mi = new mysqli($this->db['host'], $this->db['username'], $this->db['password'], $this->db['database']);
+
+    	$this->mi->set_charset($this->db['charset']);
+    	$this->logfile = "php://output";
+    }
+
+    function setLogfile($logfile='php://output')
+    {
 		$this->logfile = $logfile;
-	}
+    }
 
-	function connect()
-	{
-		$this->link = mysql_connect(
-			$this->db['host'].':'.$this->db['port'],
-			$this->db['username'],
-			$this->db['password']);
+    function connect()
+    {
+		$ret = $this->mi->real_connect(
+					$this->db['host'], 
+					$this->db['username'], 
+					$this->db['password'], 
+					$this->db['database'], 
+					$this->db['port'], 
+					$this->db['socket']
+			);
 
-		if(!$this->link)
-		{
-			$this->show_error("Connect failed!");
-		}
-		else
+        if($ret)
         {
-		    //$this->select_db($this->db['database']);
-		    $this->query("SET NAMES '".$this->db['charset']."';");
+            $this->mi->set_charset($this->db['charset']);
         }
-	}
-	
-	//mysql_select_db
-	function select_db($database)
-	{
-		$result = mysql_select_db($database,$this->link);
+        else
+        {
+        	$this->show_error($this->mi->connect_error);
+        }		
+    }
 
-		if(!$result)
-		{
-			$this->show_error("Can't select database!");
-		}
-	}
-	
+    function select_db($database)
+    {
+    	// inherent
+    	$this->mi->select_db($database);
+    }
+
+
+    function get_error()
+    {
+        if($this->mi->connect_errno)
+        {
+            $error['sql']           = $this->mi->escape_string;
+            $error['number']        = $this->mi->connect_errno;
+            $error['description']    = $this->mi->connect_error;
+        }
+        else 
+        {
+            $error['sql']           = $this->mi->escape_string;
+            $error['number']        = $this->mi->errno;
+            $error['description']    = $this->mi->error;
+        }
+        return $error;
+    }
+
+    function show_error($title)
+    {
+        $content = "--------------------\n";
+        $content.= $title."\n";
+        $content.= $this->mi->connect_errno?$this->mi->connect_error:$this->mi->error;
+        $content.= "\n";
+        $content.= "$this->last_sql\n";
+
+        error_log($content, 3, $this->logfile);
+
+        return $content;
+    }
+
     function affected_rows()
     {
-        if($this->link)
-            return mysql_affected_rows($this->link);
+    	// inherent
+		return $this->mi->affected_rows;
+    }
+
+    function query($sql)
+    {
+		$this->lastresult = $this->mi->query($sql);
+		return $this->lastresult;
+    }
+
+    function insert_id()
+    {
+    	// inherent
+    	return $this->mi->insert_id;
+    }
+
+    function fetch_value($sql,$fieldname)
+    {
+        $list         = $this->query($sql);
+        $list_array = $this->fetch_array($list);
+        return $list_array[$fieldname];        
+    }
+
+    function fetch_one_value($sql)
+    {
+        $list         = $this->query($sql);
+        $list_array = $this->fetch_array($list);
+        return $list_array[0];
+    }
+
+    function num_rows($result)
+    {
+		return $result->num_rows;
+    }
+
+    function fetch_one_array($sql)
+    {
+        $list         = $this->query($sql);
+        $list_array = $this->fetch_array($list);
+        return $list_array;
+    }
+
+    function fetch_one_assoc($sql)
+    {
+        $list         = $this->query($sql);
+        $list_array = $this->fetch_assoc($list);
+        return $list_array;
+    }
+
+    function fetch_all_array($sql,$max=0)
+    {
+        if(is_string($sql))    
+            $query = $this->query($sql);
+        else
+            $query = $sql;
+
+        $all_array = array();
+        while($list_item = $this->fetch_array($query))
+        {
+            $current_index ++;
+            
+            if($current_index > $max && $max != 0)
+            {
+                break;
+            }
+            
+            $all_array[] = $list_item;
+            
+        }
+        
+        return $all_array;    
+    }
+
+    function fetch_all_assoc($sql,$max=0)
+    {
+        $current_index = 0;
+        $all_array = array();
+        
+        if(is_string($sql))    
+            $query = $this->mi->query($sql);
+        else
+            $query = $sql;
+
+        while($list_item = $query->fetch_assoc())
+        {
+
+            $current_index ++;
+            
+            if($current_index > $max && $max != 0)
+            {
+                break;
+            }
+            
+            $all_array[] = $list_item;
+            
+        }
+        
+        return $all_array;
+    }
+
+    function fetch_array($result)
+    {
+    	$ret = $result->fetch_array();
+		return $ret;
+    }
+
+    function fetch_assoc($result)
+    {
+		$ret = $result->fetch_assoc();
+		return $ret;
+    }
+
+    function fetch_row($result)
+    {
+		$row = $result->fetch_row();
+		return $row;
+    }
+
+    function fetch_all_object($sql,$max=0)
+    {
+        $current_index = 0;
+        $result = $this->query($sql);
+
+        if ($result) 
+        {
+            /* fetch object array */
+            while ($obj = $result->fetch_object()) 
+            {
+                $current_index ++;
+                
+                if($current_index > $max && $max != 0)
+                {
+                    break;
+                }
+                
+                $all_array[] = $list_item;
+            }
+
+            /* free result set */
+            $result->close();
+            return $all_array;
+        }
         else
             return false;
     }
 
-	//mysql_query
-	function query($sql)
-	{
-		$this->count ++;
+    function fetch_one_object($sql,$max=0)
+    {
+        $query = $this->query($sql);
 
-		if(!$this->link)
-		{
-			$this->connect();
-		}
+        return $this->fetch_object($query);
+    }
 
-		$this->sql = $sql;
+    function fetch_object($result)
+    {
+        $ret = $result->fetch_object();
+        return $ret;
+    }
 
-		$this->select_db($this->db['database']);
-        $this->last_sql = $sql;
-		$result = mysql_query($sql,$this->link);
-
-		if(!$result)
-		{
-			$this->show_error("Mysql query failed!");
-		}else{
-			return $result;
-		}
-	}
-	
-	//mysql_insert_id
-	function insert_id()
-	{
-		return mysql_insert_id($this->link);
-	}
-	
-	//get a value from result of the sql for special field
-	function fetch_value($sql,$fieldname)
-	{
-		$list 		= $this->query($sql);
-		$list_array = $this->fetch_array($list);
-		return $list_array[$fieldname];
-	}
-	
-	function fetch_one_value($sql)
-	{
-		$list 		= $this->query($sql);
-		$list_array = $this->fetch_array($list);
-		return $list_array[0];
-	}	
-	
-	//mysql_num_rows
-	function num_rows($query)
-	{
-		return mysql_num_rows($query);
-	}
-	
-	//get the array from a sql
-	function fetch_one_array($sql)
-	{
-		$list 		= $this->query($sql);
-		$list_array = $this->fetch_array($list);
-		return $list_array;
-	}
-	
-	function fetch_one_assoc($sql)
-	{
-		$list 		= $this->query($sql);
-		$list_array = $this->fetch_assoc($list);
-		return $list_array;
-	}	
-	
-	//mysql_fetch_array
-	function fetch_all_array($sql,$max=0)
-	{
-		if(is_string($sql))	
-			$query = $this->query($sql);
-		else
-			$query = $sql;
-
-		$all_array = array();
-		while($list_item = $this->fetch_array($query))
-		{
-			$current_index ++;
-			
-			if($current_index > $max && $max != 0)
-			{
-				break;
-			}
-			
-			$all_array[] = $list_item;
-			
-		}
-		
-		return $all_array;	
-	}
-
-	//mysql_fetch_array
-	function fetch_all_assoc($sql,$max=0)
-	{
-		$current_index = 0;
-		$all_array = array();
-		
-		if(is_string($sql))	
-			$query = $this->query($sql);
-		else
-			$query = $sql;
-
-		while($list_item = $this->fetch_assoc($query))
-		{
-			$current_index ++;
-			
-			if($current_index > $max && $max != 0)
-			{
-				break;
-			}
-			
-			$all_array[] = $list_item;
-			
-		}
-		
-		return $all_array;
-	}
-
-	//mysql_fetch_array
-	function fetch_array($query)
-	{
-		return mysql_fetch_array($query);
-	}
-	
-	//mysql_fetch_assoc
-	function fetch_assoc($query)
-	{
-		return mysql_fetch_assoc($query);
-	}
-
-	//mysql_fetch_row
-	function fetch_row($query)
-	{
-		return mysql_fetch_row($query);
-	}
-	
-	//get the number id and description of error
-	function get_error()
-	{
-		if($this->link)
-		{
-            $error['sql']           = $this->last_sql;
-			$error['number']		= mysql_errno($this->link);
-			$error['description']	= mysql_error($this->link);
-		}
-		else 
-		{
-            $error['sql']           = $this->last_sql;
-			$error['number']		= mysql_errno();
-			$error['description']	= mysql_error();			
-		}
-		return $error;
-	}	
-
-	//display the error information to client browsers
-	function show_error($title)
-	{
-		$content = "--------------------\n";
-		$content.= $title."\n";
-		$content.= $this->link?mysql_error($this->link):mysql_error();
-		$content.= "\n";
-		$content.= "$this->last_sql\n";
-
-		error_log($content, 3, $this->logfile);
-
-		return $content;
-	}
-		
-		//mysql_fetch_object
-	function fetch_all_object($sql,$max=0)
-	{
-		$current_index = 0;
-		$query = $this->query($sql);
-
-		while($list_item = $this->fetch_object($query))
-		{
-			$current_index ++;
-			
-			if($current_index > $max && $max != 0)
-			{
-				break;
-			}
-			
-			$all_array[] = $list_item;
-			
-		}
-		
-		return $all_array;
-	}
-
-
-	function fetch_one_object($sql,$max=0)
-	{
-		$query = $this->query($sql);
-
-		return $this->fetch_object($query);
-	}
-
-	//mysql_fetch_object
-	function fetch_object($query)
-	{
-		#print_r($query);
-		##echo '<pre>';
-		#debug_print_backtrace();
-		#print_r($query);
-		return mysql_fetch_object($query);
-	}
-
-} // end class
-		
+}
