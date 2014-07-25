@@ -236,7 +236,7 @@ class mysql
                     break;
                 }
                 
-                $all_array[] = $list_item;
+                $all_array[] = $obj;
             }
 
             /* free result set */
