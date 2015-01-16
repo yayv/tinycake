@@ -135,32 +135,14 @@ class Core
 		@fwrite($open,$content);
 		@fclose($open);
     }
-	
-    /**
-     * a patch for old kezhi's code
-     */
-    function rebuildUrl_patch_forLIUKEZHI($uri)
-    {
-		$arrAction = explode('.',strtolower($_REQUEST['act']));
-        $_GET['controller'] = $arrAction[0];
-        $_GET['action'] = $arrAction[1];
-		return $arrAction;
-    }
-    
+	    
     /**
      * TODO: 这个代码的完善，还需要把柯志的代码全部调整一遍才能完全确认
      * 
      * @param $uri
      */
-    function rebuildUrl($uri)
+    function rebuildUrl($uri, $base='/')
 	{
-		// do nothing
-		if(isset($_REQUEST['act']))
-		{
-			return $this->rebuildUrl_patch_forLIUKEZHI($uri);
-		}
-		else
-		{
 	    /*
 	    url example: /controller/action/param1-value1/param2-value2/param3-value3?exparams
 	    => $_GET=> array(
@@ -171,12 +153,20 @@ class Core
 	    )
 	    
 	    */
+
+		if(0===strpos($uri, $base))
+		{
+			$uri = substr($uri, strlen($base));
+			#echo $suri, "<br>";
+		}
+
 	    #$exparams = explode('?', $_SERVER['REQUEST_URI']);
 	    $exparams = explode('?', $uri);
 	    $params = explode("/",$exparams[0]);
 
 		$_GET['controller']='';
 		$_GET['action']='';
+
 	    foreach( $params as $p => $v )
 	    {
 	        $kv = explode('-', $v);
@@ -193,9 +183,9 @@ class Core
 			if(count($kv)===1)
 			    switch($p)
 			    {
-			        case 0: continue;break;
-			        case 1:$_GET['controller']=$v;break;
-			        case 2:	$_GET['action']=$v;	break;
+			        #case 0: continue;break;
+			        case 0:$_GET['controller']=$v;break;
+			        case 1:	$_GET['action']=$v;	break;
 			        default: break;
 			    }
 	    }
@@ -204,7 +194,6 @@ class Core
 	    if($_GET['action']=='') $_GET['action'] = 'index';
 
 	    return array($_GET['controller'], $_GET['action']);
-		}
 	}
     	
 	function loadSession()
