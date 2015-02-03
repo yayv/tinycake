@@ -135,7 +135,7 @@ class Core
 		@fwrite($open,$content);
 		@fclose($open);
     }
-	
+
     /**
      * TODO: 这个代码的完善，还需要把柯志的代码全部调整一遍才能完全确认
      * 
@@ -153,6 +153,13 @@ class Core
 	    )
 	    
 	    */
+
+		if(0===strpos($uri, $base))
+		{
+			$uri = substr($uri, strlen($base));
+			#echo $suri, "<br>";
+		}
+
 	    #$exparams = explode('?', $_SERVER['REQUEST_URI']);
 		// TODO: match base URI
 		
@@ -162,6 +169,7 @@ class Core
 
 		$_GET['controller']='';
 		$_GET['action']='';
+
 	    foreach( $params as $p => $v )
 	    {
 	        $kv = explode('-', $v);
@@ -178,9 +186,9 @@ class Core
 			if(count($kv)===1)
 			    switch($p)
 			    {
-			        case 0: continue;break;
-			        case 1:$_GET['controller']=$v;break;
-			        case 2:	$_GET['action']=$v;	break;
+			        #case 0: continue;break;
+			        case 0:$_GET['controller']=$v;break;
+			        case 1:	$_GET['action']=$v;	break;
 			        default: break;
 			    }
 	    }

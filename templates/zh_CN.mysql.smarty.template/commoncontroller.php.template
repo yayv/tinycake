@@ -10,7 +10,7 @@ abstract class CommonController extends Controller
         if('mysql'==get_class($this->_db))
             return ;
 
-		include_once('cls.mysql.php');
+		include_once('cls.mysqli.php');
 
 		// override it , if you want own database object 
 		//assign the object for db,tpl
