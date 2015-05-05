@@ -150,7 +150,7 @@ class install extends CommonController
     function listall()
     {
 	    // NOTE: 如果此 action 不需要用到数据库或者模板引擎，请注释掉相应的代码，以提高速度
-	    //parent::initDb(Core::getInstance()->getConfig('database'));
+	    //parent::initDb(Core::getInstance()->getConfig('database'));	    die('jjkjkjk');
 	    parent::initTemplateEngine(
                         Core::getInstance()->getConfig('theme'),
                         Core::getInstance()->getConfig('compiled_template'));

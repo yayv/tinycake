@@ -67,9 +67,11 @@ class Core
         $this->_controller_map = isset($cmap)?$cmap:array();
 	}
 
-    function ControllerMap($c, $a)
+    function ControllerMap($c, $a, $m)
     {
-        if(array_key_exists($c.'/'.$a,$this->_controller_map))
+	     if(array_key_exists($c.'/'.$a.'/'.$m, $this->_controller_map))
+        	return $this->_controller_map[$c.'/'.$a.'/'.$m] ;
+		else if(array_key_exists($c.'/'.$a, $this->_controller_map))
         	return $this->_controller_map[$c.'/'.$a] ;
         else if(array_key_exists($c, $this->_controller_map))
             return array($this->_controller_map[$c], 'index');
@@ -142,7 +144,7 @@ class Core
      * @param $uri
      */
     function rebuildUrl($uri, $base='/')
-	{
+	{  
 	    /*
 	    url example: /controller/action/param1-value1/param2-value2/param3-value3?exparams
 	    => $_GET=> array(
@@ -163,13 +165,13 @@ class Core
 	    #$exparams = explode('?', $_SERVER['REQUEST_URI']);
 		// TODO: match base URI
 		
-		$tail = strstr($uri, $base);
-	    $exparams = explode('?', $uri);
-	    $params = explode("/",$exparams[0]);
+		$tail 		= strstr($uri, $base);
+	    $exparams 	= explode('?', $uri);
+	    $params 	= explode("/",$exparams[0]);
 
-		$_GET['controller']='';
-		$_GET['action']='';
-
+		$_GET['controller']	='';
+		$_GET['action']		='';
+        $_GET['method']		='';
 	    foreach( $params as $p => $v )
 	    {
 	        $kv = explode('-', $v);
@@ -182,21 +184,23 @@ class Core
 	        {
 	            $_GET['params'.$p] = $kv[0];
 	        }
-	
+
 			if(count($kv)===1)
 			    switch($p)
 			    {
 			        #case 0: continue;break;
-			        case 0:$_GET['controller']=$v;break;
-			        case 1:	$_GET['action']=$v;	break;
+			        case 0:$_GET['controller']=$v;	break;
+			        case 1:$_GET['action']=$v;		break;
+				    case 2:$_GET['method']=$v;		break;
 			        default: break;
 			    }
 	    }
-	
+
 	    if($_GET['controller']=='') $_GET['controller'] = 'defaultcontroller';
 	    if($_GET['action']=='') $_GET['action'] = 'index';
+ 		if($_GET['method']=='') $_GET['method'] = 'index';
 
-	    return array($_GET['controller'], $_GET['action']);
+	    return array($_GET['controller'], $_GET['action'],$_GET['method']);
 	}
     	
 	function loadSession()

@@ -55,7 +55,7 @@ class log extends CommonController
         $body = $this->tpl->fetch('body.logparse.tpl.html');
 
         // 处理界面
-        $this->tpl->clear_all_assign();
+        $this->tpl->clearAllAssign();
 
         $this->tpl->assign('body', $body);
 

@@ -29,7 +29,7 @@ abstract class CommonController extends Controller
 	 */
 	function initTemplateEngine($templatedir='v/default/', $compile_dir='v/_run')
 	{
-		include('smarty/Smarty.class.php');
+		include('smarty3/Smarty.class.php');
 
 		$this->tpl 	= new Smarty;
 		if($templatedir)
