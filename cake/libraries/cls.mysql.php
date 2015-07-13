@@ -30,7 +30,7 @@ class mysql
 		$this->db = array_merge($res, $server);
 
 		// 建立链接
-    	$this->mi = new mysqli($this->db['host'], $this->db['username'], $this->db['password'], $this->db['database']);
+    	$this->mi = new mysqli($this->db['host'], $this->db['username'], $this->db['password'], $this->db['database'], $this->db['port'],$this->db['sock']);
 
     	$this->mi->set_charset($this->db['charset']);
     	$this->logfile = "php://output";

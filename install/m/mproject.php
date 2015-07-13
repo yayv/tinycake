@@ -35,7 +35,6 @@ class mproject extends model
         '/v/default/index.tpl.html'=> '../cake/templates/index.tpl.html.template',
         '/data/todo.txt'           => '../cake/templates/todo.txt.template',
         '/data/history.txt'        => '../cake/templates/history.txt.template',
-        '/m/mmenu.php'             => '../cake/templates/mmenu.php.template',
         );
 
 	// SOME PRIVATE DATA

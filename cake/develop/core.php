@@ -67,11 +67,22 @@ class Core
         $this->_controller_map = isset($cmap)?$cmap:array();
 	}
 
-    function ControllerMap($c, $a, $m)
+	function UrlMap($url)
+	{
+		foreach($this->_url_map as $k=>$v)
+		{
+			$ret = preg_match($v, $url, $matches);
+			if($ret)
+			{
+				return $v;
+			}
+		}
+		return array();
+	}
+
+    function ControllerMap($c, $a)
     {
-	     if(array_key_exists($c.'/'.$a.'/'.$m, $this->_controller_map))
-        	return $this->_controller_map[$c.'/'.$a.'/'.$m] ;
-		else if(array_key_exists($c.'/'.$a, $this->_controller_map))
+		if(array_key_exists($c.'/'.$a, $this->_controller_map))
         	return $this->_controller_map[$c.'/'.$a] ;
         else if(array_key_exists($c, $this->_controller_map))
             return array($this->_controller_map[$c], 'index');
