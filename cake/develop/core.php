@@ -90,10 +90,16 @@ class Core
             return array($c, $a);
     }
 	
-	function getConfig($key)
+	function getConfig($key, $subkey=false)
 	{
 		if(isset($this->_config) && array_key_exists($key, $this->_config))
-			return $this->_config[$key];
+		{
+			if(false===$subkey || !array_key_exists($subkey, $this->_config[$key])
+				return $this->_config[$key];
+			else
+				return $this->_config[$key][$subkey];
+		}
+			
 		else
 			return false;
 	}
