@@ -191,24 +191,28 @@ class Core
         $_GET['method']		='';
 	    foreach( $params as $p => $v )
 	    {
-	        $kv = explode('-', $v);
-	
-	        if(count($kv)>1)
+	        #$kv = explode('-', $v);
+	        $kv = strstr($v,'-', true);
+	        $vv = '';
+
+	        if($kv===false)
 	        {
-	            $_GET[$kv[0]] = $kv[1];
+	        	$_GET['params'.$p] = $v;
+	        	$vv = $v;
 	        }
 	        else
 	        {
-	            $_GET['params'.$p] = $kv[0];
+	        	$_GET[$kv] = substr(strstr($v, '-'), 1);
+	        	$vv = substr(strstr($v, '-'), 1);
 	        }
-
+	        
 			if(count($kv)===1)
 			    switch($p)
 			    {
 			        #case 0: continue;break;
-			        case 0:$_GET['controller']=$v;	break;
-			        case 1:$_GET['action']=$v;		break;
-				    case 2:$_GET['method']=$v;		break;
+			        case 0:$_GET['controller']=$vv;	break;
+			        case 1:$_GET['action']=$vv;		break;
+				    case 2:$_GET['method']=$vv;		break;
 			        default: break;
 			    }
 	    }

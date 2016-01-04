@@ -12,6 +12,10 @@ if($file)
 
 // ln -s smarty-3xxx/libs/ smarty3
 
+// --------------
+// download jquery
+
+
 
 // --------------
 // download bootstrap3
