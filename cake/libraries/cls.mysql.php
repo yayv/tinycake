@@ -12,8 +12,12 @@ class mysql
 	// 链接mysql服务器的参数
 	var $db;
 
+    var $connected;
+
     function __construct($server)
     {
+        $this->connected = false; 
+
 		// 如果$server有配置，则用server,如果没有，则使用defcfg的默认配置
 		$defcfg = array(
 				"host"=>'127.0.0.1',
@@ -23,17 +27,31 @@ class mysql
 				'database'=>'', 
 				'socket'=>'', 
 				'charset'=>'utf8',
-
 			);
 
+        if(!is_array($server)) $server = array();
+
 		$res = array_diff_key($defcfg, $server);
+
+        $this->logfile = "php://output";
+
 		$this->db = array_merge($res, $server);
 
 		// 建立链接
-    	$this->mi = new mysqli($this->db['host'], $this->db['username'], $this->db['password'], $this->db['database'], $this->db['port'],$this->db['socket']);
+        $this->mi = new mysqli(
+                $this->db['host'], $this->db['username'], $this->db['password'], 
+                $this->db['database'], $this->db['port'],$this->db['socket']
+            );
+        if($this->errno===0)
+        {
+            $this->connected = true;
+            $this->mi->set_charset($this->db['charset']);                
+        }
+    }
 
-    	$this->mi->set_charset($this->db['charset']);
-    	$this->logfile = "php://output";
+    function isConnected()
+    {
+        return $this->connected ;
     }
 
     function setLogfile($logfile='php://output')
@@ -107,8 +125,20 @@ class mysql
 
     function query($sql)
     {
+        // result maybe false
 		$this->lastresult = $this->mi->query($sql);
 		return $this->lastresult;
+    }
+
+    function fetch_row($result)
+    {
+        if($result)
+        {
+            $row = $result->fetch_row();
+            return $row;
+        }
+        else
+            return false;
     }
 
     function insert_id()
@@ -117,37 +147,62 @@ class mysql
     	return $this->mi->insert_id;
     }
 
-    function fetch_value($sql,$fieldname)
-    {
-        $list         = $this->query($sql);
-        $list_array = $this->fetch_array($list);
-        return $list_array[$fieldname];        
-    }
-
-    function fetch_one_value($sql)
-    {
-        $list         = $this->query($sql);
-        $list_array = $this->fetch_array($list);
-        return $list_array[0];
-    }
-
     function num_rows($result)
     {
-		return $result->num_rows;
+        return $result->num_rows;
+    }
+
+    function fetch_object($result)
+    {
+        $ret = $result->fetch_object();
+        return $ret;
+    }
+
+    function fetch_array($result)
+    {
+        $ret = $result->fetch_array();
+        return $ret;
+    }
+
+    function fetch_assoc($result)
+    {
+        $ret = $result->fetch_assoc();
+        return $ret;
+    }
+
+    function fetch_one_object($sql)
+    {
+        $query = $this->query($sql);
+
+        if($query)
+            return $this->fetch_object($query);
+        else
+            return false;
     }
 
     function fetch_one_array($sql)
     {
         $list         = $this->query($sql);
-        $list_array = $this->fetch_array($list);
-        return $list_array;
+
+        if($list)
+        {
+            $list_array = $this->fetch_array($list);
+            return $list_array;            
+        }
+        else
+            return false;
     }
 
     function fetch_one_assoc($sql)
     {
         $list         = $this->query($sql);
-        $list_array = $this->fetch_assoc($list);
-        return $list_array;
+        if($list)
+        {
+            $list_array = $this->fetch_assoc($list);
+            return $list_array;
+        }
+        else
+            return false;
     }
 
     function fetch_all_array($sql,$max=0)
@@ -201,24 +256,6 @@ class mysql
         return $all_array;
     }
 
-    function fetch_array($result)
-    {
-    	$ret = $result->fetch_array();
-		return $ret;
-    }
-
-    function fetch_assoc($result)
-    {
-		$ret = $result->fetch_assoc();
-		return $ret;
-    }
-
-    function fetch_row($result)
-    {
-		$row = $result->fetch_row();
-		return $row;
-    }
-
     function fetch_all_object($sql,$max=0)
     {
         $current_index = 0;
@@ -245,19 +282,6 @@ class mysql
         }
         else
             return false;
-    }
-
-    function fetch_one_object($sql,$max=0)
-    {
-        $query = $this->query($sql);
-
-        return $this->fetch_object($query);
-    }
-
-    function fetch_object($result)
-    {
-        $ret = $result->fetch_object();
-        return $ret;
     }
 
 }
