@@ -120,15 +120,25 @@ class mysql
     function fetch_value($sql,$fieldname)
     {
         $list         = $this->query($sql);
-        $list_array = $this->fetch_array($list);
-        return $list_array[$fieldname];        
+        if($list!=false)
+        {
+            $list_array = $this->fetch_array($list);
+            return $list_array[$fieldname];        
+        }
+        else
+            return false;
     }
 
     function fetch_one_value($sql)
     {
         $list         = $this->query($sql);
-        $list_array = $this->fetch_array($list);
-        return $list_array[0];
+        if($list!=false)
+        {
+            $list_array = $this->fetch_array($list);
+            return $list_array[0];
+        }
+        else
+            return false;
     }
 
     function num_rows($result)
@@ -139,15 +149,25 @@ class mysql
     function fetch_one_array($sql)
     {
         $list         = $this->query($sql);
-        $list_array = $this->fetch_array($list);
-        return $list_array;
+        if($list!=false)
+        {
+            $list_array = $this->fetch_array($list);
+            return $list_array;
+        }
+        else
+            return false;
     }
 
     function fetch_one_assoc($sql)
     {
         $list         = $this->query($sql);
-        $list_array = $this->fetch_assoc($list);
-        return $list_array;
+        if($list!=false)
+        {
+            $list_array = $this->fetch_assoc($list);
+            return $list_array;
+        }
+        else
+            return false;
     }
 
     function fetch_all_array($sql,$max=0)
@@ -178,11 +198,14 @@ class mysql
     {
         $current_index = 0;
         $all_array = array();
-        
-        if(is_string($sql))    
+
+        if(is_string($sql)){
             $query = $this->mi->query($sql);
-        else
+            print_r($query);print_r($this->mi);
+        }    
+        else{
             $query = $sql;
+        }
 
         while($list_item = $query->fetch_assoc())
         {
