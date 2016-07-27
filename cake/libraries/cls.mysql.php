@@ -237,12 +237,25 @@ class mysql
 
         if(is_string($sql)){
             $query = $this->mi->query($sql);
-            print_r($query);print_r($this->mi);
+
+            if($query===false)
+            {
+                return false ;
+            }
         }    
-        else{
+        else if(is_object($sql)){
             $query = $sql;
         }
+        else
+            return false ;
 
+        /*
+        if($query===false)
+        {
+            return false;
+        }
+        */
+                
         while($list_item = $query->fetch_assoc())
         {
 
