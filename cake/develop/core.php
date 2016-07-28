@@ -63,8 +63,11 @@ class Core
         // 载入controller map, controller_map 也需要按照域名做多样化配置
 		if(is_file('configs/'."cmap.$host.php")) 
 			require_once('configs/'."cmap.$host.php");
-		else
-			require_once('configs/'."cmap.default.php");
+		else if(is_file('configs/cmap.default.php'))
+			require_once("configs/cmap.default.php");
+		else{ 
+			// do nothing
+		}
 		/*
         if(is_file('configs/controller_map.php'))
             include_once('configs/controller_map.php');
