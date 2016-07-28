@@ -60,9 +60,15 @@ class Core
 
 		$this->_config = $CONFIG;		
 
-        // 载入controller map
+        // 载入controller map, controller_map 也需要按照域名做多样化配置
+		if(is_file('configs/'."cmap.$host.php")) 
+			require_once('configs/'."cmap.$host.php");
+		else
+			require_once('configs/'."cmap.default.php");
+		/*
         if(is_file('configs/controller_map.php'))
             include_once('configs/controller_map.php');
+		*/
 
         $this->_controller_map = isset($cmap)?$cmap:array();
 	}

@@ -31,7 +31,7 @@ class mproject extends model
         '/c/commoncontroller.php'  => '../cake/templates/commoncontroller.php.template',
         '/c/defaultcontroller.php' => '../cake/templates/controller.php.template',
         '/configs/cfg.default.php' => '../cake/templates/cfg.default.php.template',
-        '/configs/controller_map.php' => '../cake/templates/controller_map.php.template',
+        '/configs/cmap.default.php' => '../cake/templates/cmap.default.php.template',
         '/v/default/index.tpl.html'=> '../cake/templates/index.tpl.html.template',
         '/data/todo.txt'           => '../cake/templates/todo.txt.template',
         '/data/history.txt'        => '../cake/templates/history.txt.template',
