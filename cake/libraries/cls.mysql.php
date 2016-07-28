@@ -42,7 +42,8 @@ class mysql
                 $this->db['host'], $this->db['username'], $this->db['password'], 
                 $this->db['database'], $this->db['port'],$this->db['socket']
             );
-        if($this->errno===0)
+
+        if($this->errno===NULL)
         {
             $this->connected = true;
             $this->mi->set_charset($this->db['charset']);                
