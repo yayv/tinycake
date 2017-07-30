@@ -27,7 +27,7 @@ abstract class Smarty_Internal_CompileBase
      *
      * @var array
      */
-    public $optional_attributes = array();
+    public $optional_attributes = array('showname');
     /**
      * Shorttag attribute order defined by its names
      *
@@ -110,7 +110,7 @@ abstract class Smarty_Internal_CompileBase
             $tmp_array = array_merge($this->required_attributes, $this->optional_attributes, $this->option_flags);
             foreach ($_indexed_attr as $key => $dummy) {
                 if (!in_array($key, $tmp_array) && $key !== 0) {
-                    $compiler->trigger_template_error("unexpected \"" . $key . "\" attribute", $compiler->lex->taglineno);
+                    #$compiler->trigger_template_error("unexpected \"" . $key . "\" attribute", $compiler->lex->taglineno);
                 }
             }
         }

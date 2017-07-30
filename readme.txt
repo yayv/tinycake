@@ -24,7 +24,15 @@ email: yayv.cn@gmail.com
     所有需要调用配置文件的地方，都用 $config 或 $CONFIG 读取变量，这样才能让autoconfig工具生效
     所有的配置项里的url和path, 末尾都不要带 '/' 所有需要前面带目录或url的 目录或文件，都以 '/' 开头，保证一致性，就可以简化维护成本
 
+Smarty模板系统报错
+    Fatal error: Uncaught --> Smarty Compiler: Syntax error in template "/Data/webapps/minisites/pyapp.com/templates/index.templates" on line 12 "<title>{$title->title showname='首页标题' }</title>" unexpected "showname" attribute <-- thrown in /Users/liuce/Projects/tinycake/cake/libraries/smarty3/sysplugins/smarty_internal_templatecompilerbase.php on line 12
+
+    针对 Smarty3:
+    需要修改文件 tinycake/cake/libraries/smarty3/sysplugins/smarty_internal_compilebase.php 第113行。整行注释掉。这样就可以在smarty模板的{}符号内随意增加自己需要的属性了。
 	
+    针对Smarty2:
+    需要修改2处，估计现在使用smarty2模板的人已经非常少了，如果有人需要可以留言，我再把修改方法放出来。
+    
 smarty 应该有controller负责判断是否需要加载，临时目录放到哪里。
 
 模板中，可以使用 {$baseurl} 标示当前系统所在的根url, 末尾不带 '/'
