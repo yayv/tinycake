@@ -34,3 +34,32 @@ FEATURES:
         使用 getText 还是数组？ 我倾向于用2种解决方案。如果有 getText 就getText, 如果没有就用 数组
 
 
+
+Nginx 配置Rewrite规则
+   server {
+        listen       80;
+        server_name  etc.motorstore.cn;
+        root /data/webapps/etc;
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+        # direct response images and others resources ...
+        location ~ /v/.* {
+        }
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        location ~ \.*$ {
+            #root           html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            #fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            fastcgi_param  SCRIPT_FILENAME  $document_root/index.php;
+            include        fastcgi_params;
+        }
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        location ~ /\.ht {
+            deny  all;
+        }
+    }

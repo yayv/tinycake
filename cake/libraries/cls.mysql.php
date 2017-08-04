@@ -38,10 +38,17 @@ class mysql
 		$this->db = array_merge($res, $server);
 
 		// 建立链接
-        $this->mi = new mysqli(
-                $this->db['host'], $this->db['username'], $this->db['password'], 
-                $this->db['database'], $this->db['port'],$this->db['socket']
-            );
+        try
+        {
+            $this->mi = new mysqli(
+                    $this->db['host'], $this->db['username'], $this->db['password'], 
+                    $this->db['database'], $this->db['port'],$this->db['socket']
+                );
+        }
+        catch(Exception $e)
+        {
+            die('hhh');
+        }
 
         if($this->errno===NULL)
         {

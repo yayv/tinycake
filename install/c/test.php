@@ -26,5 +26,10 @@ class test extends CommonController
 
 		$a->showImage();
 	}
+
+	public function phpinfo()
+        {
+		phpinfo();
+        }
 }
 
