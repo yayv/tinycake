@@ -219,9 +219,9 @@ class Core
 			    switch($p)
 			    {
 			        #case 0: continue;break;
-			        case 0:$_GET['controller']=$vv;	break;
-			        case 1:$_GET['action']=$vv;		break;
-				    case 2:$_GET['method']=$vv;		break;
+			        case 0:$_GET['controller']=$kv;	break;
+			        case 1:$_GET['action']=$kv;		break;
+				    case 2:$_GET['method']=$kv;		break;
 			        default: break;
 			    }
 	    }
