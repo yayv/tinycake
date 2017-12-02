@@ -207,6 +207,7 @@ class Core
 	        if($kv===false)
 	        {
 	        	$_GET['params'.$p] = $v;
+	        	$kv = $v;
 	        	$vv = $v;
 	        }
 	        else
@@ -215,15 +216,14 @@ class Core
 	        	$vv = substr(strstr($v, '-'), 1);
 	        }
 	        
-			if(count($kv)===1)
-			    switch($p)
-			    {
-			        #case 0: continue;break;
-			        case 0:$_GET['controller']=$kv;	break;
-			        case 1:$_GET['action']=$kv;		break;
-				    case 2:$_GET['method']=$kv;		break;
-			        default: break;
-			    }
+		    switch($p)
+		    {
+		        #case 0: continue;break;
+		        case 0:$_GET['controller']=$kv;	break;
+		        case 1:$_GET['action']=$kv;		break;
+			    case 2:$_GET['method']=$kv;		break;
+		        default: break;
+		    }
 	    }
 
 	    if($_GET['controller']=='') $_GET['controller'] = 'defaultcontroller';
