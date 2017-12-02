@@ -50,7 +50,7 @@ class mysql
             die('hhh');
         }
 
-        if($this->errno===NULL)
+        if(!isset($this->errno) || $this->errno===NULL)
         {
             $this->connected = true;
             $this->mi->set_charset($this->db['charset']);                
