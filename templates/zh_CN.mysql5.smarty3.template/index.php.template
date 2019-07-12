@@ -2,7 +2,7 @@
 	error_reporting(E_ALL & ~E_NOTICE);
 
     $DS = PATH_SEPARATOR;
-	set_include_path("./${DS}libraries/$DS../cake/develop$DS../cake/libraries");
+	set_include_path("./${DS}libraries/$DS../../cake/develop$DS../../cake/libraries");
 
 	include_once('core.php');
 	include_once('controller.php');
@@ -27,20 +27,32 @@
 	// TODO: 可以根据配置文件，确认是否需要session
 	// TODO： 还是让具体的action自己来决定呢？ 根据配置文件，决定是否需要全局session开启
 	// 		对于不需要全局session开启的状态，让action自己去决定就好了，谁用谁知道
-	$core->loadSession();
-
-    // TODO： 2. 统一解析URL, 如果 $_GET['act'] 有设置，则外面的rewrite规则还在生效
-    // TODO: 3. in debug mode, this program will scan user's controller's directory 
-	if(strpos($_SERVER['REQUEST_URI'],$_SERVER['PHP_SELF'])===0)
+	if(isset($core->_config['manualsession']) && $core->_config['manualsession'])
 	{
-		// call instant, DO NOT NEED url rebuild	
+		// 进入系统后再手动启动session，这里就什么都不做了
+	}
+	else
+	{
+		$core->loadSession();
+	}
+    
+	$sitebase = parse_url($core->_config['sitebase']);
+	$reqbase  = parse_url($_SERVER['REQUEST_URI']);
+	$p = strrpos($reqbase['path'], 'index.php');	
+	
+    // TODO: 2. 统一解析URL, 如果 $_GET['act'] 有设置，则外面的rewrite规则还在生效
+    // TODO: 3. in debug mode, this program will scan user's controller's directory 
+	if(strlen($reqbase['path'])==$p+strlen('index.php'))
+	{
+		// 判别模式： /index.php?controller=a&method=b&action=c 
 		$controller = addslashes($_GET['controller']);
 		$action = addslashes($_GET['action']);
 		$method = addslashes($_GET['method']);
 	} 
 	else
-	{
-		list($controller, $action) = $core->rebuildUrl($_SERVER['REQUEST_URI'], strtr($_SERVER["SCRIPT_NAME"], array('/index.php'=>'/')));
+	{	
+		#print_r($sitebase);
+		list($controller, $action) = $core->rebuildUrl($_SERVER['REQUEST_URI'], $sitebase['path']);
 		list($controller, $action) = $core->ControllerMap($controller, $action);
 	}
 	$c = $core->loadController($controller);
