@@ -164,6 +164,7 @@ class mysql
     function fetch_object($result)
     {
         $ret = $result->fetch_object();
+
         return $ret;
     }
 
@@ -286,6 +287,7 @@ class mysql
         $current_index = 0;
         $result = $this->query($sql);
 
+        $all_array = array();
         if ($result) 
         {
             /* fetch object array */
