@@ -10,7 +10,7 @@ class Getopt
 
 	public static function json_check_foramt($format, $params)
 	{
-		return false;
+		return true;
 	}
 
 
