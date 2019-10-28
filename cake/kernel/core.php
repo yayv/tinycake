@@ -63,12 +63,11 @@ class Core
         // 载入controller map, controller_map 也需要按照域名做多样化配置
 		if(is_file('configs/'."cmap.$host.php")) 
 			require_once('configs/'."cmap.$host.php");
-		else
-			require_once('configs/'."cmap.default.php");
-		/*
-        if(is_file('configs/controller_map.php'))
-            include_once('configs/controller_map.php');
-		*/
+		else if(is_file('configs/cmap.default.php'))
+			require_once("configs/cmap.default.php");
+		else{ 
+			// do nothing
+		}
 
         $this->_controller_map = isset($cmap)?$cmap:array();
 	}
@@ -204,6 +203,7 @@ class Core
 	        if($kv===false)
 	        {
 	        	$_GET['params'.$p] = $v;
+	        	$kv = $v;
 	        	$vv = $v;
 	        }
 	        else
@@ -212,15 +212,14 @@ class Core
 	        	$vv = substr(strstr($v, '-'), 1);
 	        }
 	        
-			if(count($kv)===1)
-			    switch($p)
-			    {
-			        #case 0: continue;break;
-			        case 0:$_GET['controller']=$vv;	break;
-			        case 1:$_GET['action']=$vv;		break;
-				    case 2:$_GET['method']=$vv;		break;
-			        default: break;
-			    }
+			#if(count($kv)===1)
+		    switch($p)
+		    {
+		        case 0:$_GET['controller']=$kv;	break;
+		        case 1:$_GET['action']=$kv;		break;
+			    case 2:$_GET['method']=$kv;		break;
+		        default: break;
+		    }
 	    }
 
 	    if($_GET['controller']=='') $_GET['controller'] = 'defaultcontroller';
