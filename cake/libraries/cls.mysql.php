@@ -47,7 +47,7 @@ class mysql
         }
         catch(Exception $e)
         {
-            die('hhh');
+            return false;
         }
 
         if(!isset($this->errno) || $this->errno===NULL)
@@ -309,6 +309,65 @@ class mysql
         }
         else
             return false;
+    }
+
+    /**
+    * 定义添加数据的方法
+    * @param string $table 表名
+    * @param string orarray $data [数据]
+    * @return int 最新添加的id
+    */
+    public function insert($table,$data)
+    {
+        //遍历数组，得到每一个字段和字段的值
+        $key_str='';
+        $v_str='';
+        foreach($data as $key=>$v)
+        {
+            if(empty($v))
+                return false;
+            
+            //$key的值是每一个字段s一个字段所对应的值
+            $key_str    .= $key.',';
+            $v_str      .= "'$v',";
+        }
+
+        $key_str    = trim($key_str,',');
+        $v_str      = trim($v_str,',');
+
+        //判断数据是否为空
+        $sql="INSERT into $table ($key_str) values ($v_str)";
+        $this->query($sql);
+
+        //返回上一次增加操做产生ID值
+        return $this->insert_id();
+    }
+
+    /**
+    * [修改操作description]
+    * @param [type] $table [表名]
+    * @param [type] $data [数据]
+    * @param [type] $where [条件]
+    * @return [type]
+    */
+    public function update($table,$data,$where)
+    {
+        //遍历数组，得到每一个字段和字段的值
+        $str='';
+
+        foreach($data as $key=>$v)
+        {
+            $str.="$key='$v',";
+        }
+
+        $str=rtrim($str,',');
+
+        //修改SQL语句
+        $sql="UPDATE $table set $str where $where";
+        $this->query($sql);
+        
+        //返回受影响的行数
+        return $this->affected_rows();
     }
 
 }
