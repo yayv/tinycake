@@ -5,24 +5,44 @@ class GetOptW
 {
 	public function __construct()
 	{
+		$this->callStack = [];
+
+		$this->format = false ;
+
+		$this->last_error = false ;
+
 		$this->types = array(
-			"int", "float", "double", "age",
-			"date",	"time", "datetime","year",
-			"email","phone","mobile",
-			"base64","MD5",
-			"username","password",
-			"lower","upper","letter","string",
+			// 基础数据类型
+			"int", "float", "double", "string","text","bool",
+
+			// 扩展类型
+			"year","month", "day","age","currency", // 数字
+			"date",	"time", "datetime", "phone","mobile", // 带格式符号的数字
+			"weekday", // 字母组合 
+			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
+			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
+			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
+			"lower","upper","letter", // 字母、数字的子集的组合
 		);
+
 		// DONE: int email
 		// TODO: float", "double", "age",			"date",	"time", "datetime","year","phone","mobile", "base64","MD5","username","password","lower","upper","letter","string",
 
 		$this->errors = array(
+			// 格式解析错误，或格式内的值有错
+			"FORMAT_SYNTAX_ERROR" => "格式描述的语法错误",
+
+			// 参数部分错误，或参数数据错误
+			"DATA_NOT_MATCHED" => "数据格式不匹配",
+			"DATA_NOT_IN_VALID_RANGE" => "数据超合理范围",
+			"DATA_NOT_IN_SET_RANGE" => "数据超出要求范围",
+
+			// 解析过程中，格式与数据匹配问题
 			"TYPE_NO_MATCHED" => "没有匹配的类型",
 			"TYPE_WITHOUT_METHOD" => "没有匹配的解析方法",
 		);
 
 		$this->all_errors = array();
-
 	}
 
 	public function supportFormats()
@@ -31,15 +51,40 @@ class GetOptW
 		// data range syntax:
 		// 	int float double: (1, 100), (1,100], [1,100),[1,100] 
 		//  date time: 
-		//  string : enum {1,2,3,4,5}
+		//  string : enum {papa,mama,grandpa,grandma,grandma-inlaw}
 		// example: "role":"*string{papa, mama}:4#papa//role name 
-		// 格式语法 : "[*]<格式名>[数值范围][:长度][#默认值]//说明"
+		// 格式语法 : "[*|#]<格式名>[数值范围][:长度][#默认值]//说明"
+		// 开头的 *，#，或无，表示该参数项是否必须填写， * 为必填， #为
 		// 格式名，目前所支持的格式包括: email, phone, mobile, date, time, datetime, int, float, base64, MD5 ...
 		// 取值范围,以{[(三个符号中的一个开始，由{开始则必须由}结束, 如{a,b,c}, 表示为枚举类型; [()] 的组合表示为 时间和数字可以用集合形式表示取值范围如 (1,100], 表示 大于1小于等于100的范围.
 		// :长度,表示为需要检查的变量里原始值的字符长度
 		// 默认值，当取值失败，或者取值超范围时，以默认值做为返回值，同时发出一个错误信息
 		// 说明，参数格式的表达过于技术化，需要有给产品或业务相关人员看得懂的说明，更好的表达这些设置的目的
+		$formats = array(
+			"int"  =>"[+-]?[0-9]*", 
+			"float" =>"[+-]?[0-9]*\.[0-9]*", 
+			"double"=>"[+-]?[0-9]*\.[0-9]*", 
+			"string"=>".*", 
+			"text"  =>".*", 
+			"bool"  =>"", 
 
+			// 扩展类型
+			"year" => "[0-9]{4}",
+			"month"=> "[12][0-9]",
+			"date"=>"[0-9]{4}[-/ ]?[0-9]{2}[-/ ]?[0-9]{2}",	
+			"time"=>"[0-9]{2}:[0-9]{2}:[0-9]{2}", 
+			"datetime"=>"", 
+			"weekday"=>"(Sun|Mon|Tue|Sat)",
+			"age"=>"[0-9]{3}",
+			"currency", // 数字
+
+			"phone","mobile", // 带格式符号的数字
+			"weekday", // 字母组合 
+			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
+			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
+			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
+			"lower","upper","letter", // 字母、数字的子集的组合
+		);
 	}
 
 	public function getAllErrors()
@@ -60,24 +105,25 @@ class GetOptW
 
 	private function getFormat($format)
 	{
-		$ret = preg_match("/([\*]*)?([0-9a-zA-Z@]*)(([\{\[\(])(.*)([\)\]\}]))?(:([0-9]*))?(#([^\/]*))?(\/\/(.*))?/",$format, $matches);
+		$ret = preg_match("/([\*|#])?([0-9a-zA-Z@]*)(([\{\[\(])(.*)([\)\]\}]))?(:([0-9]*))?(#([^\/]*))?(\/\/(.*))?/",$format, $matches);
 		if($ret)
-		{
+		{#print_r($matches);die();
 			$format_result = array(
-				"option"	=>$matches[1],
+				"option"	=>isset($matches[1])?$matches[1]:'',
 				"name"		=>$matches[2],
-				"left"		=>$matches[4],
-				"range"		=>$matches[5],	
-				"right"		=>$matches[6],
-				"length"	=>$matches[8],
-				"default"	=>$matches[10],
-				"comment"	=>$matches[12]);
+				"left"		=>isset($matches[4])?$matches[4]:'',
+				"range"		=>isset($matches[5])?$matches[5]:'',	
+				"right"		=>isset($matches[6])?$matches[6]:'',
+				"length"	=>isset($matches[8])?$matches[8]:'',
+				"default"	=>isset($matches[10])?$matches[10]:'',
+				"comment"	=>isset($matches[12])?$matches[12]:''
+			);
 		}
 
 		return $format_result;
 	}
 
-	public function getValue($var, $format)
+	public function getValue( $format, $var, &$result )
 	{
 		$f = $this->getFormat($format);
 
@@ -87,7 +133,8 @@ class GetOptW
 		{
 			$this->last_error = $this->errors['TYPE_NO_MATCHED'];
 			$this->all_errors[] = $this->last_error ;
-			return false; 
+			$result = false ;
+			return false ; 
 		}
 
 		if(method_exists($this,'CHECK'.$f['name']))
@@ -99,6 +146,7 @@ class GetOptW
 		{
 			$this->last_error = $this->errors['TYPE_WITHOUT_METHOD'];
 			$this->all_errors[] = $this->last_error ;
+			$result = false ;
 			return false; 
 		}
 	}
@@ -133,7 +181,7 @@ class GetOptW
 		}
 		else
 		{
-			$this->last_error = '数据不匹配';
+			$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_MATCHED'];
 			$this->all_errors[] = $this->last_error;
 			return false;
 		}
@@ -144,12 +192,10 @@ class GetOptW
 		$result = '';
 		$ret = preg_match("/(\+|\-)?[0-9]*/",$value, $matches);
 
-		//echo $value,'<pre>';print_r($matches);print_r($format);
 		if($ret)
 		{
 			$result = $matches[0];
 
-			// email类型，只支持range检查，不做数值范围检查
 			if( $format['left']=='(' || $format['left']=='[' )
 			{
 				$range = explode(",",$format['range']);
@@ -157,13 +203,137 @@ class GetOptW
 				$max = intval(array_pop($range));
 
 				$outofrange = false;
-				if($format['left']=='(' && intval($result) <= $min )
+				if($format['left']=='(' && intval($result) <= intval($min) )
+				{
 					$outofrange = true;
-				if($format['left']=='[' && intval($result) < $min )
+				}
+				if($format['left']=='[' && intval($result) < intval($min) )
 					$outofrange = true;
-				if($format['left']==')' && intval($result) >= $max )
+				if($format['right']==')' && intval($result) >= intval($max) )
 					$outofrange = true;
-				if($format['left']==']' && intval($result) > $max )
+				if($format['right']==']' && intval($result) > intval($max) )
+					$outofrange = true;
+
+				if($outofrange==true)
+				{
+					if($format['default']!='')
+						$result = intval($format['default']);
+					else
+						$result = false;
+				}
+			}
+			else
+			{
+				if($matches[0]=='' && $format['default']!='')
+					$result = intval($format['default']);
+				else if($matches[0]=='' && $format['default']=='')
+					$result = false;
+				else
+					$result = intval($matches[0]);
+			}
+
+			// 不做取值范围检查
+			return $result;
+		}
+		else
+		{
+			$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_MATCHED'];
+			$this->all_errors[] = $this->last_error;
+			return false;
+		}
+	}
+
+	public function CHECKfloat($format, $value)
+	{
+		$result = '';
+		$ret = preg_match("/(\+|\-)?[0-9\.]*/",$value, $matches);
+
+		if($ret)
+		{
+			$result = $matches[0];
+
+			if( $format['left']=='(' || $format['left']=='[' )
+			{
+				$range = explode(",",$format['range']);
+				$min = floatval($range[0]);
+				$max = floatval(array_pop($range));
+
+				$outofrange = false;
+				if($format['left']=='(' && floatval($result) <= $min )
+					$outofrange = true;
+				if($format['left']=='[' && floatval($result) < $min )
+					$outofrange = true;
+				if($format['right']==')' && floatval($result) >= $max )
+					$outofrange = true;
+				if($format['right']==']' && floatval($result) > $max )
+					$outofrange = true;
+
+				if($outofrange==true)
+				{
+					if($format['default']!='')
+						$result = floatval($format['default']);
+					else
+						$result = false;
+				}
+			}			
+			else
+			{
+				if($mathes[0]=='' && $format['default']!='')
+					$result = floatval($format['default']);
+				else if($matches[0]=='' && $format['default']=='')
+					$result = false;
+				else
+					$result = floatval($matches[0]);
+			}
+
+			// 不做取值范围检查
+			return $result;
+		}
+		else
+		{
+			$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_MATCHED'];
+			$this->all_errors[] = $this->last_error;
+			return false;
+		}
+	}
+
+	public function CHECKdouble($format, $value)
+	{
+		return $this->CHECKfloat($format, $value);
+	}
+
+	public function CHECKage($format, $value)
+	{
+		$result = '';
+		$ret = preg_match("/(\+|\-)?[0-9]*/",$value, $matches);
+
+		if($ret)
+		{
+			$result = $matches[0];
+
+			if( intval($result)<0 && intval($result)>120 )
+			{
+				$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_IN_VALID_RANGE'];
+				$this->all_errors[] = $this->last_error;
+				return false;
+			}
+
+			if( $format['left']=='(' || $format['left']=='[' )
+			{
+				$range = explode(",",$format['range']);
+				$min = intval($range[0]);
+				$max = intval(array_pop($range));
+
+				$outofrange = false;
+				if($format['left']=='(' && intval($result) <= intval($min) )
+				{
+					$outofrange = true;
+				}
+				if($format['left']=='[' && intval($result) < intval($min) )
+					$outofrange = true;
+				if($format['right']==')' && intval($result) >= intval($max) )
+					$outofrange = true;
+				if($format['right']==']' && intval($result) > intval($max) )
 					$outofrange = true;
 
 				if($outofrange==true)
@@ -189,18 +359,271 @@ class GetOptW
 		}
 		else
 		{
-			$this->last_error = '数据不匹配';
+			$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_MATCHED'];
 			$this->all_errors[] = $this->last_error;
 			return false;
-		}		
+		}
 	}
 
-	public function checkJSON()
+	public function CHECKphone($format, $value)
 	{
+		$result = '';
+		$ret = preg_match("/(\+|\-)?[0-9 \-]*/",$value, $matches);
 
+		if($ret)
+		{
+			$result = $matches[0];
+
+			if( $format['left']=='(' || $format['left']=='[' )
+			{
+				// 电话号码不做范围检查，但可以做枚举检查
+			}
+			elseif($format['left']=='{')
+			{
+				$enum = explode(",",$format['range']);
+
+				if(in_array($result, $enum))
+					return $result;
+				else
+				{
+					$this->last_error = $format['name'].":格式正确; 但不在 枚举 范围内。";
+					$this->all_errors[] = $this->last_error;
+					return false;
+				}
+			}			
+			else
+			{
+				if($matches[0]=='' && $format['default']!='')
+					$result = $format['default'];
+				else if($matches[0]=='' && $format['default']=='')
+					$result = false;
+				else
+					$result = $matches[0];
+			}
+
+			// 不做取值范围检查
+			return $result;
+		}
+		else
+		{
+			$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_MATCHED'];
+			$this->all_errors[] = $this->last_error;
+			return false;
+		}
 	}
 
-	public function checkArray()
+	public function CHECKmobile($format, $value)
+	{
+		$result = '';
+		$ret = preg_match("/(\+|\-)?[0-9 \+]*/",$value, $matches);
+
+		if($ret)
+		{
+			$result = $matches[0];
+
+			if( $format['left']=='(' || $format['left']=='[' )
+			{
+				// 手机号不需要检查范围
+			}
+			elseif($format['left']=='{')
+			{
+				$enum = explode(",",$format['range']);
+
+				if(in_array($result, $enum))
+					return $result;
+				else
+				{
+					$this->last_error = $format['name'].":格式正确; 但不在 枚举 范围内。";
+					$this->all_errors[] = $this->last_error;
+					return false;
+				}
+			}	
+			else
+			{
+				if($matches[0]=='' && $format['default']!='')
+					$result = $format['default'];
+				else if($matches[0]=='' && $format['default']=='')
+					$result = false;
+				else
+					$result = $matches[0];
+			}
+
+			// 不做取值范围检查
+			return $result;
+		}
+		else
+		{
+			$this->last_error = $format['name'].':'.$this->errors['DATA_NOT_MATCHED'];
+			$this->all_errors[] = $this->last_error;
+			return false;
+		}
+	}
+
+	public function CHECKcurrency($format, $value)
+	{
+		$result = '';
+		$ret = preg_match("/(\+|\-)?[0-9]*\.[0-9]{2}/",$value, $matches);
+
+		return $this->CHECKfloat($format, $value);
+	}
+
+	public function CHECKinlineImage($format, $value)
+	{
+		// data:image/png;base64,		
+	}
+
+	public function isValidateJSONString($strJSON)
+	{
+		$json = json_decode($strJSON);
+		$err  = json_last_error_msg();
+
+		if('No error'==$err)
+		{
+			return $json;
+		}
+		else
+			return false;
+	}
+
+	// 解析基础数据类型
+	private function parseData($json, $obj)
+	{
+		// TODO: 完成对基础数据类型的解析
+	}
+
+	// 解析数组格式
+	private function parseArray($format, $obj)
+	{
+		$result = [];
+		if(!is_array($obj))
+		{
+			$this->error_msg = "DATA_NOT_MATCHED";
+			return false;
+		}
+
+		if(count($format)>1)
+		{
+			// TODO: 
+			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+			return false;
+		}
+
+		foreach($format as $k=>$v)
+		{
+			// 根据格式,依次检查Obj
+			if(is_array($format[0]))
+			{
+				// TODO: 向下一层继续解析
+				#$this->parse
+			}
+			else if(is_object($format[0]))
+			{
+
+			}
+			else if(is_string($format[0]))
+			{
+				// TODO:解析格式, 检查参数的值是否匹配
+				foreach($obj as $kk=>$vv)
+				{
+					$value = $this->parseData($format[0], $vv);
+				}
+			}
+			else
+			{
+				// 不是对象,不是数组,不是字符串,那格式出错了
+				$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+				$this->all_errors[] = $this->last_error ;
+				return false;
+			}
+		}
+/*
+		foreach($obj as $v)
+		{
+			if(is_array($v))
+			{
+
+			}
+
+			if(is_object($v))
+			{
+
+			}
+
+			// is data
+			// int float string ...
+		}
+*/
+		return "in array";
+	}
+
+	// 解析对象格式
+	private function parseObject($jsonFormat, $jsonObject)
+	{
+		$result = new stdClass();
+
+		// obj 模式下, $format 内的 key 的个数应该大于等于 $obj 内 key 的个数
+		foreach($jsonFormat as $k=>$v)
+		{#print_r(array($jsonFormat, $k, $v));die();
+			// 挨个检查 $obj[$k] 
+			$value = '';
+			$ret = $this->getValue( $v, isset($jsonObject->$k)?$jsonObject->$k:false, $value );
+
+			if($ret)
+			{
+				// TODO: 对数值匹配结果进行处理
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * format 是格式字符串, 可以单级可以多级，
+	 */
+	public function isFormatOK($format)
+	{
+		$noerror = 'No error';
+
+		$json = json_decode($format);
+
+		$str = json_last_error_msg();
+
+		// 目前的检查, 只能判断为符合json语法，尚未能判断是否
+		if($noerror==$str)
+		{
+			// 保存接口格式
+			$this->format = $json;
+
+			// TODO: 按照参数接口格式进行检查
+			#$ret = $this->parseData($json, $obj);
+
+			return true; //$ret;
+		}
+		else
+			return false;
+	}
+
+	// 用检查过的格式字符串从参数表中获取参数
+	public function parseParams($objParams)
+	{
+		if(is_array($this->format))
+		{
+			$this->callStack = [];
+			$this->callStack[] = 'array';
+			return $this->parseArray($this->format, $objParams);
+		}
+
+		if(is_object($this->format))
+		{
+			$this->callStack = [];
+			$this->callStack[] = 'Object';
+			return $this->parseObject($this->format, $objParams);
+		}
+
+		// TODO: 能接受没有 [] {} 包裹的纯值吗? 暂定为不能支持吧
+		return false;
+	}
+
+	public function matchFormatAndParams($format, $params, $type='json')
 	{
 
 	}
@@ -217,7 +640,7 @@ function _test()
 	$tool = new GetOptW;
 	$var  = "5460";
 
-	$value = $tool->getValue($var, $format);
+	$value = $tool->getValue($format, $var);
 	
 	if(!$value)
 		echo $tool->getLastError();
@@ -225,3 +648,15 @@ function _test()
 		echo $value;
 }
 
+function _testJSON()
+{
+	$format = "{\"userId\":\"*int\"}";
+	$string = "{\"userId\":100}";
+
+	$t = new GetOptW();
+
+	$json = json_decode($string);
+	
+	$t->isFormatOK($format);
+	$t->parseParams($json);
+}
