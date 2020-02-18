@@ -672,7 +672,11 @@ class GetOptW
 			return true; //$ret;
 		}
 		else
+		{
+			$this->last_error = 'FORMAT_SYNTAX_ERROR';
+			$this->all_errors[] = $this->last_error;
 			return false;
+		}
 	}
 
 	// 用检查过的格式字符串从参数表中获取参数
