@@ -599,6 +599,8 @@ class GetOptW
 		if(!is_object($jsonObject))
 		{
 			$this->error_msg = "DATA_NOT_MATCHED";
+			$this->last_error = "DATA_NOT_MATCHED";
+			$this->all_errors[] = $this->error_msg;
 			return false;
 		}
 
@@ -685,7 +687,7 @@ class GetOptW
 		if(is_array($this->format))
 		{
 			$this->callStack = [];
-			$this->callStack[] = 'array';
+			$this->callStack[] = 'Array';
 			return $this->parseArray($this->format, $objParams);
 		}
 
