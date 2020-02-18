@@ -36,6 +36,7 @@ class GetOptW
 			"DATA_NOT_MATCHED" => "数据格式不匹配",
 			"DATA_NOT_IN_VALID_RANGE" => "数据超合理范围",
 			"DATA_NOT_IN_SET_RANGE" => "数据超出要求范围",
+			"DATA_NOT_EXIST" => "KEY不存在",
 
 			// 解析过程中，格式与数据匹配问题
 			"TYPE_NO_MATCHED" => "没有匹配的类型",
@@ -123,7 +124,10 @@ class GetOptW
 		return $format_result;
 	}
 
-	public function getValue( $format, $var, &$result )
+	/**
+	 * 用 format 格式检查 $var 变量是否符合规范, 并将可能的数值通过 $result 返回
+	 */
+	public function checkValue( $format, $var, &$result )
 	{
 		$f = $this->getFormat($format);
 
@@ -486,46 +490,76 @@ class GetOptW
 	}
 
 	// 解析基础数据类型
-	private function parseData($json, $obj)
+	private function parseData($jsonFormat, $jsonObject)
 	{
+		$arrFormat = $this->getFormat($jsonFormat);
+
+		#print_r(array($arrFormat,$jsonObject));die('断路施工。。。');
+		if('*'==$arrFormat['option'] && $jsonObject!=false)
+		{
+			return true;
+		}
+		else if(''==$arrFormat['option'] && $jsonObject==false)
+		{
+			return true;
+		}
+		else
+		{
+			$callstack = implode('->',$this->callStack);
+			$this->last_error = $callstack.':'.$this->errors['DATA_NOT_EXIST'];
+			$this->all_errors[] = $this->last_error ;
+
+			return false;
+		}
+		/*
 		// TODO: 完成对基础数据类型的解析
+		$ret = $this->checkValue( $v, isset($jsonObject->$k)?$jsonObject->$k:false, $value );
+
+		// 传入值符合要求, 则返回true;传入值不能检测通过则返回false
+		if($ret)
+		{
+			// TODO: 对数值匹配结果进行处理
+		}
+		*/
 	}
 
 	// 解析数组格式
-	private function parseArray($format, $obj)
+	private function parseArray($jsonFormat, $jsonObject)
 	{
 		$result = [];
-		if(!is_array($obj))
+		if(!is_array($jsonObject))
 		{
 			$this->error_msg = "DATA_NOT_MATCHED";
 			return false;
 		}
 
-		if(count($format)>1)
+		if(count($jsonFormat)>1)
 		{
 			// TODO: 
 			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
 			return false;
 		}
 
-		foreach($format as $k=>$v)
+		foreach($jsonFormat as $k=>$v)
 		{
 			// 根据格式,依次检查Obj
-			if(is_array($format[0]))
+			if(is_array($jsonFormat[0]))
 			{
 				// TODO: 向下一层继续解析
 				#$this->parse
 			}
-			else if(is_object($format[0]))
+			else if(is_object($jsonFormat[0]))
 			{
 
 			}
-			else if(is_string($format[0]))
+			else if(is_string($jsonFormat[0]))
 			{
 				// TODO:解析格式, 检查参数的值是否匹配
-				foreach($obj as $kk=>$vv)
+				foreach($jsonObject as $kk=>$vv)
 				{
-					$value = $this->parseData($format[0], $vv);
+					$this->callStack[] = "KEY $k";
+					$value = $this->parseData($jsonFormat[0], $vv);
+					array_pop($this->callStack[]);
 				}
 			}
 			else
@@ -553,7 +587,8 @@ class GetOptW
 			// int float string ...
 		}
 */
-		return "in array";
+		die("这里是断路施工中...\n");
+		return $result;
 	}
 
 	// 解析对象格式
@@ -561,16 +596,54 @@ class GetOptW
 	{
 		$result = new stdClass();
 
+		if(!is_object($jsonObject))
+		{
+			$this->error_msg = "DATA_NOT_MATCHED";
+			return false;
+		}
+
+		if(count($jsonFormat)>1)
+		{
+			// TODO: 
+			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+			return false;
+		}
+
 		// obj 模式下, $format 内的 key 的个数应该大于等于 $obj 内 key 的个数
 		foreach($jsonFormat as $k=>$v)
-		{#print_r(array($jsonFormat, $k, $v));die();
-			// 挨个检查 $obj[$k] 
+		{
 			$value = '';
-			$ret = $this->getValue( $v, isset($jsonObject->$k)?$jsonObject->$k:false, $value );
-
-			if($ret)
+			if(is_array($v))
 			{
-				// TODO: 对数值匹配结果进行处理
+				if(!isset($jsonObject->$k))
+				{
+					$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+					$this->all_errors[] = $this->last_error ;
+					return $result;
+				}
+
+				$this->callStack[] = '(Array)';
+				$this->parseArray( $v, $jsonObject->$k );
+				array_pop($this->callStack);
+			}
+			else if(is_object($v))
+			{
+				if(!isset($jsonObject->$k))
+				{
+					$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+					$this->all_errors[] = $this->last_error ;
+					return $result;
+				}
+
+				$this->callStack[] = "(Object)$k";
+				$this->parseObject( $v, $jsonObject->$k );
+				array_pop($this->callStack);
+			}
+			else 
+			{
+				$this->callStack[] = "(Data)$k";
+				$this->parseData( $v, isset($jsonObject->$k)?$jsonObject->$k:false );
+				array_pop($this->callStack);
 			}
 		}
 		return $result;
@@ -640,7 +713,8 @@ function _test()
 	$tool = new GetOptW;
 	$var  = "5460";
 
-	$value = $tool->getValue($format, $var);
+	$value = false;
+	$ret   = $tool->checkValue($format, $var, $value);
 	
 	if(!$value)
 		echo $tool->getLastError();
@@ -650,13 +724,25 @@ function _test()
 
 function _testJSON()
 {
-	$format = "{\"userId\":\"*int\"}";
-	$string = "{\"userId\":100}";
+	$format = '{"userId":"*int",   "reg":{"mobile":"*int","name":"string"}}';
+	$string = '{"userId":"asdfsdf","reg":{"mobile":13811382543}}';
 
 	$t = new GetOptW();
 
 	$json = json_decode($string);
+
+	if($t->isFormatOK($format))
+	{
+		$result = $t->parseParams($json);	
+		if( count($t->all_errors)<1 )
+			print_r($json);
+		else
+			print_r($t->all_errors);
+	}
+	else
+	{
+		echo 'Format String Error';
+	}
+
 	
-	$t->isFormatOK($format);
-	$t->parseParams($json);
 }
