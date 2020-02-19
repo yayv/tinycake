@@ -495,11 +495,12 @@ class GetOptW
 		$arrFormat = $this->getFormat($jsonFormat);
 
 		#print_r(array($arrFormat,$jsonObject));die('断路施工。。。');
+
 		if('*'==$arrFormat['option'] && $jsonObject!=false)
 		{
 			return true;
 		}
-		else if(''==$arrFormat['option'] && $jsonObject==false)
+		else if(''==$arrFormat['option']) // jsonObject==false or jsonObject!=false 
 		{
 			return true;
 		}
@@ -730,8 +731,58 @@ function _test()
 
 function _testJSON()
 {
-	$format = '{"userId":"*int",   "reg":{"mobile":"*int","name":"string"}}';
-	$string = '{"userId":"asdfsdf","reg":{"mobile":13811382543}}';
+	$format = '
+{
+	"enterpriseId":"*int//企业id",
+
+	"username":"*string",
+	"mobile":"*mobile",
+	"idcard":"*idcard",
+
+	"province":"*string",
+	"city":"*string",
+
+	"countPeople":"int//可选",
+	"babySeats":"int//可选",
+	"vehicleModelId":"*int//车系id",
+	"vehicleId":"*int//车型id,可能不需要",
+
+	"rentRetailId":"*int//取车门店id",
+	"returnRetailId":"*int//换车门店id",
+
+	"orderStartDate":"*datetime",
+	"orderEndDate":"*datetime",
+
+	"baseService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
+	"carService":"*bool//整备服务费。价格由服务器端配置决定，这里只做开关选择",
+	"deliveryService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
+	"insurance":"*bool",
+	"vip":"*bool"
+}	
+	';
+	$string = '
+{
+    "enterpriseId":"1",
+    "username":"闫大瑶",
+    "mobile":"18618193355",
+    "idcard":"110102198312082405",
+    "province":"北京市",
+    "city":"北京",
+    "countPeople":"3",
+    "babySeats":"1",
+    "vehicleModelId":"1",
+    "vehicleId":"2",
+    "rentRetailId":"1",
+    "returnRetailId":"1",
+    "orderStartDate":"2020-02-14",
+    "orderEndDate":"2020-02-18",
+    "baseService":"1",
+    "carService":"1",
+    "deliveryService":"1",
+    "insurance":"1",
+    "vip":"1"
+}	
+	';
 
 	$t = new GetOptW();
 
