@@ -347,9 +347,9 @@ class mysql
 //判断数据是否为空
         $sql = "insert into $table ($key_str) values ($v_str)";
 //file_put_contents("a.txt",$sql,FILE_APPEND);
-        echo $sql;
-        echo "\r\n";
-die;        
+//         echo $sql;
+//         echo "\r\n";
+// die;        
 
         $this->query($sql);
 //返回上一次增加操做产生ID值
