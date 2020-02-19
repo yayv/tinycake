@@ -308,6 +308,7 @@ class mysql
      */
     public function insert($table, $data)
     {
+
 //遍历数组，得到每一个字段和字段的值
         $key_str = '';
         $v_str   = '';
@@ -316,6 +317,14 @@ class mysql
             if (empty($v)) {
                 //值为0时会有BUG
                 if (!is_numeric($v)) {
+
+                    if(is_array($v)){
+                    
+                    if(empty($v)){
+                        continue;
+                    }
+                }
+
                     return false;
 
                 }
@@ -338,8 +347,8 @@ class mysql
 //判断数据是否为空
         $sql = "insert into $table ($key_str) values ($v_str)";
 //file_put_contents("a.txt",$sql,FILE_APPEND);
-        // echo $sql;
-        // echo "\r\n";
+//         echo $sql;
+//         echo "\r\n";
 // die;        
 
         $this->query($sql);
