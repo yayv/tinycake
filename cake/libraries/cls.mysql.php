@@ -318,12 +318,12 @@ class mysql
                 //值为0时会有BUG
                 if (!is_numeric($v)) {
 
-                    if(is_array($v)){
-                    
-                    if(empty($v)){
-                        continue;
+                    if (is_array($v)) {
+
+                        if (empty($v)) {
+                            continue;
+                        }
                     }
-                }
 
                     continue;
 
@@ -332,7 +332,7 @@ class mysql
             }
 
 //$key的值是每一个字段s一个字段所对应的值
-            $key_str .= '`'.$key . '`,';
+            $key_str .= '`' . $key . '`,';
 
             if (stripos($v, "PASSWORD(") === 1) {
 
@@ -347,9 +347,9 @@ class mysql
 //判断数据是否为空
         $sql = "insert into $table ($key_str) values ($v_str)";
 //file_put_contents("a.txt",$sql,FILE_APPEND);
-//         echo $sql;
-//         echo "\r\n";
-// die;        
+        //         echo $sql;
+        //         echo "\r\n";
+        // die;
 
         $this->query($sql);
 //返回上一次增加操做产生ID值
@@ -377,16 +377,15 @@ class mysql
 // echo $sql;die;
         $this->query($sql);
 //返回受影响的行数
-        if($this->affected_rows()>=0){
+        if ($this->affected_rows() >= 0) {
             return 1;
-        }else{
+        } else {
 
-        return 0;
+            return 0;
         }
     }
 
-
-       /**
+    /**
      * 定义添加数据的方法
      * @param string $table 表名
      * @param string orarray $data [数据]
@@ -409,7 +408,7 @@ class mysql
             }
 
 //$key的值是每一个字段s一个字段所对应的值
-            $key_str .= '`'.$key . '`,';
+            $key_str .= '`' . $key . '`,';
 
             if (stripos($v, "PASSWORD(") === 1) {
 
@@ -427,7 +426,19 @@ class mysql
         // echo $sql;die;
         $this->query($sql);
 //返回上一次增加操做产生ID值
-        return $this->insert_id();
+$insertID=$this->insert_id();
+        if ($insertID) {
+
+            return $insertID;
+        } else {
+
+            if ($this->affected_rows() >= 0) {
+                return 1;
+            } else {
+
+                return 0;
+            }
+        }
     }
 
 }
