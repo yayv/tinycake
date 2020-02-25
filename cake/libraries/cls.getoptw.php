@@ -494,7 +494,7 @@ class GetOptW
 	{
 		$arrFormat = $this->getFormat($jsonFormat);
 
-		#print_r(array($arrFormat,$jsonObject));die('断路施工。。。');
+		// print_r(array($arrFormat,$jsonObject));die('断路施工。。。');
 
 		if('*'==$arrFormat['option'] && $jsonObject!=false)
 		{
@@ -558,9 +558,14 @@ class GetOptW
 				// TODO:解析格式, 检查参数的值是否匹配
 				foreach($jsonObject as $kk=>$vv)
 				{
+
+					// if($vv==null){
+					// 	continue;
+					// }
 					$this->callStack[] = "KEY $k";
 					$value = $this->parseData($jsonFormat[0], $vv);
-					array_pop($this->callStack[]);
+					// var_dump($this->callStack);
+					array_pop($this->callStack);
 				}
 			}
 			else
@@ -588,7 +593,7 @@ class GetOptW
 			// int float string ...
 		}
 */
-		die("这里是断路施工中...\n");
+		// die("这里是断路施工中...\n");
 		return $result;
 	}
 
@@ -662,6 +667,7 @@ class GetOptW
 		$json = json_decode($format);
 
 		$str = json_last_error_msg();
+		
 
 		// 目前的检查, 只能判断为符合json语法，尚未能判断是否
 		if($noerror==$str)
