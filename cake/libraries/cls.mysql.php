@@ -126,6 +126,7 @@ class mysql
     public function query($sql)
     {
         // result maybe false
+        $this->last_sql = $sql;
         $this->lastresult = $this->mi->query($sql);
         return $this->lastresult;
     }
