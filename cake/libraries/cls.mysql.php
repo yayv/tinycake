@@ -18,6 +18,7 @@ class mysql
     {
         $this->connected = false;
 
+        $this->last_sql = '';
         // 如果$server有配置，则用server,如果没有，则使用defcfg的默认配置
         $defcfg = array(
             "host"     => '127.0.0.1',
@@ -241,6 +242,7 @@ class mysql
         $all_array     = array();
 
         if (is_string($sql)) {
+            $this->last_sql = $sql;
             $query = $this->mi->query($sql);
 
             if ($query === false) {

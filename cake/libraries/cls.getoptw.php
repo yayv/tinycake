@@ -610,6 +610,7 @@ class GetOptW
 			return false;
 		}
 
+		if(is_array($jsonFormat)) 
 		if(count($jsonFormat)>1)
 		{
 			// TODO: 
