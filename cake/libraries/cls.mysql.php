@@ -354,8 +354,8 @@ class mysql
         //         echo "\r\n";
         // die;
 
-        $this->query($sql);
-//返回上一次增加操做产生ID值
+        $ret = $this->query($sql);
+
         return $this->insert_id();
     }
 
@@ -425,11 +425,12 @@ class mysql
 
 //判断数据是否为空
         $sql = "replace into $table ($key_str) values ($v_str)";
-//file_put_contents("a.txt",$sql,FILE_APPEND);
-        // echo $sql;die;
+
+        #echo $sql;die;
         $this->query($sql);
-//返回上一次增加操做产生ID值
-$insertID=$this->insert_id();
+
+        //返回上一次增加操做产生ID值
+        $insertID=$this->insert_id();
         if ($insertID) {
 
             return $insertID;

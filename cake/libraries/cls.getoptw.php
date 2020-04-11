@@ -610,7 +610,7 @@ class GetOptW
 			return false;
 		}
 
-		if(count($jsonFormat)>1)
+		if( !is_object($jsonFormat) )
 		{
 			// TODO: 
 			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
@@ -625,7 +625,7 @@ class GetOptW
 			{
 				if(!isset($jsonObject->$k))
 				{
-					$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+					$this->last_error = $k.":".$this->errors['FORMAT_SYNTAX_ERROR'];
 					$this->all_errors[] = $this->last_error ;
 					return $result;
 				}
@@ -638,7 +638,7 @@ class GetOptW
 			{
 				if(!isset($jsonObject->$k))
 				{
-					$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+					$this->last_error = $k.":".$this->errors['FORMAT_SYNTAX_ERROR'];
 					$this->all_errors[] = $this->last_error ;
 					return $result;
 				}
