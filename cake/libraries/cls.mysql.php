@@ -311,8 +311,7 @@ class mysql
      */
     public function insert($table, $data)
     {
-
-//遍历数组，得到每一个字段和字段的值
+        //遍历数组，得到每一个字段和字段的值
         $key_str = '';
         $v_str   = '';
 
@@ -329,12 +328,10 @@ class mysql
                     }
 
                     continue;
-
                 }
-
             }
 
-//$key的值是每一个字段s一个字段所对应的值
+            //$key的值是每一个字段s一个字段所对应的值
             $key_str .= '`' . $key . '`,';
 
             if (stripos($v, "PASSWORD(") === 1) {
@@ -347,15 +344,13 @@ class mysql
         $key_str = trim($key_str, ',');
         $v_str   = trim($v_str, ',');
 
-//判断数据是否为空
+        //判断数据是否为空
         $sql = "insert into $table ($key_str) values ($v_str)";
-//file_put_contents("a.txt",$sql,FILE_APPEND);
-        //         echo $sql;
-        //         echo "\r\n";
-        // die;
 
         $ret = $this->query($sql);
 
+        //返回insert结果
+        #return $ret;
         return $this->insert_id();
     }
 
