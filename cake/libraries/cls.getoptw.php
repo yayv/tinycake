@@ -507,7 +507,7 @@ class GetOptW
 		else
 		{
 			$callstack = implode('->',$this->callStack);
-			$this->last_error = $callstack.':'.$this->errors['DATA_NOT_EXIST'];
+			$this->last_error = __LINE__.$callstack.':'.$this->errors['DATA_NOT_EXIST'];
 			$this->all_errors[] = $this->last_error ;
 
 			return false;
@@ -558,7 +558,6 @@ class GetOptW
 				// TODO:解析格式, 检查参数的值是否匹配
 				foreach($jsonObject as $kk=>$vv)
 				{
-
 					// if($vv==null){
 					// 	continue;
 					// }
@@ -571,7 +570,8 @@ class GetOptW
 			else
 			{
 				// 不是对象,不是数组,不是字符串,那格式出错了
-				$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+				print_r($callstack);
+				$this->last_error = 'CS:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 				$this->all_errors[] = $this->last_error ;
 				return false;
 			}
@@ -626,7 +626,8 @@ class GetOptW
 			{
 				if(!isset($jsonObject->$k))
 				{
-					$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+					$callstack = implode('->',$this->callStack);
+					$this->last_error = $callstack.'->'.$k.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 					$this->all_errors[] = $this->last_error ;
 					return $result;
 				}
@@ -639,7 +640,8 @@ class GetOptW
 			{
 				if(!isset($jsonObject->$k))
 				{
-					$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'];
+					$callstack = implode('->',$this->callStack);
+					$this->last_error = $callstack.'->'.$k.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 					$this->all_errors[] = $this->last_error ;
 					return $result;
 				}
@@ -683,7 +685,9 @@ class GetOptW
 		}
 		else
 		{
-			$this->last_error = 'FORMAT_SYNTAX_ERROR';
+			#$this->last_error = 'FORMAT_SYNTAX_ERROR';
+			$callstack = implode('->',$this->callStack);
+			$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 			$this->all_errors[] = $this->last_error;
 			return false;
 		}
