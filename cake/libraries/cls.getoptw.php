@@ -507,7 +507,7 @@ class GetOptW
 		else
 		{
 			$callstack = implode('->',$this->callStack);
-			$this->last_error = __LINE__.$callstack.':'.$this->errors['DATA_NOT_EXIST'];
+			$this->last_error = "Line".__LINE__.":".$callstack.':'.$this->errors['DATA_NOT_EXIST'];
 			$this->all_errors[] = $this->last_error ;
 
 			return false;
@@ -666,6 +666,8 @@ class GetOptW
 	{
 		$noerror = 'No error';
 
+		if($format=='') $format='{}';
+
 		$json = json_decode($format);
 
 		$str = json_last_error_msg();
@@ -717,7 +719,90 @@ class GetOptW
 	{
 
 	}
+
+	public function getWebParams($format, $inputString)
+	{
+		$isFormatOk = $this->isFormatOK($format);
+
+	}
+
+    /*
+    usage:
+    $params = $this->getJSONParams($format);
+    if(null==$params) return $this->echoParamsErrorMessage('JSON');
+     */
+    public function getJSONParams($format)
+    {
+        // TODO: 1. 检查 format 语法是否符合要求
+        // TODO: 2. 获取参数
+        // TODO: 3. 检查参数是否符合 format 要求
+       
+    
+        $opt = new GetOptW();
+        $ret = $opt->isFormatOK($format);
+        if(!$ret)
+        {
+            $this->paramsParseErrors = "Paramaters Format Error";
+            return false;
+        }
+
+        $strInput = file_get_contents("php://input");
+        if($strInput==""){
+            $params = new stdClass();
+        }
+        else{
+            $params = json_decode($strInput,false);
+        }
+
+        $params = json_decode($strInput,false);
+
+        $str = json_last_error_msg();
+
+        if('No error'==$str)
+        {
+            $ret = $opt->parseParams($params);
+           
+            if( count($opt->all_errors)<1 )
+            {
+                return json_decode(json_encode($params),true);
+            }
+            else
+            {
+                $this->paramsParseErrors = implode("\n",$opt->all_errors);
+                return false;
+            }
+        }
+        else
+        {
+            $this->paramsParseErrors = $str ;
+            return false;
+        }
+
+        return false;
+    }
+    public function getPOSTParams($format)
+    {
+        return $_POST;
+    }
+    public function getGETParams($format)
+    {
+        return $_GET;
+    }
+    public function echoParamsErrorMessage($type)
+    {
+        if (strcmp('json', $type) == 0) {
+            header('Content-Type: application/json');
+            echo '{"code":"fail","message":"' . $this->paramsParseErrors . '"}';
+        } else {
+            header('Content-Type: text/html');
+            echo '参数解析失败:' . $this->paramsParseErrors;
+        }
+        return;
+    }
+
 }
+
+
 
 function _test()
 {
@@ -790,17 +875,21 @@ function _testJSON()
     "carService":"1",
     "deliveryService":"1",
     "insurance":"1",
-    "vip":"1"
+    "vip":false
 }	
 	';
 
 	$t = new GetOptW();
 
-	$json = json_decode($string);
+	$params = json_decode($string);
+
+	// 1. 检查格式是否有问题
+	// 2. 检查参数是否为 json 格式
+	// 3. 
 
 	if($t->isFormatOK($format))
 	{
-		$result = $t->parseParams($json);	
+		$result = $t->parseParams($params);	
 		if( count($t->all_errors)<1 )
 			print_r($json);
 		else
