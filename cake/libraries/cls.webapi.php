@@ -33,6 +33,8 @@ class Webapi
 			"FORMAT_JSON_STRUCT_ERROR" => "参数表的 JSON 格式有语法错误",
 			"FORMAT_SYNTAX_ERROR" => "格式描述的语法错误",
 			"FORMAT_UNKNOWN_KEY_ERROR" => "存在未设置的参数",
+			"FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY" => "数组中元素的格式目前只能有且只有1个格式描述",
+			"FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY" => "数组中元素的格式目前只能有且只有1个格式描述",
 
 			// 参数部分错误，或参数数据错误
 			"DATA_NOT_MATCHED" => "数据格式不匹配",
@@ -114,17 +116,6 @@ class Webapi
 		}
 
 		return $format_result;
-	}
-
-	// 检查每行格式字符串是否正确
-	public function parseFormatString($strFormat)
-	{
-		$format = $this->getFormat($strFormat);
-		/*
-		$call = implode("->", $this->callStack);
-		echo $call;
-		print_r($format);
-		*/
 	}
 
 	private function parseObject($jsonFormat, $jsonObject)
@@ -256,6 +247,21 @@ class Webapi
 		return $result;
 	}
 
+	// 检查每行格式字符串是否正确
+	public function parseFormatString($strFormat)
+	{
+		$format = $this->getFormat($strFormat);
+		
+		$call = implode("->", $this->callStack);
+		echo $call,":\n";
+		print_r($strFormat);
+		echo "\n\n";
+
+		// TODO: 解释失败则要返回 false 
+
+		return true;
+	}
+
 	public function isValueFormatStringOk($stringFormat)
 	{
 		// 这里判断具体一个值是否符合格式说明的要求
@@ -275,20 +281,27 @@ class Webapi
 			// 根据格式,依次检查Obj
 			if(is_object($jsonFormat->$k))
 			{
-				$this->callback[] = '(Object)'.$k;
+				$this->callStack[] = '(Object)'.$k;
 				// TODO: 向下一层继续解析
 				$this->parseFormatObject($v);
+
+				array_pop($this->callStack);
 			}
 			else if(is_array($jsonFormat->$k))
 			{
-				$this->callback[] = '(Array)'.$k;
+				$this->callStack[] = '(Array)'.$k;
 				// TODO: 向下一层继续解析
 				$this->parseFormatArray($v);
+
+				array_pop($this->callStack);
 			}
 			else if(is_string($jsonFormat->$k))
 			{
 				// TODO:解析格式, 检查参数的值是否匹配
+				$this->callStack[] = $k;
 				$ret = $this->parseFormatString($v);
+
+				array_pop($this->callStack);
 				/*
 				{
 					// if($vv==null){
@@ -311,17 +324,24 @@ class Webapi
 			}
 		}
 
-		return $result;
+		return true;
 	}
 
 	private function parseFormatArray($jsonFormat)
 	{
 		$result = [];
 
-		if(count($jsonFormat)>1)
-		{
-			// TODO: 
-			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+		$c = count($jsonFormat);
+
+		if($c>1){
+
+			$this->error_msg = "FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+
+			return false;
+
+		} else if($c<1) {
+
+			$this->error_msg = "FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY";			
 
 			return false;
 		}
@@ -336,23 +356,17 @@ class Webapi
 			}
 			else if(is_object($jsonFormat[0]))
 			{
+				$this->callStack[] = '(Object)'.$k;
+				$ret = $this->parseFormatObject($v);
 
+				array_pop($this->callStack);
 			}
 			else if(is_string($jsonFormat[0]))
 			{
-				// TODO:解析格式, 检查参数的值是否匹配
-				/*
-				foreach($jsonFormat[] as $kk=>$vv)
-				{
-					// if($vv==null){
-					// 	continue;
-					// }
-					$this->callStack[] = "KEY $k";
-					$value = $this->parseFormatString($jsonFormat[0], $vv);
-					// var_dump($this->callStack);
-					array_pop($this->callStack);
-				}
-				*/
+				$this->callStack[] = $k;
+				$ret = $this->parseFormatString($v);
+
+				array_pop($this->callStack);
 			}
 			else
 			{
@@ -364,13 +378,11 @@ class Webapi
 			}
 		}
 
-		return $result;
+		return true;
 	}
 
 	public function parseFormat($jsonFormat)
 	{
-
-
 		// 所有的 json 都解析为 array ，不再用 object 的方式进行判断。口亨，就因为他不支持 count !!!
 		if(is_object($jsonFormat))
 		{
@@ -396,8 +408,13 @@ class Webapi
 				$callstack = implode('->',$this->callStack);
 				$this->last_error = 'formatString:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 				$this->all_errors[] = $this->last_error ;				
+				return false;
 			}
+
+			return $ret;
 		}
+
+		return true;
 	}
 
 	/*
@@ -437,6 +454,8 @@ class Webapi
 			$this->all_errors[] = $this->last_error;
 			return false;
 		}
+
+		return true;
 	}
 
 
@@ -456,10 +475,10 @@ class Webapi
     public function echoParamsErrorMessage($type)
     {
         if (strcmp('json', $type) == 0) {
-            header('Content-Type: application/json');
+            #header('Content-Type: application/json');
             echo '{"code":"fail","message":"' . $this->paramsParseErrors . '"}';
         } else {
-            header('Content-Type: text/html');
+            #header('Content-Type: text/html');
             echo '参数解析失败:' . $this->paramsParseErrors;
         }
         return;
@@ -523,36 +542,36 @@ function _testJSON()
 	$format = '{
 		"enterpriseId":"*int//企业id",
 
-		"username":"*string",
-		"mobile":"*mobile",
-		"idcard":"*idcard",
+		"username":"*string//username",
+		"mobile":"*mobile//mobile",
+		"idcard":"*idcard//idcard",
 
-		"province":"*string",
-		"city":"*string",
+		"province":"*string//province",
+		"city":"*string//city",
 
-		"countPeople":"int//可选",
-		"babySeats":"int//可选",
+		"countPeople":"int//可选countPeople",
+		"babySeats":"int//可选babySeats",
 		"vehicleModelId":"*int//车系id",
 		"vehicleId":"*int//车型id,可能不需要",
 
 		"rentRetailId":"*int//取车门店id",
 		"returnRetailId":"*int//换车门店id",
 
-		"orderStartDate":"*datetime",
-		"orderEndDate":"*datetime",
+		"orderStartDate":"*datetime//StartDate",
+		"orderEndDate":"*datetime//EndDate",
 
 		"baseService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
 		"carService":"*bool//整备服务费。价格由服务器端配置决定，这里只做开关选择",
 		"deliveryService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
-		"insurance":"*bool",
-		"vip":"*bool",
+		"insurance":"*bool//insurance",
+		"vip":"*bool//vip",
 
 		"normalArray":["string//普通数组，每个元素都是字符串"],
 		"objArray":[{
-			"customerId":"*int//用户id",
-			"customerName":"*string//用户名",
-			"customerIdcard":"*idcard//用户身份证号",
-			"customerMobile":"*mobile//用户手机号"
+			"customerId":"*int//obj用户id",
+			"customerName":"*string//obj用户名",
+			"customerIdcard":"*idcard//obj用户身份证号",
+			"customerMobile":"*mobile//obj用户手机号"
 			}]
 	}';
 
