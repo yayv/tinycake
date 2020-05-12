@@ -187,10 +187,20 @@ class Webapi
 		$result = [];
 		if(!is_array($jsonObject))
 		{
+			$callstack = implode('->',$this->callStack);
+			$this->last_error = $callstack.':'.$this->errors['DATA_NOT_MATCHED'];
+			$this->all_errors[] = $this->last_error ;
+
 			$this->error_msg = "DATA_NOT_MATCHED";
 			return false;
 		}
 
+		if(count($jsonFormat)<1)
+		{
+			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+			return false;
+		}
+		
 		if(count($jsonFormat)>1)
 		{
 			// TODO: 
@@ -541,8 +551,8 @@ class Webapi
 
 function _testJSON1()
 {
-	$format = "*mobile//只传一个手机号";
-	$string = "13811382543";
+	$format = '["*mobile//只传一个手机号"]';
+	$string = "[13811382543]";
 
 	$t = new Webapi();
 	$params = $t->getJSONParams($format, $string);
