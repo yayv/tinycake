@@ -195,18 +195,7 @@ class Webapi
 			return false;
 		}
 
-		if(count($jsonFormat)<1)
-		{
-			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
-			return false;
-		}
-		
-		if(count($jsonFormat)>1)
-		{
-			// TODO: 
-			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
-			return false;
-		}
+
 
 		foreach($jsonFormat as $k=>$v)
 		{
@@ -229,7 +218,7 @@ class Webapi
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$value = $this->parseData($jsonFormat[0], $vv);
+					$value = $this->parseString($jsonFormat[0], $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
@@ -337,47 +326,56 @@ class Webapi
 
 		if($c>1){
 
-			$this->error_msg = "FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
+			$callstack = implode('->',$this->callStack);
+			$this->last_error = $callstack.':'.$this->errors['DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY'];
+			$this->all_errors[] = $this->last_error ;
+			return false;
 
 			return false;
 
 		} else if($c<1) {
 
-			$this->error_msg = "FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY";			
+			$this->error_msg = "FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY";
+			$callstack = implode('->',$this->callStack);
+			$this->last_error = $callstack.':'.$this->errors['FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY'];
+			$this->all_errors[] = $this->last_error ;
+			return false;
 
 			return false;
+		} else {
+			// do nothing
 		}
 
-		foreach($jsonFormat as $k=>$v)
+		$v = $jsonFormat[0];
+
+		// 根据格式,依次检查Obj
+		if(is_array($v))
 		{
-			// 根据格式,依次检查Obj
-			if(is_array($jsonFormat[0]))
-			{
-				// TODO: 向下一层继续解析
-				#$this->parse
-			}
-			else if(is_object($jsonFormat[0]))
-			{
-				$this->callStack[] = '(Object)'.$k;
-				$ret = $this->parseFormatObject($v);
-
-				array_pop($this->callStack);
-			}
-			else if(is_string($jsonFormat[0]))
-			{
-				$this->callStack[] = $k;
-				$ret = $this->parseFormatString($v);
-
-				array_pop($this->callStack);
-			}
-			else
-			{
-				// 不是对象,不是数组,不是字符串,那格式出错了
-				print_r($callstack);
-				$this->last_error = 'CS:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
-				$this->all_errors[] = $this->last_error ;
-				return false;
-			}
+			// TODO: 向下一层继续解析
+			$this->callStack[] = '(Array)0';
+			$this->parseFormatArray($v);
+			array_pop($this->callStack);
+		}
+		else if(is_object($v))
+		{
+			$this->callStack[] = '(Object)0';
+			$ret = $this->parseFormatObject($v);
+			array_pop($this->callStack);
+		}
+		else if(is_string($v))
+		{
+			$this->callStack[] = 'string';
+			$ret = $this->parseFormatString($v);
+			array_pop($this->callStack);
+		}
+		else
+		{
+			// 不是对象,不是数组,不是字符串,那格式出错了
+			$callstack = implode('->',$this->callStack);
+			$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
+			$this->all_errors[] = $this->last_error ;
+			return false;
 		}
 
 		return true;
@@ -503,7 +501,6 @@ class Webapi
 
 		// 1. 检查 strFormat 是否符合 json 格式 
 
-
 		// 2. 检查 strParams 是否符合 json 格式 		
 
 		// 3. 根据 strFormat 按层次获取 strParams 里的参数
@@ -551,8 +548,8 @@ class Webapi
 
 function _testJSON1()
 {
-	$format = '["*mobile//只传一个手机号"]';
-	$string = "[13811382543]";
+	$format = '[["*mobile//只传一个email"]]';
+	$string = "[[13800138000,13800138001],[13801138000,13801138001]";
 
 	$t = new Webapi();
 	$params = $t->getJSONParams($format, $string);
@@ -643,13 +640,6 @@ function _testJSON()
 	}
 
 	echo "\n\n";
-/*
-            $params = $this->getJSONParams($requestRule);
-
-            if (false==$params) {
-                return $this->echoParamsErrorMessage('json');
-            }
-*/
 }
 
 
