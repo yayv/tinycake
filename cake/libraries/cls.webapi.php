@@ -8,6 +8,8 @@ class Webapi
 
 		$this->format = false ;
 
+		$this->result = false;
+
 		$this->last_error = false ;
 
 		$this->types = array(
@@ -118,9 +120,15 @@ class Webapi
 		return $format_result;
 	}
 
+	private function parseString($jsonFormat, $jsonParams)
+	{
+
+	}
+
 	private function parseObject($jsonFormat, $jsonObject)
 	{
-		$result = [];
+		$result = new stdClass();
+
 		if(!is_array($jsonObject))
 		{
 			$this->error_msg = "DATA_NOT_MATCHED";
@@ -170,24 +178,7 @@ class Webapi
 				return false;
 			}
 		}
-/*
-		foreach($obj as $v)
-		{
-			if(is_array($v))
-			{
 
-			}
-
-			if(is_object($v))
-			{
-
-			}
-
-			// is data
-			// int float string ...
-		}
-*/
-		// die("这里是断路施工中...\n");
 		return $result;
 	}
 
@@ -246,6 +237,7 @@ class Webapi
 
 		return $result;
 	}
+
 
 	// 检查每行格式字符串是否正确
 	public function parseFormatString($strFormat)
@@ -381,6 +373,7 @@ class Webapi
 		return true;
 	}
 
+	// 这里只是入口，不可能在下层出现对这个函数的调用 
 	public function parseFormat($jsonFormat)
 	{
 		// 所有的 json 都解析为 array ，不再用 object 的方式进行判断。口亨，就因为他不支持 count !!!
@@ -391,8 +384,7 @@ class Webapi
 			$this->callStack[] = 'Object';
 			return $this->parseFormatObject($jsonFormat);
 		}
-
-		if(is_array($jsonFormat))
+		else if(is_array($jsonFormat))
 		{
 			// 循环 item
 			$this->callStack = [];
@@ -401,19 +393,30 @@ class Webapi
 		}
 		else // is format string
 		{
-			if(is_string($jsonFormat))
-				$ret = $this->parseFormatString($jsonFormat);	
-			else
-			{
-				$callstack = implode('->',$this->callStack);
-				$this->last_error = 'formatString:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
-				$this->all_errors[] = $this->last_error ;				
-				return false;
-			}
-
-			return $ret;
+			// 按照 php 里 json_decode 的执行逻辑， 纯字符串解析会报错。所以不可能出现纯字符串的格式描述
+			$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'].':'."不接受无对象或数组的纯变量形式";
+			$this->all_errors[] = $this->last_error ;
+			return false;
 		}
 
+		return true;
+	}
+
+	public function parseParams($params)
+	{
+		//1. 根据 format 依次 读取 params 里的数据
+		if(is_object($this->format)){
+
+			$this->result = $this->parseObject($this->format, $params);
+
+		}
+		else if (is_array($this->format)) {
+
+			$this->result = $this->parseArray($this->format, $params);
+
+		} else {
+			$this->result = $this->parseString($this->format, $params);
+		}
 		return true;
 	}
 
@@ -536,6 +539,23 @@ class Webapi
 	}
 }
 
+function _testJSON1()
+{
+	$format = "*mobile//只传一个手机号";
+	$string = "13811382543";
+
+	$t = new Webapi();
+	$params = $t->getJSONParams($format, $string);
+	if($t->isParseOk())
+	{
+		echo 'result:',"\n";
+		print_r($params);
+	}
+	else
+	{
+		print_r($t->echoParamsErrorMessage('json'));
+	}
+}
 
 function _testJSON()
 {
@@ -602,10 +622,15 @@ function _testJSON()
 
 	if($t->isParseOk()) 
 	{
+		echo 'show result',"\n";
 		print_r($params) ;
 	}
 	else
+	{
+		echo 'show error',"\n";
 		print_r($t->echoParamsErrorMessage('json'));
+
+	}
 
 	echo "\n\n";
 /*
