@@ -195,19 +195,23 @@ class Webapi
 			return false;
 		}
 
-
-
 		foreach($jsonFormat as $k=>$v)
 		{
 			// 根据格式,依次检查Obj
 			if(is_array($jsonFormat[0]))
 			{
 				// TODO: 向下一层继续解析
-				#$this->parse
+				$this->callStack[] = $k;
+				$value = $this->parseArray($jsonFormat[0],$v);
+				$result[] = $value ;
+				array_pop($this->callStack);
 			}
 			else if(is_object($jsonFormat[0]))
 			{
-
+				$this->callStack[] = $k;
+				$value = $this->parseObject($jsonFormat[0],$v);
+				$result[] = $value ;
+				array_pop($this->callStack);
 			}
 			else if(is_string($jsonFormat[0]))
 			{
@@ -508,7 +512,7 @@ class Webapi
         // TODO: 1. 检查 format 语法是否符合要求
         // TODO: 2. 获取参数
         // TODO: 3. 检查参数是否符合 format 要求
-       
+
         $ret = $this->isFormatOK($strFormat);
         if(!$ret)
         {
@@ -532,13 +536,16 @@ class Webapi
             }
             else
             {
+            	$this->all_errors[] = '';
                 $this->paramsParseErrors = implode("\n",$this->all_errors);
                 return false;
             }
         }
         else
         {
-            $this->paramsParseErrors = $str ;
+        	$this->all_errors[] = $this->errors['FORMAT_VALUEFORMAT_SYNTAX_ERROR'];
+        	$this->paramsParseErrors = implode("\n",$this->all_errors);
+
             return false;
         }
 
@@ -548,8 +555,8 @@ class Webapi
 
 function _testJSON1()
 {
-	$format = '[["*mobile//只传一个email"]]';
-	$string = "[[13800138000,13800138001],[13801138000,13801138001]";
+	$format = '{"a":["*mobile//只定义一个手机号格式"]}';
+	$string = '{"a":[13800138000,13800138001,13801138000,13801138001]}';
 
 	$t = new Webapi();
 	$params = $t->getJSONParams($format, $string);
