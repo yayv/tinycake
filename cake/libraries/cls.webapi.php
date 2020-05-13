@@ -34,7 +34,7 @@ class Webapi
 			"FORMAT_VALUEFORMAT_SYNTAX_ERROR" => "参数值的格式描述的语法错误",
 			"FORMAT_JSON_STRUCT_ERROR" => "参数表的 JSON 格式有语法错误",
 			"FORMAT_SYNTAX_ERROR" => "格式描述的语法错误",
-			"FORMAT_UNKNOWN_KEY_ERROR" => "存在未设置的参数",
+			"FORMAT_UNKNOWN_KEYTYPE_ERROR" => "格式中指定的数据类型未定义",
 			"FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY" => "数组中元素的格式目前只能有且只有1个格式描述",
 			"FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY" => "数组中元素的格式目前只能有且只有1个格式描述",
 
@@ -44,6 +44,7 @@ class Webapi
 			"DATA_NOT_IN_SET_RANGE" => "数据超出要求范围",
 			"DATA_KEY_NEED_EXIST" => "缺少了必填的KEY",
 			"DATA_NOT_EXIST" => "KEY不存在",
+			"DATA_UNKNOWN_KEY_ERROR" => "存在格式中不存在的参数",
 
 			// 解析过程中，格式与数据匹配问题
 			"TYPE_NO_MATCHED" => "没有匹配的类型",
@@ -55,6 +56,8 @@ class Webapi
 		$this->all_errors = array();
 
 		$this->paramsParseErrors = '';
+
+		$this->supportFormats();
 	}
 
 	public function supportFormats()
@@ -72,7 +75,7 @@ class Webapi
 		// :长度,表示为需要检查的变量里原始值的字符长度
 		// 默认值，当取值失败，或者取值超范围时，以默认值做为返回值，同时发出一个错误信息
 		// 说明，参数格式的表达过于技术化，需要有给产品或业务相关人员看得懂的说明，更好的表达这些设置的目的
-		$formats = array(
+		$this->formats = array(
 			"int"  =>"[+-]?[0-9]*", 
 			"float" =>"[+-]?[0-9]*\.[0-9]*", 
 			"double"=>"[+-]?[0-9]*\.[0-9]*", 
@@ -115,9 +118,10 @@ class Webapi
 				"default"	=>isset($matches[10])?$matches[10]:'',
 				"comment"	=>isset($matches[12])?$matches[12]:''
 			);
+			return $format_result;
 		}
-
-		return $format_result;
+		else
+			return false;
 	}
 
 	private function parseString($jsonFormat, $jsonParams)
@@ -172,8 +176,7 @@ class Webapi
 			{
 				// 不是对象,不是数组,不是字符串,那格式出错了
 				$callstack = implode('->',$this->callStack);
-				print_r($callstack);
-				$this->last_error = 'CS:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
+				$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 				$this->all_errors[] = $this->last_error ;
 				return false;
 			}
@@ -231,8 +234,7 @@ class Webapi
 			{
 				// 不是对象,不是数组,不是字符串,那格式出错了
 				$callstack = implode('->',$this->callStack);
-				print_r($callstack);
-				$this->last_error = 'CS:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
+				$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 				$this->all_errors[] = $this->last_error ;
 				return false;
 			}
@@ -247,12 +249,14 @@ class Webapi
 	{
 		$format = $this->getFormat($strFormat);
 		
-		$call = implode("->", $this->callStack);
-		echo $call,":\n";
-		print_r($strFormat);
-		echo "\n\n";
+		if(!array_key_exists($format['name'],$this->formats))
+		{
+			$this->last_error = $this->errors['FORMAT_UNKNOWN_KEYTYPE_ERROR'];
+			$this->all_errors[] = $this->last_error ;
+			return false;
+		}
 
-		// TODO: 解释失败则要返回 false 
+		print_r($format);
 
 		return true;
 	}
@@ -313,7 +317,7 @@ class Webapi
 			{
 				// 不是对象,不是数组,不是字符串,那格式出错了
 				print_r($callstack);
-				$this->last_error = 'CS:'.$callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
+				$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 				$this->all_errors[] = $this->last_error ;
 				return false;
 			}
@@ -555,7 +559,7 @@ class Webapi
 
 function _testJSON1()
 {
-	$format = '{"a":["*mobile//只定义一个手机号格式"]}';
+	$format = '{"a":["string{true,false}//只定义一个手机号格式"]}';
 	$string = '{"a":[13800138000,13800138001,13801138000,13801138001]}';
 
 	$t = new Webapi();
