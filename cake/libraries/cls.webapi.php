@@ -243,12 +243,10 @@ class Webapi
 		return $result;
 	}
 
-
-	// 检查每行格式字符串是否正确
-	public function parseFormatString($strFormat)
+	public function isFormatStringOk($strFormat)
 	{
 		$format = $this->getFormat($strFormat);
-		
+
 		if(!array_key_exists($format['name'],$this->formats))
 		{
 			$this->last_error = $this->errors['FORMAT_UNKNOWN_KEYTYPE_ERROR'];
@@ -256,7 +254,14 @@ class Webapi
 			return false;
 		}
 
-		print_r($format);
+		return true;
+	}
+	// 检查每行格式字符串是否正确
+	public function parseString($strFormat,$json)
+	{
+		$format = $this->getFormat($strFormat);
+
+		$this->value = '';
 
 		return true;
 	}
@@ -298,7 +303,8 @@ class Webapi
 			{
 				// TODO:解析格式, 检查参数的值是否匹配
 				$this->callStack[] = $k;
-				$ret = $this->parseFormatString($v);
+
+				$ret = $this->isFormatStringOk($v);
 
 				array_pop($this->callStack);
 				/*
@@ -374,7 +380,7 @@ class Webapi
 		else if(is_string($v))
 		{
 			$this->callStack[] = 'string';
-			$ret = $this->parseFormatString($v);
+			$ret = $this->isFormatStringOk($v);
 			array_pop($this->callStack);
 		}
 		else
