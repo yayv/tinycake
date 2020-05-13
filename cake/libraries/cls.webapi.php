@@ -124,11 +124,6 @@ class Webapi
 			return false;
 	}
 
-	private function parseString($jsonFormat, $jsonParams)
-	{
-
-	}
-
 	private function parseObject($jsonFormat, $jsonObject)
 	{
 		$result = new stdClass();
