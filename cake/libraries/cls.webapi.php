@@ -136,7 +136,6 @@ class Webapi
 
 		if(count($jsonFormat)>1)
 		{
-			// TODO: 
 			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
 			return false;
 		}
@@ -317,7 +316,8 @@ class Webapi
 			else
 			{
 				// 不是对象,不是数组,不是字符串,那格式出错了
-				print_r($callstack);
+				$callstack = implode('->',$this->callStack);
+				print_r($callstack.$this->errors['FORMAT_SYNTAX_ERROR']);
 				$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
 				$this->all_errors[] = $this->last_error ;
 				return false;
@@ -339,7 +339,6 @@ class Webapi
 			$callstack = implode('->',$this->callStack);
 			$this->last_error = $callstack.':'.$this->errors['DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY'];
 			$this->all_errors[] = $this->last_error ;
-			return false;
 
 			return false;
 
@@ -349,7 +348,6 @@ class Webapi
 			$callstack = implode('->',$this->callStack);
 			$this->last_error = $callstack.':'.$this->errors['FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY'];
 			$this->all_errors[] = $this->last_error ;
-			return false;
 
 			return false;
 		} else {
@@ -560,8 +558,8 @@ class Webapi
 
 function _testJSON1()
 {
-	$format = '{"a":["string{true,false}//只定义一个手机号格式"]}';
-	$string = '{"a":[13800138000,13800138001,13801138000,13801138001]}';
+	$format = '{"a":1234,"b":"*int"}';
+	$string = '{"a":false,"b":"kjkjk"}';
 
 	$t = new Webapi();
 	$params = $t->getJSONParams($format, $string);
@@ -653,5 +651,16 @@ function _testJSON()
 
 	echo "\n\n";
 }
+
+/**
+ * TODO: 
+ * 1. ... 代表更多的 key 是否支持
+ * 2. false 值的解析
+ * 3. value 中 带* 的必填值
+ * 4. key中带 * 的必填项
+ * 5. 各种值的解析
+ * 6. 默认值
+ * 7. 
+ */
 
 
