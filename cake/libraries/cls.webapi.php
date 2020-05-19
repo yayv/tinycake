@@ -409,7 +409,7 @@ class Webapi
 		else // is format string
 		{
 			// 按照 php 里 json_decode 的执行逻辑， 纯字符串解析会报错。所以不可能出现纯字符串的格式描述
-			$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'].':'."不接受无对象或数组的纯变量形式";
+			$this->last_error = $this->errors['FORMAT_SYNTAX_ERROR'].':'."不接受非对象且非数组的纯变量形式";
 			$this->all_errors[] = $this->last_error ;
 			return false;
 		}
@@ -430,7 +430,9 @@ class Webapi
 			$this->result = $this->parseArray($this->format, $params);
 
 		} else {
-			$this->result = $this->parseString($this->format, $params);
+			$this->last_error = $this->errors['FORMAT_JSON_STRUCT_ERROR'].":"."JSON必须是对象或数组";
+			$this->all_errors[] = $this->last_error ;
+			return false;
 		}
 		return true;
 	}
@@ -504,18 +506,7 @@ class Webapi
 
 	public function getJSONParams($strFormat, $strParams)
 	{
-		// 入口程序
-
 		// 1. 检查 strFormat 是否符合 json 格式 
-
-		// 2. 检查 strParams 是否符合 json 格式 		
-
-		// 3. 根据 strFormat 按层次获取 strParams 里的参数
-
-        // TODO: 1. 检查 format 语法是否符合要求
-        // TODO: 2. 获取参数
-        // TODO: 3. 检查参数是否符合 format 要求
-
         $ret = $this->isFormatOK($strFormat);
         if(!$ret)
         {
@@ -525,26 +516,10 @@ class Webapi
             return false;
         }
 
+		// 2. 检查 strParams 是否符合 json 格式 		
         $params = json_decode($strParams);
-
         $str = json_last_error_msg();
-
-        if('No error'==$str)
-        {
-            $ret = $this->parseParams($params);
-           
-            if( count($this->all_errors)<1 )
-            {
-                return $params;
-            }
-            else
-            {
-            	$this->all_errors[] = '';
-                $this->paramsParseErrors = implode("\n",$this->all_errors);
-                return false;
-            }
-        }
-        else
+        if('No error'!=$str)
         {
         	$this->all_errors[] = $this->errors['FORMAT_VALUEFORMAT_SYNTAX_ERROR'];
         	$this->paramsParseErrors = implode("\n",$this->all_errors);
@@ -552,15 +527,60 @@ class Webapi
             return false;
         }
 
-        return false;
+        // else $str == 'No error'
+		// 3. 根据 strFormat 按层次获取 strParams 里的参数
+        $ret = $this->parseParams($params);
+        if( count($this->all_errors)>0 )
+        {
+        	$this->all_errors[] = '';
+            $this->paramsParseErrors = implode("\n",$this->all_errors);
+            return false;
+        }
+
+        // 4. .返回解析的结果
+        return $params;
 	}
 }
 
-function _testJSON1()
+function _testJSON()
 {
-	$format = '{"a":1234,"b":"*int"}';
-	$string = '{"a":false,"b":"kjkjk"}';
+	$test = [
+		"正常数据一层key/value"=>[
+			"format" => '{"a":"int","b":"*int","c":"string","...":"string"}',
+			"string" => '{"a":123,"b":111,"c":123,"d":"asd","e":"asd"}',
+			"note"=>"测试一层key/value数据, 包括可选参数，值也针对可选和必选参数分别对应，这组数据不包括不符合格式的情况"
+		],
+		"正常数据多层key/value"=>[
+			"format" => '{"a":"*int","b":"*int","c":{"d":"int","e":"bool","f":"datetime"}}',
+			"string" => '{"a":false,"b":"kjkjk","c":{"d":111,"e":false,"f":"2010/01/01"}}',
+			"note"=>'',
+		],
+		"正常数据多层数组"=>[
+			"format" => '{"a":"int","b":"*int"}',
+			"string" => '{"a":false,"b":"kjkjk"}',
+			"note"=>'',
+		],
+		"a"=>[
+			
+			"format" => '"string//测试纯字符串值"',
+			"string" => '"this is a string"',
+			"note"=>'',
+		]
+	];
 
+	foreach($test as $k=>$v)
+	{
+		echo $k,":\n";
+		if(isset($v['note']) && $v['note']!='')
+			echo "\t",$v['note'],"\n\n";
+		_testJSON1($v['format'], $v['string']);	
+		echo "\n\n\n\n";
+	}
+	
+}
+
+function _testJSON1($format, $string)
+{
 	$t = new Webapi();
 	$params = $t->getJSONParams($format, $string);
 	if($t->isParseOk())
@@ -574,7 +594,7 @@ function _testJSON1()
 	}
 }
 
-function _testJSON()
+function _testJSON2()
 {
 	$format = '{
 		"enterpriseId":"*int//企业id",
@@ -654,13 +674,14 @@ function _testJSON()
 
 /**
  * TODO: 
- * 1. ... 代表更多的 key 是否支持
+ * 1. ... 代表更多的 key 是否支持。 带 ... key时可以传递未定义的key, 不带...时，应该忽略未定义key的参数
  * 2. false 值的解析
  * 3. value 中 带* 的必填值
  * 4. key中带 * 的必填项
  * 5. 各种值的解析
- * 6. 默认值
- * 7. 
+ * 6. 默认值 该怎么解释？
+ * 7. 限制数组元素中的个数 "*[0,2]name":["string//名称"] , 这样是不是解析起来比较容易呢？
+ * 8. 
  */
 
 
