@@ -140,6 +140,9 @@ class Webapi
 			return false;
 		}
 
+		/*
+		TODO:根据 format 的 key 依次取值, 找不到的检查是否为必填参数, 最后剩余的检查 ... key是否存在
+		*/
 		foreach($jsonFormat as $k=>$v)
 		{
 			// 根据格式,依次检查Obj
@@ -565,6 +568,65 @@ function _testJSON()
 			"format" => '"string//测试纯字符串值"',
 			"string" => '"this is a string"',
 			"note"=>'',
+		],
+		"more"=>[
+			"format" => '{
+			"enterpriseId":"*int//企业id",
+
+			"username":"*string//username",
+			"mobile":"*mobile//mobile",
+			"idcard":"*idcard//idcard",
+
+			"province":"*string//province",
+			"city":"*string//city",
+
+			"countPeople":"int//可选countPeople",
+			"babySeats":"int//可选babySeats",
+			"vehicleModelId":"*int//车系id",
+			"vehicleId":"*int//车型id,可能不需要",
+
+			"rentRetailId":"*int//取车门店id",
+			"returnRetailId":"*int//换车门店id",
+
+			"orderStartDate":"*datetime//StartDate",
+			"orderEndDate":"*datetime//EndDate",
+
+			"baseService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
+			"carService":"*bool//整备服务费。价格由服务器端配置决定，这里只做开关选择",
+			"deliveryService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
+			"insurance":"*bool//insurance",
+			"vip":"*bool//vip",
+
+			"normalArray":["string//普通数组，每个元素都是字符串"],
+			"objArray":[{
+				"customerId":"*int//obj用户id",
+				"customerName":"*string//obj用户名",
+				"customerIdcard":"*idcard//obj用户身份证号",
+				"customerMobile":"*mobile//obj用户手机号"
+				}]
+		}',
+
+		"string" => '{
+		    "enterpriseId":"1",
+		    "username":"闫大瑶",
+		    "mobile":"18618193355",
+		    "idcard":"110102198312082405",
+		    "province":"北京市",
+		    "city":"北京",
+		    "countPeople":"3",
+		    "babySeats":"1",
+		    "vehicleModelId":"1",
+		    "vehicleId":"2",
+		    "rentRetailId":"1",
+		    "returnRetailId":"1",
+		    "orderStartDate":"2020-02-14",
+		    "orderEndDate":"2020-02-18",
+		    "baseService":"1",
+		    "carService":"1",
+		    "deliveryService":"1",
+		    "insurance":"1",
+		    "vip":false
+		}'
 		]
 	];
 
@@ -594,83 +656,6 @@ function _testJSON1($format, $string)
 	}
 }
 
-function _testJSON2()
-{
-	$format = '{
-		"enterpriseId":"*int//企业id",
-
-		"username":"*string//username",
-		"mobile":"*mobile//mobile",
-		"idcard":"*idcard//idcard",
-
-		"province":"*string//province",
-		"city":"*string//city",
-
-		"countPeople":"int//可选countPeople",
-		"babySeats":"int//可选babySeats",
-		"vehicleModelId":"*int//车系id",
-		"vehicleId":"*int//车型id,可能不需要",
-
-		"rentRetailId":"*int//取车门店id",
-		"returnRetailId":"*int//换车门店id",
-
-		"orderStartDate":"*datetime//StartDate",
-		"orderEndDate":"*datetime//EndDate",
-
-		"baseService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
-		"carService":"*bool//整备服务费。价格由服务器端配置决定，这里只做开关选择",
-		"deliveryService":"*bool//基础服务费。价格由服务器端配置决定，这里只做开关选择",
-		"insurance":"*bool//insurance",
-		"vip":"*bool//vip",
-
-		"normalArray":["string//普通数组，每个元素都是字符串"],
-		"objArray":[{
-			"customerId":"*int//obj用户id",
-			"customerName":"*string//obj用户名",
-			"customerIdcard":"*idcard//obj用户身份证号",
-			"customerMobile":"*mobile//obj用户手机号"
-			}]
-	}';
-
-	$string = '{
-	    "enterpriseId":"1",
-	    "username":"闫大瑶",
-	    "mobile":"18618193355",
-	    "idcard":"110102198312082405",
-	    "province":"北京市",
-	    "city":"北京",
-	    "countPeople":"3",
-	    "babySeats":"1",
-	    "vehicleModelId":"1",
-	    "vehicleId":"2",
-	    "rentRetailId":"1",
-	    "returnRetailId":"1",
-	    "orderStartDate":"2020-02-14",
-	    "orderEndDate":"2020-02-18",
-	    "baseService":"1",
-	    "carService":"1",
-	    "deliveryService":"1",
-	    "insurance":"1",
-	    "vip":false
-	}';
-
-	$t = new Webapi();
-	$params = $t->getJSONParams($format, $string);
-
-	if($t->isParseOk()) 
-	{
-		echo 'show result',"\n";
-		print_r($params) ;
-	}
-	else
-	{
-		echo 'show error',"\n";
-		print_r($t->echoParamsErrorMessage('json'));
-
-	}
-
-	echo "\n\n";
-}
 
 /**
  * TODO: 
