@@ -128,43 +128,58 @@ class Webapi
 	{
 		$result = new stdClass();
 
-		if(!is_array($jsonObject))
-		{
-			$this->error_msg = "DATA_NOT_MATCHED";
-			return false;
-		}
-
-		if(count($jsonFormat)>1)
-		{
-			$this->error_msg = "DATA_NOT_SUPPORT_MULTIFORMAT_ARRAY";
-			return false;
-		}
-
 		/*
 		TODO:根据 format 的 key 依次取值, 找不到的检查是否为必填参数, 最后剩余的检查 ... key是否存在
 		*/
 		foreach($jsonFormat as $k=>$v)
 		{
+			/*
+			echo $k,":";
+			if(is_string($v))
+				echo $v,"\n";
+			else
+				echo 'Object',"\n";
+			continue;
+			*/
+
 			// 根据格式,依次检查Obj
-			if(is_array($jsonFormat[0]))
+			if(is_array($jsonFormat->$k))
 			{
 				// TODO: 向下一层继续解析
 				#$this->parse
+				// find it in object
+				// check key format
+				die('go array');
+				$result->$k = $this->parseArray($jsonFormat->$k, $jsonObject->$k);
 			}
-			else if(is_object($jsonFormat[0]))
+			else if(is_object($jsonFormat->$k))
 			{
+				// find it in object
+				die('go object');
+				$this->parseObject($jsonFormat->$k, $jsonObject->$k);
+			}
+			else if(is_string($jsonFormat->$k))
+			{
+				// 1. 从参数表获取对应 key 的 value
+				if(property_exists($jsonFormat,$k))
+				{
+					// TODO:解析格式, 检查参数的值是否匹配
+					// 2. 用 格式对象的 format 去检查 value 的格式
+					$value = $this->parseValue($jsonFormat->$k, $jsonObject->$k);
+				}
+				else
+				{
+					// Is this param a required ?
+					// $this->parseFormatString();
+				}
 
-			}
-			else if(is_string($jsonFormat[0]))
-			{
-				// TODO:解析格式, 检查参数的值是否匹配
 				foreach($jsonObject as $kk=>$vv)
 				{
 					// if($vv==null){
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$value = $this->parseData($jsonFormat[0], $vv);
+					$value = $this->parseData($jsonFormat->$k, $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
@@ -424,13 +439,19 @@ class Webapi
 	{
 		//1. 根据 format 依次 读取 params 里的数据
 		if(is_object($this->format)){
-
-			$this->result = $this->parseObject($this->format, $params);
-
+			$tmp = $this->parseObject($this->format, $params);
+			if($tmp)
+				$this->result = $tmp;
+			else
+				return $tmp;
 		}
 		else if (is_array($this->format)) {
 
-			$this->result = $this->parseArray($this->format, $params);
+			$tmp = $this->parseArray($this->format, $params);
+			if($tmp)
+				$this->result = $tmp ;
+			else
+				return $tmp;
 
 		} else {
 			$this->last_error = $this->errors['FORMAT_JSON_STRUCT_ERROR'].":"."JSON必须是对象或数组";
@@ -533,7 +554,8 @@ class Webapi
         // else $str == 'No error'
 		// 3. 根据 strFormat 按层次获取 strParams 里的参数
         $ret = $this->parseParams($params);
-        if( count($this->all_errors)>0 )
+
+        if( false==$ret || count($this->all_errors)>0 )
         {
         	$this->all_errors[] = '';
             $this->paramsParseErrors = implode("\n",$this->all_errors);
@@ -541,13 +563,18 @@ class Webapi
         }
 
         // 4. .返回解析的结果
-        return $params;
+        return $this->result;
 	}
 }
 
 function _testJSON()
 {
 	$test = [
+		"开发测试"=>[
+			"format"=>'{"a":"int"}',
+			"string"=>'{"a":123}',
+			"note"=>'开发过程中需要的数据，随时修改',
+		],
 		"正常数据一层key/value"=>[
 			"format" => '{"a":"int","b":"*int","c":"string","...":"string"}',
 			"string" => '{"a":123,"b":111,"c":123,"d":"asd","e":"asd"}',
@@ -637,6 +664,7 @@ function _testJSON()
 			echo "\t",$v['note'],"\n\n";
 		_testJSON1($v['format'], $v['string']);	
 		echo "\n\n\n\n";
+		break;
 	}
 	
 }
@@ -652,6 +680,7 @@ function _testJSON1($format, $string)
 	}
 	else
 	{
+		echo 'error/warning:',"\n";
 		print_r($t->echoParamsErrorMessage('json'));
 	}
 }
@@ -662,9 +691,9 @@ function _testJSON1($format, $string)
  * 1. ... 代表更多的 key 是否支持。 带 ... key时可以传递未定义的key, 不带...时，应该忽略未定义key的参数
  * 2. false 值的解析
  * 3. value 中 带* 的必填值
- * 4. key中带 * 的必填项
+ * 4. key中带 * 的必填项, [] 限定数组长度, [n] 表示数组只能为n个元素，[n,m]表示数组长度在n,m之间，不带[]为长度不受限制
  * 5. 各种值的解析
- * 6. 默认值 该怎么解释？
+ * 6. 默认值 该怎么解释？ 解析成功，使用参数值；解析失败, 有默认值怎么处理，是否报错？
  * 7. 限制数组元素中的个数 "*[0,2]name":["string//名称"] , 这样是不是解析起来比较容易呢？
  * 8. 
  */
