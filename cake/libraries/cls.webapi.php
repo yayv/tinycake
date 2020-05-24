@@ -179,7 +179,7 @@ class Webapi
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$value = $this->parseData($jsonFormat->$k, $vv);
+					$value = $this->parseValue($jsonFormat->$k, $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
@@ -269,7 +269,7 @@ class Webapi
 		return true;
 	}
 	// 检查每行格式字符串是否正确
-	public function parseString($strFormat,$json)
+	public function parseValue($strFormat,$json)
 	{
 		$format = $this->getFormat($strFormat);
 
@@ -325,7 +325,7 @@ class Webapi
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$value = $this->parseData($jsonFormat->$k, $vv);
+					$value = $this->parseValue($jsonFormat->$k, $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
@@ -688,14 +688,15 @@ function _testJSON1($format, $string)
 
 /**
  * TODO: 
- * 1. ... 代表更多的 key 是否支持。 带 ... key时可以传递未定义的key, 不带...时，应该忽略未定义key的参数
+ * 1. value 中 带* 的必填值
  * 2. false 值的解析
- * 3. value 中 带* 的必填值
+ * 3. ... 代表更多的 key 是否支持。 带 ... key时可以传递未定义的key, 不带...时，应该忽略未定义key的参数
  * 4. key中带 * 的必填项, [] 限定数组长度, [n] 表示数组只能为n个元素，[n,m]表示数组长度在n,m之间，不带[]为长度不受限制
  * 5. 各种值的解析
  * 6. 默认值 该怎么解释？ 解析成功，使用参数值；解析失败, 有默认值怎么处理，是否报错？
  * 7. 限制数组元素中的个数 "*[0,2]name":["string//名称"] , 这样是不是解析起来比较容易呢？
- * 8. 
+ * 8. 按文档的URL自动生成配置的，适用于自动化更新测试代码
+ * 9. 把参数复制到代码的，适用于代码发开发过程，代码稳定之后，可以把参数注释，改为用url读取配置
  */
 
 
