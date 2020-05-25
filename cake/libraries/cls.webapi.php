@@ -12,6 +12,9 @@ class Webapi
 
 		$this->last_error = false ;
 
+		$this->baseTypes = ["int", "float", "double", "string","text","bool"];
+		$this->checkFunc = ['is_int', 'is_float','is_double','is_string','is_string','is_bool'];
+
 		$this->types = array(
 			// 基础数据类型
 			"int", "float", "double", "string","text","bool",
@@ -91,7 +94,7 @@ class Webapi
 			"datetime"=>"", 
 			"weekday"=>"(Sun|Mon|Tue|Sat)",
 			"age"=>"[0-9]{3}",
-			"currency", // 数字
+			"currency"=>"[0-9]*\.[0-9]{2}", // 数字
 
 			"phone", // 带格式符号的数字
 			"mobile", // 带格式符号的数字
@@ -103,7 +106,7 @@ class Webapi
 		);
 	}
 
-	private function getFormat($format)
+	private function getValueFormat($format)
 	{
 		$ret = preg_match("/([\*|#])?([0-9a-zA-Z@]*)(([\{\[\(])(.*)([\)\]\}]))?(:([0-9]*))?(#([^\/]*))?(\/\/(.*))?/",$format, $matches);
 		if($ret)
@@ -124,80 +127,122 @@ class Webapi
 			return false;
 	}
 
+	public function getKeyFormat($strKey)
+	{
+		// key: ..., *, *[n], *[n,m]
+		/*
+		(
+		    [0] => *number
+		    [1] => *
+		    [2] => 
+		    [3] => 
+		    [4] => 
+		    [5] => 
+		    [6] => number
+		)
+
+		(
+		    [0] => *[12,100]number
+		    [1] => *
+		    [2] => [12,100]
+		    [3] => 12
+		    [4] => ,100
+		    [5] => 100
+		    [6] => number
+		)
+		*/
+		$result = ["require"=>false, "range"=>false, "min"=>'0',"max"=>999999,"name"=>''];
+		$reg = "/(\*)?(\[([0-9]*)(,([0-9]*))?\])?([a-zA-Z]*[a-zA-Z0-9-_]*)/";
+		$ret = preg_match($reg, $strKey, $matches);
+		if($ret)
+		{
+			$result['require'] = ($matches[1]=='*');
+
+			if( $matches[3] || $matches[5] ) 
+			{
+				$result['range'] = true;
+				$result['min'] = $matches[3];
+				if($matches[5])
+					$result['max'] = $matches[5];
+				else
+					$result['min'] = $result['max'] = $matches[3];
+			}
+
+			$result['name'] = $matches[6];
+		}
+		if($result['name']=='')
+			return false;
+		else
+			return $result;
+	}
+
 	private function parseObject($jsonFormat, $jsonObject)
 	{
 		$result = new stdClass();
-
+		$morekey= false;
 		/*
 		TODO:根据 format 的 key 依次取值, 找不到的检查是否为必填参数, 最后剩余的检查 ... key是否存在
 		*/
 		foreach($jsonFormat as $k=>$v)
 		{
-			/*
-			echo $k,":";
-			if(is_string($v))
-				echo $v,"\n";
-			else
-				echo 'Object',"\n";
-			continue;
-			*/
+			if($k=='...') 
+			{
+				$morekey = true; 
+				continue ;
+			}
 
-			// 根据格式,依次检查Obj
-			if(is_array($jsonFormat->$k))
+			if(isset($jsonObject->$k))
 			{
-				// TODO: 向下一层继续解析
-				#$this->parse
-				// find it in object
-				// check key format
-				die('go array');
-				$result->$k = $this->parseArray($jsonFormat->$k, $jsonObject->$k);
+				 if( is_object($v) && is_object($jsonObject->$k) ){
+				 	// parseObject
+				 } else if( is_array($v) && is_array($jsonObject->$k) ){
+				 	// parseArray
+				 } else if( is_string($v) ){
+				 	// 格式为 string , value 则要根据解析,具体判断
+					// 对应key 的value存在，且 format 为 object, value 也为 object
+					$this->callStack[] = "(Value)".$v;
+					$result->$k = $this->getValue($v, $jsonObject->$k);
+					array_pop($this->callStack);
+				 }else{
+				 	// error 
+					$callstack = implode('->',$this->callStack);
+					$this->last_error = "Line".__LINE__.":".$callstack.':'.$this->errors['DATA_NOT_MATCHED'];
+					$this->all_errors[] = $this->last_error ;
+				 }
 			}
-			else if(is_object($jsonFormat->$k))
+			else 
 			{
-				// find it in object
-				die('go object');
-				$this->parseObject($jsonFormat->$k, $jsonObject->$k);
-			}
-			else if(is_string($jsonFormat->$k))
-			{
-				// 1. 从参数表获取对应 key 的 value
-				if(property_exists($jsonFormat,$k))
+				// check format, is this format required
+				$key = $this->getKeyFormat($k);
+				
+				if($key['require'])
 				{
-					// TODO:解析格式, 检查参数的值是否匹配
-					// 2. 用 格式对象的 format 去检查 value 的格式
-					$value = $this->parseValue($jsonFormat->$k, $jsonObject->$k);
+					$callstack = implode('->',$this->callStack);
+					$this->last_error = "Line".__LINE__.":".$callstack.':'.$this->errors['DATA_NOT_EXIST'];
+					$this->all_errors[] = $this->last_error ;
 				}
 				else
 				{
-					// Is this param a required ?
-					// $this->parseFormatString();
+
 				}
 
-				foreach($jsonObject as $kk=>$vv)
-				{
-					// if($vv==null){
-					// 	continue;
-					// }
-					$this->callStack[] = "KEY $k";
-					$value = $this->parseValue($jsonFormat->$k, $vv);
-					// var_dump($this->callStack);
-					array_pop($this->callStack);
-				}
 			}
-			else
-			{
-				// 不是对象,不是数组,不是字符串,那格式出错了
-				$callstack = implode('->',$this->callStack);
-				$this->last_error = $callstack.':'.$this->errors['FORMAT_SYNTAX_ERROR'];
-				$this->all_errors[] = $this->last_error ;
-				return false;
-			}
+
+			unset($jsonObject->$k);
+
+		}
+
+		// 还有扩展的key
+		if(count((array)$jsonObject)>0)
+		foreach($jsonObject as $k=>$v)
+		{
+
 		}
 
 		return $result;
 	}
 
-	private function parseArray($jsonFormat, $jsonObject)
+	private function parseArray($jsonFormat, $jsonObject, $min=0,$max=999999)
 	{
 		$result = [];
 		if(!is_array($jsonObject))
@@ -257,7 +302,7 @@ class Webapi
 
 	public function isFormatStringOk($strFormat)
 	{
-		$format = $this->getFormat($strFormat);
+		$format = $this->getValueFormat($strFormat);
 
 		if(!array_key_exists($format['name'],$this->formats))
 		{
@@ -268,24 +313,10 @@ class Webapi
 
 		return true;
 	}
-	// 检查每行格式字符串是否正确
-	public function parseValue($strFormat,$json)
-	{
-		$format = $this->getFormat($strFormat);
-
-		$this->value = '';
-
-		return true;
-	}
 
 	public function isValueFormatStringOk($stringFormat)
 	{
 		// 这里判断具体一个值是否符合格式说明的要求
-	}
-
-	public function getValueFormat($jsonFormat)
-	{
-
 	}
 
 	private function parseFormatObject($jsonFormat)
@@ -319,17 +350,6 @@ class Webapi
 				$ret = $this->isFormatStringOk($v);
 
 				array_pop($this->callStack);
-				/*
-				{
-					// if($vv==null){
-					// 	continue;
-					// }
-					$this->callStack[] = "KEY $k";
-					$value = $this->parseValue($jsonFormat->$k, $vv);
-					// var_dump($this->callStack);
-					array_pop($this->callStack);
-				}
-				*/
 			}
 			else
 			{
@@ -462,11 +482,18 @@ class Webapi
 	}
 
 	/*
-	获取对应参数格式描述的参数值
+	获取对应参数格式描述的参数值. 这里的 format 只能是 string 了。
 	*/
-	public function getValue($key)
+	public function getValue($strFormat, $key)
 	{
+		$value = false;
 
+		// property_exists
+		$f = $this->getValueFormat($strFormat);
+
+		#in_array($name, $this->baseTypes) ;
+
+		return $value;
 	}
 
 	/**
@@ -684,7 +711,6 @@ function _testJSON1($format, $string)
 		print_r($t->echoParamsErrorMessage('json'));
 	}
 }
-
 
 /**
  * TODO: 
