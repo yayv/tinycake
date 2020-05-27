@@ -106,11 +106,11 @@ class Webapi
 		);
 	}
 
-	private function getValueFormat($format)
+	public function getValueFormat($format)
 	{
-		$ret = preg_match("/([\*|#])?([0-9a-zA-Z@]*)(([\{\[\(])(.*)([\)\]\}]))?(:([0-9]*))?(#([^\/]*))?(\/\/(.*))?/",$format, $matches);
+		$ret = preg_match("/(\*)?([a-zA-Z]?[0-9a-zA-Z@]*)(([\{\[\(])(.*)([\)\]\}]))?(:([0-9]*))?(#([^\/]*))?(\/\/(.*))?/",$format, $matches);
 		if($ret)
-		{#print_r($matches);die();
+		{
 			$format_result = array(
 				"option"	=>isset($matches[1])?$matches[1]:'',
 				"name"		=>$matches[2],
@@ -129,7 +129,8 @@ class Webapi
 
 	public function getKeyFormat($strKey)
 	{
-		// key: ..., *, *[n], *[n,m]
+		// key: ..., *keyname, *[n]keyname, *[n,m]keyname
+		// keyname: [a-zA-Z0-9]
 		/*
 		(
 		    [0] => *number
@@ -176,6 +177,62 @@ class Webapi
 			return $result;
 	}
 
+	private function getValueOfBaseType($format, $value)
+	{
+		// Format Syntax: "[*]<format_name>[data range][:length][#default_value]//COMMENT"
+		// data range syntax:
+		// 	int float double: (1, 100), (1,100], [1,100),[1,100] 
+		//  date time: 
+		//  string : enum {papa,mama,grandpa,grandma,grandma-inlaw}
+		// example: "role":"*string{papa, mama}:4#papa//role name 
+		// 格式语法 : "[*|#]<格式名>[数值范围][:长度][#默认值]//说明"
+		/*
+		“boolean”（从 PHP 4 起）
+		“integer”
+		“double”（由于历史原因，如果是 float 则返回“double”，而不是“float”）
+		“string”
+		“array”
+		“object” 
+		*/
+		/*
+			"format"=>'{"a":"*string[1,100]:3#33//測試"}',
+			"string"=>'{"a":"2324"}',
+			"note"=>'开发过程中需要的数据，随时修改',
+		*/
+		$error = false;
+		switch($format['name'])
+		{
+			case 'int':
+				if($format['range'])
+					list($min,$max) = explode(',',$format['range']);
+
+				if(!is_int($value))
+					$v = intval($value);
+				else
+					$v = $value;
+
+				if(!$error && $format['left']=='(' && $v <= $format['min']) $error = true;
+				if(!$error && $format['left']=='[' && $v < $format['min'] ) $error = true;
+				if(!$error && $format['right']==')' && $v>=$format['right']) $error = true;
+				if(!$error && $format['right']==']' && $v>$format['right']) $error = true;
+
+				if($error)
+					$v = $format['default']?$format['default']:0;
+
+				return $v;
+				break;
+			case 'float':
+			case 'double':
+			case 'string':
+			case 'text':
+			case 'bool':
+			default:
+				die('這裡不應該寫die，應該拋出錯誤');
+		}
+
+		die(''.$value);
+	}
+
 	private function parseObject($jsonFormat, $jsonObject)
 	{
 		$result = new stdClass();
@@ -201,6 +258,8 @@ class Webapi
 				 	// 格式为 string , value 则要根据解析,具体判断
 					// 对应key 的value存在，且 format 为 object, value 也为 object
 					$this->callStack[] = "(Value)".$v;
+					print_r([$jsonObject,gettype($jsonObject->$k)]);die();
+					
 					$result->$k = $this->getValue($v, $jsonObject->$k);
 					array_pop($this->callStack);
 				 }else{
@@ -484,16 +543,20 @@ class Webapi
 	/*
 	获取对应参数格式描述的参数值. 这里的 format 只能是 string 了。
 	*/
-	public function getValue($strFormat, $key)
+	public function getValue($strFormat, $value)
 	{
-		$value = false;
+		$result = false;
 
 		// property_exists
 		$f = $this->getValueFormat($strFormat);
 
-		#in_array($name, $this->baseTypes) ;
+		if(in_array($f['name'], $this->baseTypes))
+		{
+			// 基本數據類型
+			return $this->getValueOfBaseType($f, $value);
+		}
 
-		return $value;
+		return $result;
 	}
 
 	/**
@@ -598,8 +661,8 @@ function _testJSON()
 {
 	$test = [
 		"开发测试"=>[
-			"format"=>'{"a":"int"}',
-			"string"=>'{"a":123}',
+			"format"=>'{"a":"*int(1,100]:3#33//測試"}',
+			"string"=>'{"a":24}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
