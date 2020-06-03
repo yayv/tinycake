@@ -213,10 +213,10 @@ class Webapi
 					$overlength = true;
 
 				// 获取参数值的参数值
-				if(is_int($value))
-					$v = $value;
-				else if( preg_match('/(+|-)?[0-9]*/',$value))
+				if( preg_match("/(\+|\-)?[0-9]*/", ''.$value, $matches) )
+				{
 					$v = intval($value);
+				}
 				else
 				{
 					$v = false;
@@ -726,8 +726,8 @@ function _testJSON()
 {
 	$test = [
 		"开发测试"=>[
-			"format"=>'{"a":"*int:3#999//測試"}',
-			"string"=>'{"a":"-100"}',
+			"format"=>'{"a":"*int:3#999//測試","b":"*int[1,200]:3"}',
+			"string"=>'{"a":"-100","b":"aaa"}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
