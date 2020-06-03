@@ -15,7 +15,8 @@ class Webapi
 		$this->baseTypes = ["int", "float", "double", "string","text","bool"];
 		$this->checkFunc = ['is_int', 'is_float','is_double','is_string','is_string','is_bool'];
 
-		$this->types = array(
+
+		$this->types = [
 			// 基础数据类型
 			"int", "float", "double", "string","text","bool",
 
@@ -27,7 +28,8 @@ class Webapi
 			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
 			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
 			"lower","upper","letter", // 字母、数字的子集的组合
-		);
+		];
+		$this->funcs = [];
 
 		// DONE: int email
 		// TODO: float", "double", "age",			"date",	"time", "datetime","year","phone","mobile", "base64","MD5","username","password","lower","upper","letter","string",
@@ -203,21 +205,71 @@ class Webapi
 		switch($format['name'])
 		{
 			case 'int':
-				if($format['range'])
-					list($min,$max) = explode(',',$format['range']);
+				$overrange  = false;
+				$overlength = false;
 
-				if(!is_int($value))
+				// 数据长度的检查
+				if(isset($format['length']) && strlen(''.$value)>$format['length'])
+					$overlength = true;
+
+				// 获取参数值的参数值
+				if(is_int($value))
+					$v = $value;
+				else if( preg_match('/(+|-)?[0-9]*/',$value))
 					$v = intval($value);
 				else
-					$v = $value;
+				{
+					$v = false;
+					$error = true;
+				}
 
-				if(!$error && $format['left']=='(' && $v <= $format['min']) $error = true;
-				if(!$error && $format['left']=='[' && $v < $format['min'] ) $error = true;
-				if(!$error && $format['right']==')' && $v>=$format['right']) $error = true;
-				if(!$error && $format['right']==']' && $v>$format['right']) $error = true;
+				// 对参数值的数值范围进行检查
+				if( !$error && $format['range'] )
+				{
+					list($min,$max) = explode(',',$format['range']);
+
+					// 格式包含 range 时, 对取值范围进行检查
+					if( !$overrange && $format['left']=='('  && $v <= $min ) $overrange = true;
+					if( !$overrange && $format['left']=='['  && $v <  $min ) $overrange = true;
+					if( !$overrange && $format['right']==')' && $v >= $max ) $overrange = true;
+					if( !$overrange && $format['right']==']' && $v >  $max ) $overrange = true;
+
+				}
+
+				// 如果数据超范围，使用默认值
+				if( $overrange || $overlength )
+				{
+					$v = $format['default']?intval($format['default']):false;	
+					if(!$v)
+					{
+						$callstack = implode('->',$this->callStack);
+						$this->last_error = "Line".__LINE__.":".$callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
+						$this->all_errors[] = $this->last_error ;
+						$error = true;
+					}
+				}
 
 				if($error)
-					$v = $format['default']?$format['default']:0;
+				{
+					// TODO: 处理解析报错，需要看参数的设置。
+					// 这里的参数需要控制的情况包括:
+					/*
+						必填参数出错情况:
+							1. 参数未设置
+							2. 参数值格式错误,
+							3. 参数取值范围或长度超出格式要求
+						处理方式:
+							不能获取正常的输入参数值时，有格式设置的默认参数，是使用默认参数还是报错？
+
+						选填参数出错情况:
+							1. 参数值格式错误,
+							2. 参数取值范围或长度超出格式要求
+						处理方式:
+							不能获取正常的输入参数值时，有格式设置的默认参数，是使用默认参数还是报错？
+
+						有默认值的选填参数，要不要为参数表补填默认值？
+					*/
+				}
 
 				return $v;
 				break;
@@ -230,7 +282,6 @@ class Webapi
 				die('這裡不應該寫die，應該拋出錯誤');
 		}
 
-		die(''.$value);
 	}
 
 	private function parseObject($jsonFormat, $jsonObject)
@@ -257,15 +308,11 @@ class Webapi
 				 } else if( is_string($v) && (!is_object($jsonObject->$k) && !is_array($jsonObject->$k)) ){
 				 	// 格式为 string , value 则要根据解析,具体判断
 					// 对应key 的value存在，且 format 为 object, value 也为 object
-					$this->callStack[] = "(Value)".$v;					
+					$this->callStack[] = "(Value)$k ";
 					$result->$k = $this->getValue($v, $jsonObject->$k);
-					print_r([$jsonObject,gettype($jsonObject->$k)]);
 					array_pop($this->callStack);
-					echo $result->$k;
-					die("\n".'这里要对参数值进行解析了'."\n");
 				 }else{
 				 	// error 
-				 	die('kkk');
 					$callstack = implode('->',$this->callStack);
 					$this->last_error = "Line".__LINE__.":".$callstack."->$k:".$this->errors['DATA_NOT_MATCHED'];
 					$this->all_errors[] = $this->last_error ;
@@ -300,7 +347,6 @@ class Webapi
 			}
 
 			unset($jsonObject->$k);
-
 		}
 
 		// 还有扩展的key
@@ -567,6 +613,14 @@ class Webapi
 			// 基本數據類型
 			return $this->getValueOfBaseType($f, $value);
 		}
+		else if (in_array($f['name'], $this->exTypes))
+		{
+			// 扩展数据类型
+		}
+		else
+		{
+
+		}
 
 		return $result;
 	}
@@ -672,8 +726,8 @@ function _testJSON()
 {
 	$test = [
 		"开发测试"=>[
-			"format"=>'{"a":"*int(1,100]:3#33//測試"}',
-			"string"=>'{"a":"123"}',
+			"format"=>'{"a":"*int:3#999//測試"}',
+			"string"=>'{"a":"-100"}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
@@ -777,7 +831,7 @@ function _testJSON1($format, $string)
 	if($t->isParseOk())
 	{
 		echo 'result:',"\n";
-		print_r($params);
+		echo json_encode($params);
 	}
 	else
 	{
