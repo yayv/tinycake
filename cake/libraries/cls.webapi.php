@@ -112,7 +112,7 @@ class Webapi
 		if($ret)
 		{
 			$format_result = array(
-				"option"	=>isset($matches[1])?$matches[1]:'',
+				"require"	=>isset($matches[1])?$matches[1]:'',
 				"name"		=>$matches[2],
 				"left"		=>isset($matches[4])?$matches[4]:'',
 				"range"		=>isset($matches[5])?$matches[5]:'',	
@@ -152,7 +152,7 @@ class Webapi
 		    [6] => number
 		)
 		*/
-		$result = ["require"=>false, "range"=>false, "min"=>'0',"max"=>999999,"name"=>''];
+		$result = ["require"=>false, "items"=>false, "min"=>'0',"max"=>999999,"name"=>''];
 		$reg = "/(\*)?(\[([0-9]*)(,([0-9]*))?\])?([a-zA-Z]*[a-zA-Z0-9-_]*)/";
 		$ret = preg_match($reg, $strKey, $matches);
 		if($ret)
@@ -254,36 +254,48 @@ class Webapi
 				 	// parseObject
 				 } else if( is_array($v) && is_array($jsonObject->$k) ){
 				 	// parseArray
-				 } else if( is_string($v) ){
+				 } else if( is_string($v) && (!is_object($jsonObject->$k) && !is_array($jsonObject->$k)) ){
 				 	// 格式为 string , value 则要根据解析,具体判断
 					// 对应key 的value存在，且 format 为 object, value 也为 object
-					$this->callStack[] = "(Value)".$v;
-					print_r([$jsonObject,gettype($jsonObject->$k)]);die();
-					
+					$this->callStack[] = "(Value)".$v;					
 					$result->$k = $this->getValue($v, $jsonObject->$k);
+					print_r([$jsonObject,gettype($jsonObject->$k)]);
 					array_pop($this->callStack);
+					echo $result->$k;
+					die("\n".'这里要对参数值进行解析了'."\n");
 				 }else{
 				 	// error 
+				 	die('kkk');
 					$callstack = implode('->',$this->callStack);
-					$this->last_error = "Line".__LINE__.":".$callstack.':'.$this->errors['DATA_NOT_MATCHED'];
+					$this->last_error = "Line".__LINE__.":".$callstack."->$k:".$this->errors['DATA_NOT_MATCHED'];
 					$this->all_errors[] = $this->last_error ;
 				 }
 			}
 			else 
 			{
 				// check format, is this format required
-				$key = $this->getKeyFormat($k);
-				
-				if($key['require'])
+				if(!is_string($jsonFormat->$k))
 				{
-					$callstack = implode('->',$this->callStack);
-					$this->last_error = "Line".__LINE__.":".$callstack.':'.$this->errors['DATA_NOT_EXIST'];
-					$this->all_errors[] = $this->last_error ;
+					$koption = $this->getKeyFormat($k);	
+					if($koption['require']=='*')
+					{
+						$callstack = implode('->',$this->callStack);
+						$this->last_error = "Line".__LINE__.":".$callstack."->$k".':'.$this->errors['DATA_NOT_EXIST'];
+						$this->all_errors[] = $this->last_error ;
+						return false;
+					}
 				}
 				else
 				{
-
-				}
+					$voption = $this->getValueFormat($jsonFormat->$k);
+					if($voption['require']=='*')
+					{
+						$callstack = implode('->',$this->callStack);
+						$this->last_error = "Line".__LINE__.":".$callstack."->$k:".$this->errors['DATA_NOT_EXIST'];
+						$this->all_errors[] = $this->last_error ;
+						return false;
+					}
+				}			
 
 			}
 
@@ -531,8 +543,8 @@ class Webapi
 				$this->result = $tmp ;
 			else
 				return $tmp;
-
-		} else {
+		} 
+		else {
 			$this->last_error = $this->errors['FORMAT_JSON_STRUCT_ERROR'].":"."JSON必须是对象或数组";
 			$this->all_errors[] = $this->last_error ;
 			return false;
@@ -644,7 +656,6 @@ class Webapi
         // else $str == 'No error'
 		// 3. 根据 strFormat 按层次获取 strParams 里的参数
         $ret = $this->parseParams($params);
-
         if( false==$ret || count($this->all_errors)>0 )
         {
         	$this->all_errors[] = '';
@@ -662,7 +673,7 @@ function _testJSON()
 	$test = [
 		"开发测试"=>[
 			"format"=>'{"a":"*int(1,100]:3#33//測試"}',
-			"string"=>'{"a":24}',
+			"string"=>'{"a":"123"}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
@@ -773,6 +784,12 @@ function _testJSON1($format, $string)
 		echo 'error/warning:',"\n";
 		print_r($t->echoParamsErrorMessage('json'));
 	}
+
+	echo "\n\n--------\n\n";
+	echo "format:",$format,"\n";
+
+	echo "params:",$string,"\n";
+
 }
 
 /**
@@ -788,4 +805,13 @@ function _testJSON1($format, $string)
  * 9. 把参数复制到代码的，适用于代码发开发过程，代码稳定之后，可以把参数注释，改为用url读取配置
  */
 
+/**
+整理思路
+1. 递归检查每个层级的参数，是否都有必填项，和数据格式是否正确
+2. 以下几个特殊情况下，做特殊处理
+2.1 在必填项不存在或有错时，同时格式约定有默认值时，使用默认值，或者报错。要看调用参数的要求。
+2.2 在格式约定有默认值，选填项数据有错时，报错还是使用默认值？
+2.3 对数据的长度进行检查
 
+
+*/
