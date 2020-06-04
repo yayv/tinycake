@@ -237,7 +237,7 @@ class Webapi
 
 				// 如果数据超范围，使用默认值
 				if( $overrange || $overlength )
-				{print_r([$overrange,$overlength]);die();
+				{
 					$v = $format['default']?intval($format['default']):false;	
 					if(!$v)
 					{
@@ -296,7 +296,7 @@ class Webapi
 		*/
 		foreach($jsonFormat as $k=>$v)
 		{
-			if($k=='...') 
+			if($k==$this->morekeys)  // $key == '...'
 			{
 				$morekey = true; 
 				continue ;
@@ -353,11 +353,15 @@ class Webapi
 		}
 
 		// 还有扩展的key
-		if(count((array)$jsonObject)>0)
-		foreach($jsonObject as $k=>$v)
+		if($morekey && count((array)$jsonObject)>0 )
 		{
-
+			foreach($jsonObject as $k=>$v)
+			{
+				$result->$k =$v;
+			}
 		}
+
+		
 
 		return $result;
 	}
