@@ -12,13 +12,12 @@ class Webapi
 
 		$this->last_error = false ;
 
-		$this->baseTypes = ["int", "float", "double", "string","text","bool"];
-		$this->checkFunc = ['is_int', 'is_float','is_double','is_string','is_string','is_bool'];
-
+		$this->baseTypes = ["int", "float", "string","text","bool"];
+		$this->getValFunc = ["int"=>'intval', "float"=>'floatval',"string"=>'strval',"text"=>'strval',"bool"=>'boolval'];
 
 		$this->types = [
 			// 基础数据类型
-			"int", "float", "double", "string","text","bool",
+			"int", "float", "string","text","bool",
 
 			// 扩展类型
 			"year","month", "day","age","currency", // 数字
@@ -233,6 +232,11 @@ class Webapi
 		switch($format['name'])
 		{
 			case 'int':
+			case 'float':
+			case 'double':
+			case 'string':
+			case 'text':
+			case 'bool':			
 				$overrange  = false;
 				$overlength = false;
 				$valueformat = false;
@@ -247,7 +251,8 @@ class Webapi
 				// 获取参数值的参数值
 				if( preg_match("/(\+|\-)?[0-9]+/", ''.$value, $matches) )
 				{
-					$v = intval($value);
+					#$v = intval($value);
+					$v = $this->getValFunc[$format['name']]($value);
 				}
 				else
 				{
@@ -277,7 +282,7 @@ class Webapi
 					// 如果数据超范围，使用默认值
 					if( $overrange || $overlength )
 					{
-						$v = $format['default']?intval($format['default']):false;	
+						$v = $format['default']?$this->getValFunc[$format['name']]($format['default']):false;
 						if(!$v)
 						{
 							$callstack = implode('->',$this->callStack);
@@ -318,14 +323,6 @@ class Webapi
 				}
 				else
 					return $v;
-				break;
-			case 'float':
-			case 'double':
-			case 'string':
-			case 'text':
-			case 'bool':
-				$v = $value;
-				return $v;
 				break;
 			default:
 				die('這裡不應該寫die，應該拋出錯誤');
