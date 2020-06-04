@@ -37,23 +37,23 @@ class Webapi
 		$this->errors = array(
 			// 格式解析错误，或格式内的值有错
 			"FORMAT_VALUEFORMAT_SYNTAX_ERROR" => "参数值的格式描述的语法错误",
-			"FORMAT_JSON_STRUCT_ERROR" => "参数表的 JSON 格式有语法错误",
-			"FORMAT_SYNTAX_ERROR" => "格式描述的语法错误",
-			"FORMAT_UNKNOWN_KEYTYPE_ERROR" => "格式中指定的数据类型未定义",
-			"FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY" => "数组中元素的格式目前只能有且只有1个格式描述",
-			"FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY" => "数组中元素的格式目前只能有且只有1个格式描述",
+			"FORMAT_JSON_STRUCT_ERROR" 		  => "参数表的 JSON 格式有语法错误",
+			"FORMAT_SYNTAX_ERROR" 			  => "格式描述的语法错误",
+			"FORMAT_UNKNOWN_KEYTYPE_ERROR" 	  => "格式中指定的数据类型未定义",
+			"FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY"  => "数组中元素的格式目前只能有且只有1个格式描述",
+			"FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY"  	=> "数组中元素的格式目前只能有且只有1个格式描述",
 
 			// 参数部分错误，或参数数据错误
-			"DATA_NOT_MATCHED" => "数据格式不匹配",
-			"DATA_NOT_IN_VALID_RANGE" => "数据超合理范围",
-			"DATA_NOT_IN_SET_RANGE" => "数据超出要求范围",
-			"DATA_KEY_NEED_EXIST" => "缺少了必填的KEY",
-			"DATA_NOT_EXIST" => "KEY不存在",
-			"DATA_UNKNOWN_KEY_ERROR" => "存在格式中不存在的参数",
+			"DATA_NOT_MATCHED" 			=> "数据格式不匹配",
+			"DATA_NOT_IN_VALID_RANGE" 	=> "数据不在合理的范围",
+			"DATA_NOT_IN_SET_RANGE" 	=> "数据不符合要求的范围",
+			"DATA_KEY_NEED_EXIST" 		=> "缺少了必填的KEY",
+			"DATA_NOT_EXIST" 			=> "KEY不存在",
+			"DATA_UNKNOWN_KEY_ERROR" 	=> "存在格式中不存在的参数",
 
 			// 解析过程中，格式与数据匹配问题
-			"TYPE_NO_MATCHED" => "没有匹配的类型",
-			"TYPE_WITHOUT_METHOD" => "没有匹配的解析方法",
+			"TYPE_NO_MATCHED" 		=> "没有匹配的类型",
+			"TYPE_WITHOUT_METHOD" 	=> "没有匹配的解析方法",
 		);
 
 		$this->morekeys = '...';  // 参数的格式表中存在这个key，则可以接受不在格式设定中的参数，否则，多余的参数会被抛弃
@@ -233,7 +233,6 @@ class Webapi
 					if( !$overrange && $format['left']=='['  && $v <  $min ) $overrange = true;
 					if( !$overrange && $format['right']==')' && $v >= $max ) $overrange = true;
 					if( !$overrange && $format['right']==']' && $v >  $max ) $overrange = true;
-
 				}
 
 				// 如果数据超范围，使用默认值
@@ -269,15 +268,19 @@ class Webapi
 
 						有默认值的选填参数，要不要为参数表补填默认值？
 					*/
+					return $v;
 				}
-
-				return $v;
+				else
+					return $v;
 				break;
 			case 'float':
 			case 'double':
 			case 'string':
 			case 'text':
 			case 'bool':
+				$v = $value;
+				return $v;
+				break;
 			default:
 				die('這裡不應該寫die，應該拋出錯誤');
 		}
@@ -819,7 +822,7 @@ function _testJSON()
 			echo "\t",$v['note'],"\n\n";
 		_testJSON1($v['format'], $v['string']);	
 		echo "\n\n\n\n";
-		break;
+		#break;
 	}
 	
 }
