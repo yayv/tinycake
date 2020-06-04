@@ -209,7 +209,7 @@ class Webapi
 				$overlength = false;
 
 				// 数据长度的检查
-				if(isset($format['length']) && strlen(''.$value)>$format['length'])
+				if(isset($format['length']) && $format['length']!='' && strlen(''.$value)>$format['length'])
 					$overlength = true;
 
 				// 获取参数值的参数值
@@ -237,7 +237,7 @@ class Webapi
 
 				// 如果数据超范围，使用默认值
 				if( $overrange || $overlength )
-				{
+				{print_r([$overrange,$overlength]);die();
 					$v = $format['default']?intval($format['default']):false;	
 					if(!$v)
 					{
@@ -815,6 +815,8 @@ function _testJSON()
 		]
 	];
 
+	unset($test['开发测试']);
+
 	foreach($test as $k=>$v)
 	{
 		echo $k,":\n";
@@ -822,7 +824,7 @@ function _testJSON()
 			echo "\t",$v['note'],"\n\n";
 		_testJSON1($v['format'], $v['string']);	
 		echo "\n\n\n\n";
-		#break;
+		break;
 	}
 	
 }
