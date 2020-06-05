@@ -271,20 +271,7 @@ class Webapi
 					if( !$overrange && $format['right']==')' && $v >= $max ) $overrange = true;
 					if( !$overrange && $format['right']==']' && $v >  $max ) $overrange = true;
 
-
-				// 如果数据超范围，使用默认值
-				if( $overrange || $overlength )
-				{
-					$v = $format['default']?intval($format['default']):false;	
-					if(!$v)
-					{
-						$callstack = implode('->',$this->callStack);
-						$this->last_error = "Line".__LINE__.":".$callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
-						$this->all_errors[] = $this->last_error ;
-						$error = true;
-					}
-
-					if($overrange) $error=true;
+					if( $overrange ) $error=true;
 				}
 
 				if($error)
@@ -338,6 +325,7 @@ class Webapi
 				break;
 			default:
 				die('這裡不應該寫die，應該拋出錯誤');
+				break;
 		}
 
 	}
