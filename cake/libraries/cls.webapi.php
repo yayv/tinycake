@@ -271,9 +271,22 @@ class Webapi
 					if( !$overrange && $format['right']==')' && $v >= $max ) $overrange = true;
 					if( !$overrange && $format['right']==']' && $v >  $max ) $overrange = true;
 
+
+				// 如果数据超范围，使用默认值
+				if( $overrange || $overlength )
+				{
+					$v = $format['default']?intval($format['default']):false;	
+					if(!$v)
+					{
+						$callstack = implode('->',$this->callStack);
+						$this->last_error = "Line".__LINE__.":".$callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
+						$this->all_errors[] = $this->last_error ;
+						$error = true;
+					}
+
 					if($overrange) $error=true;
 				}
-#if($this->lastkey=='a') {print_r([$overlength,$overrange,$valueformat,$error,$format,$value]);die('@');}
+
 				if($error)
 				{
 					// TODO: 处理解析报错，需要看参数的设置。
@@ -339,7 +352,7 @@ class Webapi
 
 		foreach($jsonFormat as $k=>$v)
 		{
-			if($k=='...') 
+			if($k==$this->morekeys)  // $key == '...'
 			{
 				$morekey = true; 
 				continue ;
@@ -411,9 +424,13 @@ class Webapi
 		}
 
 		// 还有扩展的key
-		if(count((array)$jsonObject)>0)
-		foreach($jsonObject as $k=>$v)
+		if($morekey && count((array)$jsonObject)>0 )
 		{
+			foreach($jsonObject as $k=>$v)
+			{
+				$result->$k =$v;
+			}
+
 			$result->$k = $v;
 		}
 
