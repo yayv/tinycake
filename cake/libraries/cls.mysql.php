@@ -315,6 +315,9 @@ class mysql
         $key_str = '';
         $v_str   = '';
 
+        if( !$data || count($data)<=0 )
+            return false;
+        
         foreach ($data as $key => $v) {
             if (empty($v)) {
                 //值为0时会有BUG
