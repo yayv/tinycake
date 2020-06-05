@@ -81,7 +81,7 @@ class Webapi
 		// 说明，参数格式的表达过于技术化，需要有给产品或业务相关人员看得懂的说明，更好的表达这些设置的目的
 		$this->formats = array(
 			"int"  =>"/(\+|\-)?[0-9]+/", 
-			"float" =>"/[+-]?[0-9]+\.[0-9]+/", 
+			"float" =>"/[+-]?[0-9]+(\.[0-9]+)?/", 
 			"string"=>"/[a-zA-Z0-9\_\-@#!$%^&]*/", // TODO: 这个，应该根据参数对字符串进行安全转码
 			"text"  =>"/.*/", // TODO: 这个，应该根据参数对字符串进行安全转码
 			"bool"  =>"/(true|false)/", 
@@ -227,17 +227,19 @@ class Webapi
 			"note"=>'开发过程中需要的数据，随时修改',
 		*/		
 		$error = false;
+
+		$overrange  = false;
+		$overlength = false;
+		$valueformat = false;
+
 		switch($format['name'])
 		{
-			case 'int':
 			case 'float':
 			case 'double':
+			case 'int':
 			case 'string':
 			case 'text':
 			case 'bool':			
-				$overrange  = false;
-				$overlength = false;
-				$valueformat = false;
 
 				// 数据长度的检查
 				if(isset($format['length']) && $format['length']!='' && strlen(''.$value)>$format['length'])
@@ -285,7 +287,7 @@ class Webapi
 						if(!$v)
 						{
 							$callstack = implode('->',$this->callStack);
-							$this->last_error = "Line".__LINE__.":".$callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
+							$this->last_error = $callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
 							$this->all_errors[] = $this->last_error ;
 						}
 					}
@@ -296,7 +298,7 @@ class Webapi
 						if(!$v)
 						{
 							$callstack = implode('->',$this->callStack);
-							$this->last_error = "Line".__LINE__.":".$callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
+							$this->last_error = $callstack.$this->errors['DATA_NOT_IN_SET_RANGE'];
 							$this->all_errors[] = $this->last_error ;
 						}
 					}
