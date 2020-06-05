@@ -87,18 +87,17 @@ class Webapi
 			"bool"  =>"/(true|false)/", 
 
 			// 扩展类型
-			"year" => "[0-9]{4}",
-			"month"=> "[12][0-9]",
-			"date"=>"[0-9]{4}[-/ ]?[0-9]{2}[-/ ]?[0-9]{2}",	
-			"time"=>"[0-9]{2}:[0-9]{2}:[0-9]{2}", 
-			"datetime"=>"[0-9]{4}[-/ ]?[0-9]{2}[-/ ]?[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}", 
-			"weekday"=>"(Sun|Mon|Tue|Sat)",
-			"age"=>"[0-9]{3}",
-			"currency"=>"[0-9]*\.[0-9]{2}", // 数字
+			"year" => "/[0-9]{4}/",
+			"month"=> "/[12][0-9]/",
+			"date"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2}/",	
+			"time"=>"/[0-9]{2}:[0-9]{2}:[0-9]{2}/", 
+			"datetime"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/", 
+			"weekday"=>"/(Sun|Mon|Tue|Sat)/",
+			"age"=>"/[0-9]{3}/",
+			"currency"=>"/[0-9]*\.[0-9]{2}/", // 数字
 
-			"phone", // 带格式符号的数字
-			"mobile", // 带格式符号的数字
-			"weekday", // 字母组合 
+			"phone"=>"/[\-\+0-9 ]{16}/", // 带格式符号的数字
+			"mobile"=>"/[\-\+0-9 ]{16}/", // 带格式符号的数字
 			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
 			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
 			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
@@ -762,8 +761,13 @@ function _testJSON()
 {
 	$test = [
 		"开发测试"=>[
-			"format"=>'{"a":"*int:3#999//測試","b":"*int[1,200]:3"}',
-			"string"=>'{"a":"-100","b":"aaa"}',
+			"format"=>'{
+                "username":"*string",
+                "password":"*string",
+                "verify":"string",
+                "id":"*string// 企业唯一代码 enterprise uniqe Code"
+            }',
+			"string"=>'{"id":"ZMMDEMO1","username":"13800138001","password":"12344321"}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
@@ -858,7 +862,7 @@ function _testJSON()
 			echo "\t",$v['note'],"\n\n";
 		_testJSON1($v['format'], $v['string']);	
 		echo "\n\n\n\n";
-		#break;
+		break;
 	}
 	
 }
