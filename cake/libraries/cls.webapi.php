@@ -360,7 +360,7 @@ class Webapi
 				 } else if( is_array($v) && is_array($jsonObject->$k) ){
 				 	// parseArray
 				 	$this->callStack[] = "(Array)$k";
-				 	$result->$k = $this->parseObject($jsonFormat->$k, $jsonObject->$k);
+				 	$result->$k = $this->parseArray($jsonFormat->$k, $jsonObject->$k);
 				 	array_pop($this->callStack);
 				 } else if( !is_object($jsonObject->$k) && !is_array($jsonObject->$k)) 
 				 {
@@ -856,12 +856,50 @@ function _testJSON()
 		    "insurance":"1",
 		    "vip":false
 		}'
+		],
+		"using"=>[
+			"format"=>'{
+    "orderId":"*int//订单id",
+    "data":{
+        "list":[
+            {
+                "type":"*string{事故,违章}//每一个列表项都是一个事故记录",
+                "occurrence":"*datetime//事故或违章时间",
+                "address":"*string//事故或违章的发生地点",
+                "description":"*string",
+                "amount":"int//罚款或定损金额(分)",
+                "score":"int//违章扣分",
+                "driver":"string//驾驶人姓名",
+                "driverIDCard":"string//驾驶人身份证号"
+            }
+        ]
+    }
+}',
+			"string"=>'{
+    "orderId": 1,
+    "data": {
+        "list": [
+            {
+               
+                "description": "超速",
+                "amount": 1000,
+                "score": 6,
+                "driver": "赵六",
+                "driverIDCard": "220181199801018890"
+            }
+        ]
+    }
+}'
 		]
 	];
 
-	#unset($test['开发测试']);
-	#unset($test['正常数据一层key/value']);
-
+	unset($test['开发测试']);
+	unset($test['正常数据一层key/value']);
+	unset($test['正常数据多层key/value']);
+	unset($test['正常数据多层数组']);
+	unset($test['a']);
+	unset($test['more']);
+	
 	foreach($test as $k=>$v)
 	{
 		echo $k,":\n";
