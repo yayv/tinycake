@@ -187,7 +187,7 @@ class Webapi
 		$f = $this->getValueFormat($strFormat);
 
 		if(in_array($f['name'], $this->baseTypes))
-		{
+		{if(''.$value=='1000') print_r([$strFormat,$value]);
 			// 基本數據類型
 			return $this->getValueOfBaseType($f, $value);
 		}
@@ -399,8 +399,9 @@ class Webapi
 				else
 				{
 					$voption = $this->getValueFormat($jsonFormat->$k);
+
 					if($voption['require']=='*')
-					{
+					{#print_r([$jsonFormat,$jsonObject]);die();
 						$callstack = implode('->',$this->callStack);
 						$this->last_error = "Line".__LINE__.":".$callstack."->$k:".$this->errors['DATA_NOT_EXIST'];
 						$this->all_errors[] = $this->last_error ;
@@ -454,7 +455,12 @@ class Webapi
 			else if(is_object($jsonFormat[0]))
 			{
 				$this->callStack[] = $k;
-				$value = $this->parseObject($jsonFormat[0],$v);
+				foreach($jsonObject as $kk=>$vv)
+				{
+					$this->callStack[] = $kk;
+					$value = $this->parseObject($jsonFormat[0],$jsonObject[$kk]);
+					array_pop($this->callStack);
+				}
 				$result[] = $value ;
 				array_pop($this->callStack);
 			}
@@ -880,7 +886,7 @@ function _testJSON()
     "data": {
         "list": [
             {
-               
+                "type":"事故",
                 "description": "超速",
                 "amount": 1000,
                 "score": 6,
