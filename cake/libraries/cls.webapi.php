@@ -12,16 +12,16 @@ class Webapi
 
 		$this->last_error = false ;
 
-		$this->baseTypes = ["int", "float", "string","text","bool"];
+		$this->baseTypes = ["int", "float", "string","text","bool","datetime","date","time"];
 		$this->getValFunc = ["int"=>'intval', "float"=>'floatval',"string"=>'strval',"text"=>'strval',"bool"=>'boolval'];
 
 		$this->types = [
 			// 基础数据类型
-			"int", "float", "string","text","bool",
+			"int", "float", "string","text","bool", "datetime",
 
 			// 扩展类型
 			"year","month", "day","age","currency", // 数字
-			"date",	"time", "datetime", "phone","mobile", // 带格式符号的数字
+			"date",	"time", "phone","mobile", // 带格式符号的数字
 			"weekday", // 字母组合 
 			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
 			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
@@ -85,13 +85,13 @@ class Webapi
 			"string"=>"/[a-zA-Z0-9\_\-@#!$%^&]*/", // TODO: 这个，应该根据参数对字符串进行安全转码
 			"text"  =>"/.*/", // TODO: 这个，应该根据参数对字符串进行安全转码
 			"bool"  =>"/(true|false)/", 
+			"datetime"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/", 
 
 			// 扩展类型
 			"year" => "/[0-9]{4}/",
 			"month"=> "/[12][0-9]/",
 			"date"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2}/",	
 			"time"=>"/[0-9]{2}:[0-9]{2}:[0-9]{2}/", 
-			"datetime"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/", 
 			"weekday"=>"/(Sun|Mon|Tue|Sat)/",
 			"age"=>"/[0-9]{3}/",
 			"currency"=>"/[0-9]*\.[0-9]{2}/", // 数字
@@ -102,6 +102,7 @@ class Webapi
 			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
 			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
 			"lower","upper","letter", // 字母、数字的子集的组合
+			"retCode" // string{ok,fail,error,deny}//ok为调用成功,fail为逻辑失败,error为系统报错,deny为没有权限
 		);
 	}
 
@@ -194,7 +195,7 @@ class Webapi
 		else if (in_array($f['name'], $this->types))
 		{
 			// 扩展数据类型
-			return $value;
+			return $this->getValueOfExtraType($f,$value);
 		}
 		else
 		{
@@ -303,7 +304,7 @@ class Webapi
 						}
 					}
 
-					// 这里的参数需要控制的情况包括:
+					// 这里的参数需要控制的情况包括: 必填参数和默认值如何处理？
 					/*
 						必填参数出错情况:
 							1. 参数未设置
@@ -325,10 +326,30 @@ class Webapi
 				else
 					return $v;
 				break;
+			case 'datetime':
+				return date('Y-m-d H:i:s',strtotime($value));
+				break;
+			case 'date':
+				// 检查时间范围，检查默认值, 不检查变量长度
+				return date('Y-m-d',strtotime($value));
+				break;
 			default:
 				die('這裡不應該寫die，應該拋出錯誤');
 				break;
 		}
+
+	}
+
+	private function getValueOfExtraType($format, $value)
+	{
+					// 扩展类型
+			"year","month", "day","age","currency", // 数字
+			"date",	"time", "phone","mobile", // 带格式符号的数字
+			"weekday", // 字母组合 
+			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
+			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
+			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
+			"lower","upper","letter", // 字母、数字的子集的组合
 
 	}
 
@@ -777,9 +798,9 @@ function _testJSON()
                 "username":"*string",
                 "password":"*string",
                 "verify":"string",
-                "id":"*string// 企业唯一代码 enterprise uniqe Code"
+                "start":"*datetime// 企业唯一代码 enterprise uniqe Code"
             }',
-			"string"=>'{"id":"ZMMDEMO1","username":"13800138001","password":"12344321"}',
+			"string"=>'{"id":"ZMMDEMO1","username":"13800138001","password":"12344321","start":1234}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
@@ -843,8 +864,8 @@ function _testJSON()
 		"string" => '{
 		    "enterpriseId":"1",
 		    "username":"闫大瑶",
-		    "mobile":"18618193355",
-		    "idcard":"110102198312082405",
+		    "mobile":"13800138000",
+		    "idcard":"123321199001011234",
 		    "province":"北京市",
 		    "city":"北京",
 		    "countPeople":"3",
@@ -900,12 +921,12 @@ function _testJSON()
 		]
 	];
 
-	unset($test['开发测试']);
-	unset($test['正常数据一层key/value']);
-	unset($test['正常数据多层key/value']);
-	unset($test['正常数据多层数组']);
-	unset($test['a']);
-	unset($test['more']);
+	#unset($test['开发测试']);
+	#unset($test['正常数据一层key/value']);
+	#unset($test['正常数据多层key/value']);
+	#unset($test['正常数据多层数组']);
+	#unset($test['a']);
+	#unset($test['more']);
 	
 	foreach($test as $k=>$v)
 	{
