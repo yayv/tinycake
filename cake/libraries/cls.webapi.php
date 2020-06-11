@@ -200,6 +200,7 @@ class Webapi
 		else
 		{
 			// 不支持的数据类型
+			return $value;
 		}
 
 		return $result;
@@ -351,7 +352,7 @@ class Webapi
 			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
 			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
 			"lower","upper","letter", // 字母、数字的子集的组合
-		];
+			];	
 
 		return $value;
 	}
@@ -497,7 +498,7 @@ class Webapi
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$value = $this->parseString($jsonFormat[0], $vv);
+					$value = $this->getValue($jsonFormat[0], $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
