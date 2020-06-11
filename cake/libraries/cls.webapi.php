@@ -342,7 +342,8 @@ class Webapi
 
 	private function getValueOfExtraType($format, $value)
 	{
-					// 扩展类型
+			// 扩展类型
+			$formats = [
 			"year","month", "day","age","currency", // 数字
 			"date",	"time", "phone","mobile", // 带格式符号的数字
 			"weekday", // 字母组合 
@@ -350,7 +351,9 @@ class Webapi
 			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
 			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
 			"lower","upper","letter", // 字母、数字的子集的组合
+		];
 
+		return $value;
 	}
 
 	private function parseObject($jsonFormat, $jsonObject)
