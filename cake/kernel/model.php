@@ -7,7 +7,7 @@ class model
 
     static $_error = array();	
 
-	function init($config, $db=false)
+	function initalize($config, $db=false)
 	{
 		$this->_config = $config;
 		$this->_db     = $db;

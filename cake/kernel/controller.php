@@ -76,7 +76,7 @@ abstract class Controller
 	        	include_once('m/'.$mname.'.php');       
 	            $this->$mname = new mo;
 	        	$this->$mname->target = new $mname;
-	        	$this->$mname->target->init(
+	        	$this->$mname->target->initalize(
 	                    Core::getInstance()->getAllConfig(), 
 	                    isset($this->_db)?$this->_db:false
 	            );
