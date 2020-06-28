@@ -373,10 +373,10 @@ class mysql
             if(is_bool($v)){
                 $str .= sprintf("$key=%s,", $v?'true':'false');
             }
-            else if (stripos($v, "PASSWORD(") === 1) {
-                $str .= " $v,";
+            else if (stripos(trim($v), "PASSWORD(") === 0) {
+                $str .= sprintf("$key=%s,",$v);
             } else {
-                $str .= "'$v',";
+                $str .= sprintf("$key='%s',", $v);
             }
 
         }
