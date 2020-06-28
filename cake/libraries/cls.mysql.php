@@ -370,10 +370,15 @@ class mysql
 //遍历数组，得到每一个字段和字段的值
         $str = '';
         foreach ($data as $key => $v) {
-            if(is_bool($v))
+            if(is_bool($v)){
                 $str .= sprintf("$key=%s,", $v?'true':'false');
-            else
-                $str .= "$key='$v',";
+            }
+            else if (stripos($v, "PASSWORD(") === 1) {
+                $v_str .= " $v,";
+            } else {
+                $v_str .= "'$v',";
+            }
+
         }
         $str = rtrim($str, ',');
 //修改SQL语句
