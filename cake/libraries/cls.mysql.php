@@ -374,9 +374,9 @@ class mysql
                 $str .= sprintf("$key=%s,", $v?'true':'false');
             }
             else if (stripos($v, "PASSWORD(") === 1) {
-                $v_str .= " $v,";
+                $str .= " $v,";
             } else {
-                $v_str .= "'$v',";
+                $str .= "'$v',";
             }
 
         }
