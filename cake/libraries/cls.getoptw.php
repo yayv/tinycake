@@ -495,8 +495,15 @@ class GetOptW
 		$arrFormat = $this->getFormat($jsonFormat);
 
 		// print_r(array($arrFormat,$jsonObject));die('断路施工。。。');
-
-		if('*'==$arrFormat['option'] && $jsonObject!=false)
+		if('*'==$arrFormat['option'] && stricmp($arrFormat['option'],'bool')==0 && $jsonObject===false)
+		{
+			return true;
+		}
+		else if('*'==$arrFormat['option'] && stricmp($arrFormat['option'],'bool')==0 && $jsonObject===false)
+		{
+			return true;
+		}
+		else if('*'==$arrFormat['option'] && $jsonObject!=false)
 		{
 			return true;
 		}
@@ -504,7 +511,7 @@ class GetOptW
 		{
 			return true;
 		}
-		else
+		else if('*'==$arrFormat['option'] && $jsonObject=='0')
 		{
 			$callstack = implode('->',$this->callStack);
 			$this->last_error = "Line".__LINE__.":".$callstack.':'.$this->errors['DATA_NOT_EXIST'];
