@@ -495,7 +495,7 @@ class GetOptW
 		$arrFormat = $this->getFormat($jsonFormat);
 
 		// print_r(array($arrFormat,$jsonObject));die('断路施工。。。');
-		if('*'==$arrFormat['option'] && stricmp($arrFormat['option'],'bool')==0 && $jsonObject===false)
+		if('*'==$arrFormat['option'] && strcmp(strtolower($arrFormat['option']),'bool')==0 && $jsonObject===false)
 		{
 			return true;
 		}
