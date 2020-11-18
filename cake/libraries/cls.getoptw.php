@@ -499,11 +499,7 @@ class GetOptW
 		{
 			return true;
 		}
-		else if('*'==$arrFormat['option'] && stricmp($arrFormat['option'],'bool')==0 && $jsonObject===false)
-		{
-			return true;
-		}
-		else if('*'==$arrFormat['option'] && $jsonObject!=false)
+		else if('*'==$arrFormat['option'] && $jsonObject!==false)
 		{
 			return true;
 		}
