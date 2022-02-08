@@ -2,7 +2,7 @@
 include_once('commoncontroller.php');
 include_once('cls.resizeimage.php');
 
-class test extends CommonController
+class apitester extends CommonController
 {
 	public function __construct()
 	{
@@ -28,8 +28,40 @@ class test extends CommonController
 	}
 
 	public function phpinfo()
-        {
+    {
 		phpinfo();
-        }
+    }
+
+    public function transfer()
+    {
+		/*
+		$body = file_get_contents("php://input");
+		echo $body;
+		if( $body=='' && !isset($_POST['action']) )
+		{
+			// TODO: input method and action
+			readfile("./v/default/interface.html");
+		}
+		else if( isset($_POST['action']) )
+		{
+			# code...
+			$action = $_POST['action'];
+			$method = $_POST['method'];
+			$body   = $_POST['body'];
+
+			$response = file_get_contents($action);
+			$params = json_decode($body);
+			print_r($params);
+			die('transfer');
+		}
+		else
+		{
+			// TODO: transfer to target
+			die('111');
+		}
+
+		print_r($_POST);
+		*/
+    }
 }
 

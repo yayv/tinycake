@@ -797,14 +797,40 @@ class Webapi
 function _testJSON()
 {
 	$test = [
+		"bug测试"=>[
+			"format"=>'{
+                "userId":"*int//userId",
+                "data":{
+                    "plateNo":"*string//车牌号",
+                    "type":"string//类型（事故/故障，默认为事故）",
+                    "reason":"*string//事故原因（双方、单方、多方）",
+                    "responsibility":"*string//事故责任（我方、对方、同等）",
+                    "maintenanceMode":"*string//维修方式（自费、保险、第三方）",
+                    "orderNo":"string//关联订单 账单唯一编号",
+                    "driverName":"*string//事故责任人",
+                    "amount":"*float//定损金额",
+                    "address":"string//事故发生地点",
+                    "maintenanceCompany":"*string//维修单位",
+                    "description":"*string//事故经过",
+                    "occurrenceTime":"*datetime//事故时间",
+                    "operator":"*string//经办人",
+                    "finishTime":"datetime//完成时间",
+                    "status":"string//状态（注销、定损中、结案）默认为定损中",
+                    "note":"string//备注"
+                }
+            }',
+			"string"=>'{"userId":"1","data":{"plateNo":"奥A4L7789","type":"事故","reason":"双方","responsibility":"对方","maintenanceCompany":"123","maintenanceMode":"保险","operator":"123","driverName":"123","amount":"0","description":"123","occurrenceTime":"2019-12-31T16:00:00.000Z","finishTime":"2020-01-09T16:00:00.000Z","status":"结案","note":"123"}}',
+			"note"=>"测试 *float 格式的值为 0 的情况",
+		],
 		"开发测试"=>[
 			"format"=>'{
+				"amount":"*float",
                 "username":"*string",
                 "password":"*string",
                 "verify":"string",
                 "start":"*datetime// 企业唯一代码 enterprise uniqe Code"
             }',
-			"string"=>'{"id":"ZMMDEMO1","username":"13800138001","password":"12344321","start":1234}',
+			"string"=>'{"amount":"0","id":"ZMMDEMO1","username":"13800138001","password":"12344321","start":1234}',
 			"note"=>'开发过程中需要的数据，随时修改',
 		],
 		"正常数据一层key/value"=>[
@@ -989,3 +1015,5 @@ function _testJSON1($format, $string)
 
 
 */
+
+
