@@ -7,6 +7,7 @@ class Core
 	private $_log;
 	private $_callstack;
 	private $_logpath;
+	private $_controller_map;
 	
 	function __construct()
 	{
@@ -168,11 +169,12 @@ class Core
     function rebuildUrl($uri, $base='/')
 	{  
 	    /*
-	    url example: /controller/action/param1-value1/param2-value2/param3-value3?exparams
+	    url example: /controller/action/key1-value1/key2-value2/key3-value3?exparams
 	    => $_GET=> array(
 	        'controller' => 'controller'
 	        'action' => 'action'
-	        'param2' => 'value2'
+	        'param1'=> 'key1-value1', 'key1'=>'value1',
+	        'param2' => 'key2-value2', 'key2'=>'value2',
 	        ...
 	    )
 	    
@@ -196,23 +198,20 @@ class Core
         $_GET['method']		='';
 	    foreach( $params as $p => $v )
 	    {
-	        #$kv = explode('-', $v);
+	    	$_GET['params'.$p] = $v;
+
 	        $kv = strstr($v,'-', true);
 	        $vv = '';
 
-	        if($kv===false)
-	        {
-	        	$_GET['params'.$p] = $v;
+	        if($kv===false){
 	        	$kv = $v;
-	        	$vv = $v;
 	        }
 	        else
 	        {
 	        	$_GET[$kv] = substr(strstr($v, '-'), 1);
 	        	$vv = substr(strstr($v, '-'), 1);
 	        }
-	        
-	        #if(count($kv)===1)
+
 		    switch($p)
 		    {
 		        case 0:$_GET['controller']=$kv;	break;
@@ -239,7 +238,7 @@ class Core
     {
         trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
-    	
+
 	public static function getInstance()
 	{
 		try {

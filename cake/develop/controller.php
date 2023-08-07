@@ -10,8 +10,11 @@ class emptymodel
 	}
 }
 
+#[AllowDynamicProperties]
 class mo
 {
+	public $target;
+	
 	function __call($name, $params)
 	{
 		$cname = get_class($this->target);
@@ -45,6 +48,7 @@ class mo
 	}
 }
 
+#[AllowDynamicProperties]
 abstract class Controller
 {
     /**
