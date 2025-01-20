@@ -7,6 +7,7 @@ class Core
 	private $_log;
 	private $_callstack;
 	private $_logpath;
+	private $_controller_map;
 	
 	function __construct()
 	{
@@ -160,11 +161,6 @@ class Core
 		@fclose($open);
     }
 
-    /**
-     * TODO: 这个代码的完善，还需要把柯志的代码全部调整一遍才能完全确认
-     * 
-     * @param $uri
-     */
     function rebuildUrl($uri, $base='/')
 	{  
 	    /*
@@ -239,13 +235,12 @@ class Core
     {
         trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
-    	
+
 	public static function getInstance()
 	{
 		try {
 	        if (!isset(self::$instance)) {
 	            $c = __CLASS__;
-	            #debug_print_backtrace();
 	            self::$instance = new $c;
 	        }
 
