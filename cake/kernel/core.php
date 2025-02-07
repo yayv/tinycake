@@ -7,6 +7,7 @@ class Core
 	private $_log;
 	private $_callstack;
 	private $_logpath;
+	private $_controller_map;
 	
 	function __construct()
 	{
@@ -135,8 +136,14 @@ class Core
 	 */
 	function loadController($classname)
 	{
-		if(is_file('c/'.$classname.'.php'))
+		if(is_file('c/'.$classname.'.php')){
 			include_once('c/'.$classname.'.php');
+			if(!is_subclass_of($classname, "Controller")){
+				$this->pushLog("WARNING: The inheritance of the controller class is incorrect\n");
+				require_once('c/defaultcontroller.php');
+				$classname ='defaultcontroller';
+			}
+		}
 		else
 		{
 			require_once('c/defaultcontroller.php');
@@ -160,11 +167,6 @@ class Core
 		@fclose($open);
     }
 
-    /**
-     * TODO: 这个代码的完善，还需要把柯志的代码全部调整一遍才能完全确认
-     * 
-     * @param $uri
-     */
     function rebuildUrl($uri, $base='/')
 	{  
 	    /*
@@ -212,7 +214,7 @@ class Core
 	        	$vv = substr(strstr($v, '-'), 1);
 	        }
 	        
-			#if(count($kv)===1)
+	        #if(count($kv)===1)
 		    switch($p)
 		    {
 		        case 0:$_GET['controller']=$kv;	break;
@@ -239,13 +241,12 @@ class Core
     {
         trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
-    	
+
 	public static function getInstance()
 	{
 		try {
 	        if (!isset(self::$instance)) {
 	            $c = __CLASS__;
-	            #debug_print_backtrace();
 	            self::$instance = new $c;
 	        }
 

@@ -10,8 +10,11 @@ class emptymodel
 	}
 }
 
+#[AllowDynamicProperties]
 class mo
 {
+	public $target;
+	
 	function __call($name, $params)
 	{
 		$cname = get_class($this->target);
@@ -45,6 +48,7 @@ class mo
 	}
 }
 
+#[AllowDynamicProperties]
 abstract class Controller
 {
     /**
@@ -90,7 +94,9 @@ abstract class Controller
 	{
 		echo '<pre>';
 		debug_print_backtrace();
-		echo 'the action:'. $name .' you called is not implemented<br/>';
+		echo 'the action: <font color="red">'. $name .'</font> you called is not implemented<br/>';
+		echo 'or the action is proetected or priate <br/>';
+		echo "</pre>";
 	}
 
 	public function missing($controller, $action)
