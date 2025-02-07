@@ -136,8 +136,14 @@ class Core
 	 */
 	function loadController($classname)
 	{
-		if(is_file('c/'.$classname.'.php'))
+		if(is_file('c/'.$classname.'.php')){
 			include_once('c/'.$classname.'.php');
+			if(!is_subclass_of($classname, "Controller")){
+				$this->pushLog("WARNING: The inheritance of the controller class is incorrect\n");
+				require_once('c/defaultcontroller.php');
+				$classname ='defaultcontroller';
+			}
+		}
 		else
 		{
 			require_once('c/defaultcontroller.php');
