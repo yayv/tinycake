@@ -63,12 +63,12 @@ class log extends CommonController
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
-        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
-        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
-        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
-        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
-					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        			array('href'=>'/siteManager/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/siteManager/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/siteManager/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/siteManager/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/siteManager/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/siteManager/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
@@ -111,7 +111,7 @@ class log extends CommonController
         	{
         		header('X-Debug:false');
 	        	// call this function from url
-	        	header('location:/project/logmanage/name-'.$name);        		
+	        	header('location:/siteManager/project/logmanage/name-'.$name);        		
         	}
         	else
         	{
@@ -250,7 +250,7 @@ class log extends CommonController
 
         $this->getModel('mlog')->removeFile($path.$logfile);
 
-        header("location:/project/logmanage/name-".$name);
+        header("location:/siteManager/project/logmanage/name-".$name);
         return ;
     }
 
@@ -267,7 +267,7 @@ class log extends CommonController
 
         $this->getModel('mlog')->removeFile($path.$resultfile);
 
-        header("location:/project/logmanage/name-".$name);
+        header("location:/siteManager/project/logmanage/name-".$name);
         return ;
     }
 }

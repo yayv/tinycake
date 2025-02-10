@@ -27,7 +27,7 @@ class install extends CommonController
 		$this->getModel('mprojectlist')->addProj($_POST['showname'],$_POST['keyname'],$_POST['path'],$_POST['url']);
 		$this->getModel('mprojectlist')->saveList();
 		$this->getModel('mprojectlist')->loadList();
-		header('location:/install/listall');
+		header('location:/siteManager/install/listall');
 		return ;
 	}
 
@@ -39,8 +39,8 @@ class install extends CommonController
         // 定制导航菜单
         $this->tpl->assign('currentItems',
         		array(
-        			array('href'=>'/install/create','title'=>'新建项目'),
-        			array('href'=>'/install/importproject', 'title'=>'导入项目'))
+        			array('href'=>'/siteManager/install/create','title'=>'新建项目'),
+        			array('href'=>'/siteManager/install/importproject', 'title'=>'导入项目'))
         	);
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
@@ -120,6 +120,8 @@ class install extends CommonController
 		$this->tpl->assign('action','doimport');
 		$this->tpl->assign('buttonname','导入');	
 
+		$this->tpl->assign("formaction", "/siteManager/install/doimport");//{$home}/install/{$action}
+
 		// TODO: @liuce 这个模板换了，需要写一个新模板给这个Action
 		$body = $this->tpl->fetch('body.projectform.tpl.html');
 
@@ -128,8 +130,8 @@ class install extends CommonController
         // 定制导航菜单
         $this->tpl->assign('currentItems',
         		array(
-        			array('href'=>'/install/create','title'=>'新建项目'),
-        			array('href'=>'/install/importproject', 'title'=>'导入项目'))
+        			array('href'=>'/siteManager/install/create','title'=>'新建项目'),
+        			array('href'=>'/siteManager/install/importproject', 'title'=>'导入项目'))
         	);
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
@@ -144,7 +146,7 @@ class install extends CommonController
 		$path = $_POST['path'];
 		$url  = $_POST['url'];
 		$this->getModel('mprojectlist')->addProj($name, $keyname, $path, $url);
-		header("location:$home/install/listall");
+		header("location:/siteManager/install/listall");
 	}
 
     function listall()
@@ -165,14 +167,16 @@ class install extends CommonController
         // 定制导航菜单
         $this->tpl->assign('currentItems',
         		array(
-        			array('href'=>'/install/create','title'=>'新建项目'),
-        			array('href'=>'/install/importproject', 'title'=>'导入项目'))
+        			array('href'=>'/siteManager/install/create','title'=>'新建项目'),
+        			array('href'=>'/siteManager/install/importproject', 'title'=>'导入项目'))
         	);
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
 
 	    // TODO: 请在下面实现您的action所要实现的逻辑
 	    $this->tpl->display('index.tpl.html');	
+
+	    return ;
     }
 
     function removeproject()
@@ -188,7 +192,7 @@ class install extends CommonController
 		$this->getModel('mprojectlist')->rmProj($_GET['name']);
 
 		// TODO: 请在下面实现您的action所要实现的逻辑
-	    header('location:/install/listall');
+	    header('location:/siteManager/install/listall');
 	    return ;
     }
 

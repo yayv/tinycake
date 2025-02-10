@@ -60,12 +60,12 @@ class project extends CommonController
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
-        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
-        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
-        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
-        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
-					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        			array('href'=>'/siteManager/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/siteManager/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/siteManager/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/siteManager/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/siteManager/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/siteManager/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
@@ -104,12 +104,12 @@ class project extends CommonController
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
-        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
-        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
-        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
-        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
-					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        			array('href'=>'/siteManager/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/siteManager/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/siteManager/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/siteManager/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/siteManager/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/siteManager/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
         $this->tpl->assign('navigatebar',$nav);
@@ -219,12 +219,12 @@ class project extends CommonController
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
-        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
-        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
-        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
-        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
-					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        			array('href'=>'/siteManager/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/siteManager/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/siteManager/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/siteManager/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/siteManager/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/siteManager/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
 
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');
@@ -253,12 +253,12 @@ class project extends CommonController
         $this->tpl->assign('currentItems',
         		array(
         			array('href'=>'###','title'=>'|'),
-        			array('href'=>'/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
-        			array('href'=>'/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
-        			array('href'=>'/project/logmanage/name-'.$name, 'title'=>'日志管理'),
-        			array('href'=>'/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
-        			array('href'=>'/project/config/name-'.$name, 'title'=>'配置管理'),
-					array('href'=>'/project/todo/name-'.$name, 'title'=>'重新扫描')
+        			array('href'=>'/siteManager/project/info/name-'.$name,'title'=>"【".$proj['showname']."】"),
+        			array('href'=>'/siteManager/project/checkdir/name-'.$name, 'title'=>'项目目录检查'),
+        			array('href'=>'/siteManager/project/logmanage/name-'.$name, 'title'=>'日志管理'),
+        			array('href'=>'/siteManager/project/codeanalyse/name-'.$name, 'title'=>'代码分析'),
+        			array('href'=>'/siteManager/project/config/name-'.$name, 'title'=>'配置管理'),
+					array('href'=>'/siteManager/project/todo/name-'.$name, 'title'=>'重新扫描')
         	));
 
         $nav  = $this->tpl->fetch('navigatebar.tpl.html');

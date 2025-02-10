@@ -80,6 +80,8 @@ class Core
 		}
 
         $this->_controller_map = isset($cmap)?$cmap:array();
+
+        return $this->_config;
 	}
 
 	function UrlMap($url)
@@ -162,9 +164,13 @@ class Core
 		return new $classname;
 	}
 	
-	function clickLog($filename)
+	function clickLog($filename, $withSessionId=false)
     {		
-		$sessionid  = session_id();
+    	if($withSessionId)
+			$sessionid  = session_id();
+		else
+			$sessionid  = '';
+
 		$company_id = (int)$_GET["from_company_id"];
 		$ip         = $_SERVER["REMOTE_ADDR"];
 		$time       = time();
@@ -192,7 +198,6 @@ class Core
 		if(0===strpos($uri, $base))
 		{
 			$uri = substr($uri, strlen($base));
-			#echo $suri, "<br>";
 		}
 
 	    #$exparams = explode('?', $_SERVER['REQUEST_URI']);
@@ -240,11 +245,6 @@ class Core
 	    return array($_GET['controller'], $_GET['action'],$_GET['method']);
 	}
     	
-	function loadSession()
-	{
-		session_start();
-	}
-	
 	public function setConsole($console){
 		$this->_console = $console ;
 		$this->_isConsole = true;

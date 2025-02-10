@@ -22,7 +22,9 @@ $core = Core::getInstance();
 
 // TODO： 1. 自动生成配置文件
 $host = &$_SERVER['HTTP_HOST'];
-$core->loadConfig($host);
+if(strpos($host,':')>0)	
+	$host = strtr($host,array(':'=>'_'));
+$CFG = $core->loadConfig($host);
 $core->pushLog('URL:'.$_SERVER['REQUEST_URI']."\n");
 $core->pushLog('METHOD:'.$_SERVER['REQUEST_METHOD']."\n");
 if('POST'==$_SERVER['REQUEST_METHOD'])
@@ -38,6 +40,7 @@ $core->pushLog('start(url):'.microtime()."\n");
 // TODO: 可以根据配置文件，确认是否需要session
 // TODO： 还是让具体的action自己来决定呢？ 根据配置文件，决定是否需要全局session开启
 //              对于不需要全局session开启的状态，让action自己去决定就好了，谁用谁知道
+/* SiteManager 是个纯本地项目，不需要启用 session
 if(isset($core->_config['manualsession']) && $core->_config['manualsession'])
 {
         // 进入系统后再手动启动session，这里就什么都不做了
@@ -46,6 +49,7 @@ else
 {
         $core->loadSession();
 }
+*/
 
 $sitebase = parse_url($core->_config['sitebase']);
 $reqbase  = parse_url($_SERVER['REQUEST_URI']);
@@ -63,9 +67,10 @@ if(strlen($reqbase['path'])==$p+strlen('index.php'))
 } 
 else
 {
-	list($controller, $action) = $core->rebuildUrl($_SERVER['REQUEST_URI'], $sitebase['path']);
-	list($controller, $action) = $core->ControllerMap($controller, $action);
+	list($controller, $action) = $core->rebuildUrl($_SERVER['REQUEST_URI'], $CFG['baseUri']);
+	list($controller, $action) = $core->mapController($controller, $action);
 }
+
 $objc = $core->loadController($controller);
 
 // 构造自定义日志

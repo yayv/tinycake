@@ -1,6 +1,11 @@
 <?php
 $CONFIG = array();
 
+// for multi-domain, you can use host:port or $CONFIG['domain']
+$CONFIG['domain']  = "localhost";
+// end with "/"
+$CONFIG['baseUri'] = '/siteManager/';
+
 // 必须设置的3项
 $CONFIG['site'] = "localhost";
 $CONFIG['sitebase'] = 'http://localhost:8088/siteManager';
