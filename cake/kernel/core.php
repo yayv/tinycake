@@ -197,7 +197,7 @@ class Core
 
 		if(0===strpos($uri, $base))
 		{
-			$uri = substr($uri, strlen($base));
+			$uri = trim(substr($uri, strlen($base)),'/');
 		}
 
 	    #$exparams = explode('?', $_SERVER['REQUEST_URI']);
