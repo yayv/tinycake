@@ -1,0 +1,401 @@
+<!-- 首页 -->
+
+<div id="dashboard" class="hlt-tpl">
+	<div class="dashboard">
+		<div class="statusBox">
+			<div class="l1">
+				<div class="statusBox-item">
+					<p>累计收益（元）</p>
+					<span class="value">{{ num.todayIncome }}</span>
+				</div>
+				<div class="statusBox-item">
+					<p>当日收益（元）</p>
+					<span class="value">{{ num.todayIncome }}</span>
+				</div>
+				<div class="statusBox-item w100">
+					<p>账户可用积分</p>
+					<span class="value">{{ num.totalScore }}</span>
+				</div>
+			</div>
+		</div>
+		<ul class="scrollWarp">
+			<li style="background: linear-gradient(160deg, #c951fc 20%,#b100ff 80%);">
+				<p><i class="alIcon money"></i><span>收益</span></p>
+				<p class="val">{{ num.todayCommission }}</p>
+				<p class="mTag">当日推广收益</p>
+			</li>
+			<li style="background: linear-gradient(160deg, #68baec 20%,#51A8dd 80%);">
+				<p><i class="alIcon money"></i><span>收益</span></p>
+				<p class="val">{{ num.totalCommission }}</p>
+				<p class="mTag">总共推广收益</p>
+			</li>
+			<li style="background:linear-gradient(160deg, #f08bba 20%,#f02b56 80%); ">
+				<p><i class="alIcon money"></i><span>收款</span></p>
+				<p class="val">{{ num.todayFlow }}</p>
+				<p class="mTag">今日收款</p>
+			</li>
+			<li style="background:linear-gradient(160deg, #c2abe9 20%,#8f77b5 80%); ">
+				<p><i class="alIcon score"></i><span>积分</span></p>
+				<p class="val">{{ num.D10Flow }}</p>
+				<p class="mTag">近10天收款（元）</p>
+			</li>
+		</ul>
+		<div class="bannerList">
+			<div>
+				<img src="./icons/banner.png" alt="">
+			</div>
+			<!-- <a href="#" style="margin-top: 10px;">
+				<img src="./icons/banner3.png" alt="">
+			</a> -->
+			<!-- <a href="#">
+				<img src="./icons/banner2.png" alt="">
+			</a> -->
+		</div>
+	</div>
+</div>
+<!-- <div id="dashboard" class="hlt-tpl">
+	<div class="dashboard">
+		<div class="statusBox">
+			
+		</div>
+		<div class="hlt-item dashboard-today">
+			<span class="dashboard-name">{{ name }}</span>
+			<h2 class="dashboard-title">今日已收款（元）</h2>
+			<div class="dashboard-amount">{{ num.todayIncome }}</div>
+		</div>
+
+		<div class="hlt-item dashboard-tendays">
+			<h2>账户可用积分</h2>
+			<div class="dashboard-amount">{{ num.totalScore }}</div>
+		</div>
+
+		<div class="hlt-item dashboard-tendays">
+			<h2>近10天收款（元）</h2>
+			<div class="dashboard-amount">{{ num.D10Flow }}</div>
+		</div>
+
+		<div class="hlt-item dashboard-list">
+			<div class="dashboard-day-item">
+				<h3>当日收益</h3>
+				<div class="dashboard-amount">{{ num.todayIncome }}</div>
+			</div>
+			<div class="dashboard-day-item">
+				<h3>累计收益</h3>
+				<div class="dashboard-amount">{{ num.totalIncome }}</div>
+			</div>
+			<div class="dashboard-day-item">
+				<h3>当日推广佣金</h3>
+				<div class="dashboard-amount">{{ num.todayCommission }}</div>
+			</div>
+			<div class="dashboard-day-item">
+				<h3>累计推广收益</h3>
+				<div class="dashboard-amount">{{ num.totalCommission }}</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+
+<!-- 充值 -->
+<div id="charge" class="hlt-tpl">
+	<div class="hlt-item charge">
+		<h2>充值</h2>
+		<!-- 充值后，生成订单，在订单里查看 -->
+		<div class="charge-item">
+			<span class="mint-cell-text">充值金额</span>
+			<input type="number" class="charge-item-number" max="50" min="1" @keyup="checkValue" v-model="number">00
+			<mt-button size="small" type="primary" @click="chargeSubmit">充值</mt-button>
+		</div>
+	</div>
+	<mt-popup close-on-click-modal=false style="width:95%;" v-model="chargeOK">
+		<div class="charge-ok">
+			<h2>充值成功提示</h2>
+			<p>充值订单已生成，请在 5 小时内按以下信息进行转账，如 5 小时内转账未完成请重新申请，以免造成损失。</p>
+			<textarea readonly id="chargeInfo">银行: {{ chargeOKdata.bank }}
+	开户行: {{ chargeOKdata.branch }}
+	账号: {{ chargeOKdata.account }}
+	卡号: {{ chargeOKdata.no }}
+	金额: {{ chargeOKdata.number }}
+	订单号: {{ chargeOKdata.orderno }} </textarea>
+		</div>
+		<div class="charge-btns">
+			<mt-button size="small" type="primary" @click="copyInfo">复制</mt-button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<mt-button size="small" type="primary" @click="chargeOKclose">关闭</mt-button>
+		</div>
+	</mt-popup>
+
+	<div class="hlt-item charge">
+		<h2>提现</h2>
+		<div class="charge-item">
+			<span class="mint-cell-text">积分</span>
+			<span class="mint-cell-content">{{ summury.score }}</span>
+		</div>
+		<div class="charge-item">
+			<span class="mint-cell-text">收益</span>
+			<span class="mint-cell-content">{{ summury.income }}</span>
+			<mt-button size="small" type="primary" @click="income2balance">转余额</mt-button>
+		</div>
+		<div class="charge-item">
+			<span class="mint-cell-text">佣金</span>
+			<span class="mint-cell-content">{{ summury.commission }}</span>
+			<mt-button size="small" type="primary" @click="commission2balance">转余额</mt-button>
+		</div>
+		<div class="charge-item">
+			<span class="mint-cell-text">余额</span>
+			<span class="mint-cell-content">{{ summury.balance }}</span>
+			<mt-button size="small" type="primary" @click="cashOutPop">提现 ({{ summury.limit&&summury.limit.cashout }})
+			</mt-button>
+			<mt-button size="small" type="primary" @click="balance2score">转积分 ({{ summury.limit&&summury.limit.convert }})
+			</mt-button>
+		</div>
+	</div>
+
+	<div class="hlt-item charge">
+		<h2>记录查询</h2>
+		<div class="charge-item">
+			<span class="mint-cell-text">提现记录</span>
+			<mt-button size="small" type="primary" @click="cashoutRecord">查看</mt-button>
+		</div>
+
+		<div class="charge-item">
+			<span class="mint-cell-text">充值记录</span>
+			<mt-button size="small" type="primary" @click="chargeRecord">查看</mt-button>
+		</div>
+	</div>
+
+	<mt-popup v-model="popupCardList" style="width:90%;padding:10px;">
+		<table class="order-list">
+			<thead>
+				<tr>
+					<td>银行 开户行</td>
+					<td>卡号</td>
+				</tr>
+			</thead>
+			<tr v-for="item in cards">
+				<td>{{ item.bank }} {{ item.branch }}</td>
+				<td>{{ item.account }}</td>
+				<td>
+					<mt-button size="small" type="primary" @click="cashOut(item)">提现</mt-button>
+				</td>
+			</tr>
+		</table>
+	</mt-popup>
+
+	<mt-popup v-model="popupCashout" style="width:80%;padding:8px;max-height: 75%;min-height: 30%;overflow: auto;">
+		<table class="order-list" v-if="record.cashout.length>0">
+			<thead>
+				<tr>
+					<td>银行卡号</td>
+					<td>金额</td>
+					<td>日期</td>
+					<td>状态</td>
+				</tr>
+			</thead>
+			<tr v-for="item in record.cashout">
+				<td>{{ item.account }}</td>
+				<td>{{ item.value }}</td>
+				<td>{{ item.requestTime }}</td>
+				<td>{{ item.status }}</td>
+			</tr>
+		</table>
+		<p v-if="record.cashout.length==0" style="text-align: center;">暂时没有提现记录</p>
+	</mt-popup>
+
+	<mt-popup v-model="popupCharge" style="width:80%;padding:8px;max-height: 75%;min-height: 30%;overflow: auto;">
+		<table class="order-list" v-if="record.charge.length>0">
+			<thead>
+				<tr>
+					<td>订单号</td>
+					<td>日期</td>
+					<td>金额</td>
+					<td>状态</td>
+				</tr>
+			</thead>
+			<tr v-for="item in record.charge">
+				<td>{{ item.orderNo }}</td>
+				<td>{{ item.createTime.substr(-14,11) }}</td>
+				<td>{{ item.value }}</td>
+				<td>{{ item.status }}</td>
+			</tr>
+		</table>
+		<p v-if="record.charge.length==0" style="text-align: center;">暂时没有充值记录</p>
+	</mt-popup>
+</div>
+
+
+<!-- 线路 == 设备 -->
+<div id="device" class="hlt-tpl">
+	<div class="device">
+		<div class="hlt-item device-item" v-for="line in lines">
+			<h2>线路：{{ line.lineName }} <em>{{ line.status }}</em></h2>
+			<ol>
+				<li>
+					<label>账号状态</label>
+					<span>{{ line.status }} </span>
+					&nbsp;&nbsp;&nbsp;
+					<!-- <mt-button size="small" type="primary" @click="online(line)"  v-if="line.status == '离线'">上线</mt-button> -->
+				</li>
+				<!-- <li class="device-item-status">
+				<label>充值</label>
+				<span v-if="line.status != '离线'">
+					<input type="number" v-model="line.score4charge" min="1" :max="line.score" v-if="line.score != 0" :placeholder="line.score"></mt-field>
+					<mt-button size="small" type="primary" :disabled="line.score == 0" @click="charge(line)">充值</mt-button>
+				</span>
+			</li> -->
+				<li class="device-item-today" @click="thisOrder(line)">
+					<label>今日已收</label>
+					<span>{{ line.totalIncome }}</span>
+				</li>
+				<li class="device-item-amount">
+					<label>线路余额</label>
+					<span>{{ line.score }}</span>
+				</li>
+				<!-- <li>
+				<label>线路押金</label>
+				<span> {{ line.security }} </span>
+			</li> -->
+				<li>
+					<label>上线时间</label>
+					<span>{{ line.createTime }}</span>
+				</li>
+			</ol>
+		</div>
+		<div class="nomore" v-show="lines.length == 0">没有数据</div>
+
+		<div class="mine" v-show="isSub">
+			<router-view></router-view>
+		</div>
+	</div>
+</div>
+
+<!-- 线路详情 -->
+<div id="deviceDetail" class="hlt-tpl">
+	<div class="hlt-item device-item">
+		<h2>线路：{{ line.lineName }}</h2>
+		<ol>
+			<li class="device-item-amount">
+				<label>线路余额</label>
+				<span style="display:inline-block;width:70px;">{{ line.score }}</span>
+				<mt-button size="small" type="primary" @click="recycle2score(line)" v-if="line.status == '离线'">回收为积分
+				</mt-button>
+				<div style="height:10px;"></div>
+			</li>
+			<li>
+				<label>账号状态</label>
+				<span style="display:inline-block;width:70px;">{{ line.status }} </span>
+				<mt-button size="small" type="primary" @click="online()" v-if="line.status == '离线'">上线</mt-button>
+				<div style="height:10px;"></div>
+			</li>
+			<li class="device-item-status">
+				<label>充值</label>
+				<span>
+					<input type="number" v-model="score4charge" min="1" :max="line.score" @keyup="checknum">
+					<mt-button size="small" type="primary" :disabled="limited == 0" @click="charge">充值</mt-button>
+				</span>
+			</li>
+			<!-- <li class="device-item-today" @click="thisOrder(line)">
+				<label>今日已收</label>
+				<span>{{ line.totalIncome }}</span>
+			</li> -->
+			<!-- <li>
+				<label>线路押金</label>
+				<span> {{ line.security }} </span>
+			</li> -->
+			<!-- <li>
+				<label>上线时间</label>
+				<span>{{ line.createTime }}</span>
+			</li> -->
+			<li>
+				<div style="height:20px;"></div>
+			</li>
+		</ol>
+	</div>
+
+</div>
+
+
+<!-- 定投 -->
+<div id="aip" class="hlt-tpl">
+	<div class="aip">
+		<div class="hlt-item device-item">
+			<h2>{{ store.lineName }} <em>{{ store.status }}</em></h2>
+			<ol>
+				<li class="device-item-amount">
+					<label>账户金额</label>
+					<span>{{ store.score }}</span>
+				</li>
+				<li>
+					<label>在途金额</label>
+					<span>{{ store.inQueue }} </span>
+					<div style="height:10px;"></div>
+				</li>
+				<li class="device-item-status">
+					<label>充值</label>
+					<span v-if="store.status != '未激活'">
+						<input type="number" v-model="store.score4charge" v-if="limited > 0"
+							:placeholder="store.score4charge"></mt-field>
+						<mt-button size="small" type="primary" :disabled="limited == 0" @click="charge(store)">充值
+						</mt-button>
+					</span>
+					<div style="height:10px;"></div>
+				</li>
+				<li>
+					<label>昨日收益</label>
+					<span>{{ store.yestodayIncome }}</span>
+				</li>
+				<li>
+					<label>结算时间</label>
+					<span>{{ store.payoff }}</span>
+				</li>
+				<li>
+					<label>激活时间</label>
+					<span>{{ store.onlineTime }}</span>
+				</li>
+				<li class="note">备注：充值数额要经过一个结算周期才能进入线路积分</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+
+<!-- 订单 -->
+<div id="order" class="hlt-tpl">
+	<div class="hlt-item order">
+		<table class="order-list">
+			<thead>
+				<tr>
+					<td>订单编号</td>
+					<td>时间</td>
+					<td>金额</td>
+					<td>状态</td>
+				</tr>
+			</thead>
+			<tr v-for="order in orders">
+				<td>{{ order.orderNo }}</td>
+				<td>{{ order.createTime }}</td>
+				<td>{{ order.value }}</td>
+				<td v-bind:class="[isHighlight(order.status) ? 'order-highlight' : 'order-disabled']">{{ order.status }}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<!-- 我的 -->
+<div id="mine" class="hlt-tpl">
+	<div class="mine-menu">
+		<img src="./css/images/screen.jpg" alt="">
+		<mt-cell title="实名认证" to="#/mine/audit" is-link></mt-cell>
+		<mt-cell title="充值提现" to="#/mine/charge" is-link></mt-cell>
+		<mt-cell title="修改资料" to="#/mine/profile" is-link></mt-cell>
+		<mt-cell title="添加银行卡" to="#/mine/addCard" is-link></mt-cell>
+		<mt-cell title="推广分享" to="#/mine/share" is-link></mt-cell>
+		<mt-cell title="客服" to="#/mine/cs" is-link></mt-cell>
+		<mt-cell title="公告" to="#/mine/notice" is-link></mt-cell>
+	</div>
+
+	<div class="mine" v-show="isSub">
+		<router-view></router-view>
+	</div>
+</div>

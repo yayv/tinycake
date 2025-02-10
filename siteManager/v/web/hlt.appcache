@@ -1,0 +1,17 @@
+CACHE MANIFEST
+
+# version 0.1
+
+CACHE:
+./libs
+./icons
+./css
+#login.html
+system.js
+#system.html
+ 
+NETWORK:
+/api/
+ 
+FALLBACK:
+/login.html

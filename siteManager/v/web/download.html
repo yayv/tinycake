@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" mmanifest="hlt.appcache">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>App 下载</title>
+</head>
+
+<body>
+
+	<!-- 
+mint 文档：http://mint-ui.github.io/docs/#/zh-cn2/button
+-->
+	<script src="./libs/vue-2.6.10.js"></script>
+	<script src="./libs/mint.js"></script>
+	<link href="./libs/mint.css" rel="stylesheet">
+	<link href="./css/style.css" rel="stylesheet">
+
+	<div id="Page" v-cloak>
+		<div class="login">
+			<mt-header fixed :title="appInfo.name"></mt-header>
+			<div class="download">
+				<img :src="appInfo.screenshot" alt="" @error="backup">
+				<p>{{ appInfo.desc }}</p>
+				<mt-button type="primary" @click="start" class="downBtn">开始下载</mt-button>
+			</div>
+		</div>
+	</div>
+
+	<script src="./libs/base.js"></script>
+	<script src="./services.js"></script>
+	<script>
+		window.Services.getAppInfo(function (appInfo) {
+			var downloadUrl = appInfo.downloadUrl;
+
+			// desc: "一个神奇APP"
+			// link: "http://...../bbb.apk"
+			// name: "易捷付"
+			// screenshot: "http://...../aaa.png"
+
+			var download = new Vue({
+				el: '#Page',
+				data: {
+					appInfo: appInfo
+				},
+				methods: {
+					backup: function () {
+						this.appInfo.screenshot = './icons/logo.png';
+					},
+					start: function () {
+						window.open(this.appInfo.link);
+					}
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

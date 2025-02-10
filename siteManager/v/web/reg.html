@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" mmanifest="hlt.appcache">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>用户系统</title>
+	<script>
+		(function (n, e) {
+			var t = n.documentElement,
+				i = "orientationchange" in window ? "orientationchange" : "resize",
+				d = function () {
+					var n = t.clientWidth;
+					n && (t.style.fontSize = n / 7.5 + "px")
+				};
+			n.addEventListener && (e.addEventListener(i, d, !1), n.addEventListener("DOMContentLoaded", d, !1))
+		})(document, window);
+	</script>
+</head>
+
+<body>
+
+	<!-- 
+mint 文档：http://mint-ui.github.io/docs/#/zh-cn2/button
+-->
+	<script src="./libs/vue-2.6.10.js"></script>
+	<script src="https://cdn.bootcss.com/fetch/3.0.0/fetch.min.js"></script>
+	<script src="./libs/mint.js"></script>
+	<link href="./libs/mint.css" rel="stylesheet">
+	<link href="./css/style.css" rel="stylesheet">
+
+	<div id="PageLogin" v-cloak>
+		<div class="login">
+			<mt-header fixed :title="product"></mt-header>
+
+			<div class="login-form reg">
+				<!-- <h2>注册</h2>
+				<mt-field label="用户名" placeholder="请输入用户名" v-model="newUser.username"></mt-field>
+				<mt-field label="密码" placeholder="请输入密码" type="password" v-model="newUser.password"></mt-field>
+				<mt-field label="手机号" placeholder="请输入手机号" v-model="newUser.phone"></mt-field>
+				<mt-field label="提现密码" placeholder="请输入提现密码" type="password" v-model="newUser.cashoutPassword"></mt-field>
+				<mt-field label="验证码" v-model="newUser.verify">
+					<img :src="verify" height="45px" width="100px" @click="refresh">
+				</mt-field>
+				<mt-field label="邀请码" placeholder="请输入邀请码" v-model="newUser.invite"></mt-field>
+
+				<div class="login-btn">
+					<mt-button type="primary" @click="reg()" :disabled="isNotValid(newUser)">注册</mt-button>
+				</div> -->
+				<h3 class="regTitle">注册</h3>
+				<div class="formList reg">
+					<div class="formItem">
+						<input type="tel"  maxlength="11" placeholder="请输入手机号" v-model="newUser.phone">
+						<i class="empty" @click="del('phone')" v-if="newUser.phone"></i>
+						<p v-if="newUser.phone" class="f_tips">手机号</p>
+					</div>
+					<div class="formItem">
+						<input placeholder="请输入密码"  maxlength="16" type="password" v-model="newUser.password">
+						<i class="empty" @click="del('password')" v-if="newUser.password"></i>
+						<p v-if="newUser.password" class="f_tips">密码</p>
+					</div>
+					<div class="formItem">
+						<input placeholder="请重复输入密码" type="password" v-model="newUser.cashoutPassword">
+						<i class="empty" @click="del('cashoutPassword')" v-if="newUser.cashoutPassword"></i>
+						<p v-if="newUser.cashoutPassword" class="f_tips">重复输入密码</p>
+					</div>
+					<div class="formItem">
+						<input placeholder="请输入邀请码" v-model="newUser.invite">
+						<i class="empty" @click="del('invite')" v-if="newUser.invite"></i>
+						<p v-if="newUser.invite" class="f_tips">邀请码</p>
+					</div>
+					<div class="verifyKey">
+						<div class="verifyKeyInput">
+							<input type="text" placeholder="验证码" v-model="newUser.verify" maxlength="4">
+							<i class="empty" @click="del('verify')" v-if="newUser.verify"></i>
+							<p v-if="newUser.verify" class="f_tips">验证码</p>
+						</div>
+						<span v-if="smActive" class="getSm active" @click="getSmsverify">获取验证码</span>
+						<span v-if="!smActive" class="getSm">还剩{{time}}秒</span>
+					</div>
+					<button :disabled="!(newUser.password&&newUser.verify&&newUser.phone&&newUser.cashoutPassword&&newUser.invite)"
+						:class="{loginBtn:true,active:newUser.password&&newUser.verify&&newUser.phone&newUser.cashoutPassword&&newUser.invite}" @click="reg()">
+						注册
+					</button>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<script src="./libs/base.js"></script>
+	<script src="./services.js"></script>
+	<script>
+		///reg.html?invite=E6U83
+		var login = new Vue({
+			el: '#PageLogin',
+			data: {
+				product: '财神理财',
+				verify: window.Services.verifyUrl(),
+				time: 60,
+				smActive: true,
+				newUser: {
+					username: '',
+					password: '',
+					cashoutPassword: '',
+					phone: '',
+					verify: '',
+					invite: HLT.getPara(location.href, 'invite')
+				}
+			},
+			mounted: function () {},
+			methods: {
+				del: function (key) {
+					this.newUser[key] = ''
+				},
+				isNotValid: function (json) {
+					return HLT.isEmptyJson(json);
+				},
+				getSmsverify: function () {
+					var _this = this;
+					if (!this.smActive) {
+						return false
+					} else {
+						this.smActive = false;
+						var smsverify = window.Services.smsverify();
+						console.log(smsverify)
+						this.time = 60;
+						window.interTime = window.setInterval(function () {
+							if (_this.time === 0) {
+								clearInterval(window.interTime)
+								_this.smActive = true
+								return
+							} else {
+								_this.time--
+							}
+						}, 1000)
+					}
+				},
+				refresh: function () {
+					this.$data.verify = window.Services.verifyUrl();
+				},
+				reg: function () {
+          if (this.newUser.password.trim() !== this.newUser.cashoutPassword.trim()) {
+            alert("两次输入密码不一致");
+            return false;
+          }
+					var _this = this;
+					var newUser = this.newUser;
+					newUser.checkcode = newUser.verify;
+					var reg = window.Services.reg;
+					reg(newUser, function (result) {
+						alert("注册成功，请下载安装 app");
+						location.href = 'download.html';
+					});
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

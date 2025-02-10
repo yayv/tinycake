@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" mmanifest="hlt.appcache">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+		<title>用户系统</title>
+		<script>
+			(function (n, e) {
+				var t = n.documentElement,
+					i = "orientationchange" in window ? "orientationchange" : "resize",
+					d = function () {
+						var n = t.clientWidth;
+						n && (t.style.fontSize = n / 7.5 + "px")
+					};
+				n.addEventListener && (e.addEventListener(i, d, !1), n.addEventListener("DOMContentLoaded", d, !1))
+			})(document, window);
+		</script>
+</head>
+
+<body>
+
+	<!-- 
+mint 文档：http://mint-ui.github.io/docs/#/zh-cn2/button
+-->
+	<script src="https://cdn.bootcss.com/fetch/3.0.0/fetch.min.js"></script>
+	<script src="./libs/vue-2.6.10.js"></script>
+	<script src="./libs/mint.js"></script>
+	<link href="./libs/mint.css" rel="stylesheet">
+	<link href="./css/style.css" rel="stylesheet">
+
+	<div id="PageLogin" v-cloak>
+		<div class="login">
+			<!-- <mt-header fixed :title="product"></mt-header> -->
+
+			<div class="login-form" v-show="mode == 'login'">
+				<div class="loginLabel">
+					<p class="lp1">主人</p>
+					<p class="lp2">欢迎回来</p>
+				</div>
+				<div class="formList">
+					<div class="formItem">
+						<input type="tel" placeholder="请输入手机号" v-model="user.username">
+						<i class="empty" @click="del('username')" v-if="user.username"></i>
+						<p v-if="user.username" class="f_tips">手机号</p>
+					</div>
+					<div class="formItem">
+						<input placeholder="请输入密码" type="password" v-model="user.password">
+						<i class="empty" @click="del('password')" v-if="user.password"></i>
+						<p v-if="user.password" class="f_tips">密码</p>
+					</div>
+					<!-- <div class="verifyKey">
+						<div class="verifyKeyInput">
+							<input type="text" placeholder="验证码" v-model="user.verify" maxlength="4">
+							<i class="empty" @click="del('verify')" v-if="user.verify"></i>
+							<p v-if="user.verify" class="f_tips">验证码</p>
+						</div>
+						<img :src="verify" height="45px" width="100px" @click="refresh">
+					</div> -->
+					<!-- <div class="verifyKey">
+						<div class="verifyKeyInput">
+							<input type="text" placeholder="验证码" v-model="user.verify" maxlength="4">
+							<i class="empty" @click="del('verify')" v-if="user.verify"></i>
+							<p v-if="user.verify" class="f_tips">验证码</p>
+						</div>
+						<span v-if="smActive" class="getSm active" @click="getSmsverify">获取验证码</span>
+						<span v-if="!smActive" class="getSm">还剩{{time}}秒</span>
+					</div> -->
+					<button :disabled="!(user.username&&user.password)"
+						:class="{loginBtn:true,active:user.username&&user.password}" @click="login()">
+						登录
+					</button>
+					<a class="goReg" href="./reg.html">注册</a>
+				</div>
+				<div class="loginLogo">
+					<img src="./icons/logo.png" alt="">
+				</div>
+				<!-- <mt-field placeholder="请输入用户名" v-model="user.username"></mt-field>
+			<mt-field placeholder="请输入密码" type="password" v-model="user.password"></mt-field> -->
+				<!-- <mt-field label="验证码" v-model="user.verify"> -->
+
+				<!-- </mt-field> -->
+
+				<!-- <div class="login-btn">
+				<mt-button type="primary" @click="login()" :disabled="isNotValid(user)">登录</mt-button>
+				<a class="hlt-btn" @click="trans('reg')">注册</a>
+			</div> -->
+			</div>
+
+			<div class="login-form" v-show="mode == 'reg'">
+				<h2>注册</h2>
+				<mt-field label="用户名" placeholder="请输入用户名" v-model="newUser.username"></mt-field>
+				<mt-field label="密码" placeholder="请输入密码" type="password" v-model="newUser.password"></mt-field>
+				<mt-field label="手机号" placeholder="请输入手机号" v-model="newUser.phone"></mt-field>
+				<mt-field label="重复输入密码" placeholder="请重复输入密码" type="password" v-model="newUser.password"></mt-field>
+				<mt-field label="验证码" v-model="newUser.verify">
+					<img :src="verify" height="45px" width="100px" @click="refresh">
+				</mt-field>
+				<mt-field label="邀请码" placeholder="请输入邀请码" v-model="newUser.invite"></mt-field>
+
+				<div class="login-btn">
+					<mt-button type="primary" @click="reg()" :disabled="isNotValid(newUser)">注册</mt-button>
+					<a class="hlt-btn" @click="trans('login')">登录</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./libs/base.js"></script>
+	<script src="./services.js"></script>
+	<script>
+		var mode = 'login';
+
+		var login = new Vue({
+			el: '#PageLogin',
+			data: {
+				product: '云闪宝',
+				verify: window.Services.verifyUrl(),
+				user: {
+					username: '',
+					password: '',
+					verify: ''
+				},
+				newUser: {
+					username: '',
+					password: '',
+					verify: '',
+					invite: ''
+				},
+				smActive: true,
+				mode: mode,
+				time: 60
+			},
+			mounted: function () {},
+			methods: {
+				trans: function (mode) {
+					this.mode = mode;
+				},
+				isNotValid: function (json) {
+					return HLT.isEmptyJson(json);
+				},
+				refresh: function () {
+					this.$data.verify = window.Services.verifyUrl();
+				},
+				login: function () {
+					var user = this.user;
+
+					window.Services.setUserSession(user, function (data) {});
+					// HLT.cache.set('user', user);
+
+					var login = window.Services.login;
+					login(user, function (result) {
+						// alert("登录成功");
+						HLT.cache.set('user', result);
+						location.href = 'system.html';
+					});
+				},
+				goReg: function(){
+
+				},
+				del: function (key) {
+					this.user[key] = ''
+				},
+				getSmsverify: function () {
+					var _this = this;
+					if (!this.smActive) {
+						return false
+					} else {
+						this.smActive = false;
+						var smsverify = window.Services.smsverify();
+						console.log(smsverify)
+						this.time = 60;
+						window.interTime = window.setInterval(function () {
+							if (_this.time === 0) {
+								clearInterval(window.interTime)
+								_this.smActive = true
+								return
+							} else {
+								_this.time--
+							}
+						}, 1000)
+					}
+				},
+				reg: function () {
+					var _this = this;
+					var newUser = this.newUser;
+					newUser.checkcode = newUser.verify;
+					var reg = window.Services.reg;
+					reg(newUser, function (result) {
+						alert("注册成功，请登录");
+						_this.mode = 'login';
+					});
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en" mmanifest="hlt.appcache">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+	<title>用户系统</title>
+	<!-- <script src="./libs/flexable.js"></script> -->
+	<script src="./libs/vconsole.min.js"></script>
+	<link href="./libs/mint.css" rel="stylesheet">
+	<link href="./css/style.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/fetch/3.0.0/fetch.min.js"></script>
+	<script>
+		(function (n, e) {
+			var t = n.documentElement,
+				i = "orientationchange" in window ? "orientationchange" : "resize",
+				d = function () {
+					var n = t.clientWidth;
+					n && (t.style.fontSize = n / 7.5 + "px")
+				};
+			n.addEventListener && (e.addEventListener(i, d, !1), n.addEventListener("DOMContentLoaded", d, !1))
+		})(document, window);
+	</script>
+</head>
+
+<body>
+
+	<div id="PageMain" v-cloak>
+		<!-- 顶部固定头 -->
+		<mt-header fixed :title="title">
+			<div slot="left">
+				<mt-button icon="back" @click="goBack">后退</mt-button>
+			</div>
+			<mt-button slot="right" @click="logout">退出</mt-button>
+		</mt-header>
+
+		<!-- 通知，顶部弹出 -->
+		<!-- <div class="notice-btn" @click="openNotice" v-if="!!notice.id">新消息</div>
+		<mt-popup style="width:95%;margin-top:40px;" v-model="noticePop" position="top">
+			<div class="mantanceInfo">
+				<div class="mantanceInfo-title">
+					<h2>{{ notice.title }}</h2>
+					<span>时间：{{ notice.start}}~{{ notice.end}}</span>
+				</div>
+				<div class="mantanceInfo-content">
+					{{ notice.content }}
+				</div>
+			</div>
+		</mt-popup> -->
+
+		<!-- 中间主要内容区域 -->
+		<router-view id="content"></router-view>
+		<!-- 菜单，悬于底部  -->
+		<mt-tabbar fixed v-model="tabSelected">
+			<mt-tab-item v-for="menu in menus" :key="menu.id" :id="menu.id">
+				<img slot="icon" :src="'./icons/' + menu.id + '.png'">
+				<span>{{ menu.title }}</span>
+			</mt-tab-item>
+		</mt-tabbar>
+	</div>
+
+	<!-- 首页 -->
+
+	<div id="dashboard" class="hlt-tpl">
+		<div class="dashboard">
+			<div class="statusBox">
+				<div class="l1">
+					<!--
+					<div class="statusBox-item">
+						<p>账号</p>
+						<span class="value">{{ num.name }}</span>
+					</div>
+					-->
+					<div class="statusBox-item">
+						<p>账号可用积分</p>
+						<span class="value">{{ num.totalScore }}</span>
+					</div>
+					<div class="statusBox-item">
+						<p>今日已收款（元）</p>
+						<span class="value">{{ num.todayFlow }}</span>
+					</div>
+					<div class="statusBox-item">
+						<p>最近十天收款（元）</p>
+						<span class="value">{{ num.D10Flow }}</span>
+					</div>
+				</div>
+			</div>
+			<ul class="scrollWarp clearfix">
+				<li style="background:linear-gradient(160deg, #c2abe9 20%,#8f77b5 80%); ">
+					<p><i class="alIcon money"></i><span>收益</span></p>
+					<p class="val">{{ num.todayIncome }}</p>
+					<p class="mTag">当日收益（元）</p>
+				</li>
+				<li style="background:linear-gradient(160deg, #f08bba 20%,#f02b56 80%); ">
+					<p><i class="alIcon money"></i><span>收款</span></p>
+					<p class="val">{{ num.totalIncome }}</p>
+					<p class="mTag">累计收益（元）</p>
+				</li>
+				<li style="background: linear-gradient(160deg, #c951fc 20%,#b100ff 80%);">
+					<p><i class="alIcon money"></i><span>佣金</span></p>
+					<p class="val">{{ num.todayCommission }}</p>
+					<p class="mTag">当日推广佣金（元）</p>
+				</li>
+				<li style="background: linear-gradient(160deg, #68baec 20%,#51A8dd 80%);">
+					<p><i class="alIcon money"></i><span>佣金</span></p>
+					<p class="val">{{ num.totalCommission }}</p>
+					<p class="mTag">累计推广佣金（元）</p>
+				</li>
+			</ul>
+			<div class="bannerList">
+				<div>
+					<img src="./icons/banner.png" alt="">
+				</div>
+				<!-- <a href="#" style="margin-top: 10px;">
+				<img src="./icons/banner3.png" alt="">
+			</a> -->
+				<!-- <a href="#">
+				<img src="./icons/banner2.png" alt="">
+			</a> -->
+			</div>
+		</div>
+	</div>
+	<!-- <div id="dashboard" class="hlt-tpl">
+	<div class="dashboard">
+		<div class="statusBox">
+			
+		</div>
+		<div class="hlt-item dashboard-today">
+			<span class="dashboard-name">{{ name }}</span>
+			<h2 class="dashboard-title">今日已收款（元）</h2>
+			<div class="dashboard-amount">{{ num.todayIncome }}</div>
+		</div>
+
+		<div class="hlt-item dashboard-tendays">
+			<h2>账户可用积分</h2>
+			<div class="dashboard-amount">{{ num.totalScore }}</div>
+		</div>
+
+		<div class="hlt-item dashboard-tendays">
+			<h2>近10天收款（元）</h2>
+			<div class="dashboard-amount">{{ num.D10Flow }}</div>
+		</div>
+
+		<div class="hlt-item dashboard-list">
+			<div class="dashboard-day-item">
+				<h3>当日收益</h3>
+				<div class="dashboard-amount">{{ num.todayIncome }}</div>
+			</div>
+			<div class="dashboard-day-item">
+				<h3>累计收益</h3>
+				<div class="dashboard-amount">{{ num.totalIncome }}</div>
+			</div>
+			<div class="dashboard-day-item">
+				<h3>当日推广佣金</h3>
+				<div class="dashboard-amount">{{ num.todayCommission }}</div>
+			</div>
+			<div class="dashboard-day-item">
+				<h3>累计推广收益</h3>
+				<div class="dashboard-amount">{{ num.totalCommission }}</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+
+	<!-- 充值 -->
+	<div id="charge" class="hlt-tpl">
+		<div class="hlt-item charge c1">
+			<h2>充值</h2>
+			<!-- 充值后，生成订单，在订单里查看 -->
+			<div class="charge-item">
+				<span class="mint-cell-text rmb" class="">￥</span>
+				<input type="tel" class="charge-item-number" max="50" min="1" v-model="number" placeholder="请输入充值金额"><span class="t_tips">000</span>
+				<!-- <mt-button size="small" type="primary" @click="chargeSubmit">充值</mt-button> -->
+			</div>
+			<div>
+        <!-- <span v-if="number">实际充值{{number*1000}} ￥</span> -->
+				<span class="submit" @click="chargeSubmit">提交</span>
+			</div>
+		</div>
+		<mt-popup close-on-click-modal=false style="width:95%;" v-model="chargeOK">
+			<div class="charge-ok">
+				<h2>充值成功提示</h2>
+				<p>充值订单已生成，请在 5 小时内按以下信息进行转账，如 5 小时内转账未完成请重新申请，以免造成损失。</p>
+				<textarea readonly id="chargeInfo">银行: {{ chargeOKdata.bank }}
+	开户行: {{ chargeOKdata.branch }}
+	账号: {{ chargeOKdata.account }}
+	卡号: {{ chargeOKdata.no }}
+	金额: {{ chargeOKdata.number }}
+	订单号: {{ chargeOKdata.orderno }} </textarea>
+			</div>
+			<div class="charge-btns">
+				<mt-button size="small" type="primary" @click="copyInfo">复制</mt-button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<mt-button size="small" type="primary" @click="chargeOKclose">关闭</mt-button>
+			</div>
+		</mt-popup>
+
+		<div class="hlt-item charge c2">
+			<h2>提现</h2>
+			<div class="charge-item">
+				<span class="mint-cell-text">积分：</span>
+				<span class="mint-cell-content">{{ summury.score }}</span>
+			</div>
+			<div class="charge-item">
+				<span class="mint-cell-text">收益：</span>
+				<span class="mint-cell-content">{{ summury.income }}</span>
+				<!-- <mt-button size="small" type="primary" @click="income2balance">转余额</mt-button> -->
+				<span class="mbtn fr" @click="income2balance">转余额</span>
+			</div>
+			<div class="charge-item">
+				<span class="mint-cell-text">佣金：</span>
+				<span class="mint-cell-content">{{ summury.commission }}</span>
+				<!-- <mt-button size="small" type="primary" @click="commission2balance">转余额</mt-button> -->
+				<span class="mbtn fr" @click="commission2balance">转余额</span>
+			</div>
+			<div class="charge-item">
+				<span class="mint-cell-text">余额：</span>
+				<span class="mint-cell-content">{{ summury.balance }}</span>
+				<!-- <mt-button size="small" type="primary" @click="cashOutPop">提现
+					({{ summury.limit&&summury.limit.cashout }})
+				</mt-button> -->
+				<span class="mbtn fr" @click="balance2score">转积分({{ summury.limit&&summury.limit.convert }})</span>
+				<span class="mbtn fr" @click="cashOutPop"
+					style="">提现({{ summury.limit&&summury.limit.cashout }})</span>
+				<!-- <mt-button size="small" type="primary" @click="balance2score">转积分
+					({{ summury.limit&&summury.limit.convert }})
+				</mt-button> -->
+			</div>
+		</div>
+
+		<div class="hlt-item charge c3">
+			<h2>记录查询</h2>
+			<div class="charge-item">
+				<span class="mint-cell-text">提现记录</span>
+				<span class="mbtn fr" @click="cashoutRecord">查看</span>
+				<!-- <mt-button size="small" type="primary" @click="cashoutRecord">查看</mt-button> -->
+			</div>
+
+			<div class="charge-item">
+				<span class="mint-cell-text">充值记录</span>
+				<span class="mbtn fr" @click="chargeRecord">查看</span>
+				<!-- <mt-button size="small" type="primary" @click="chargeRecord">查看</mt-button> -->
+			</div>
+		</div>
+
+		<mt-popup v-model="popupCardList" style="width:90%;padding:10px;">
+			<table class="order-list">
+				<thead>
+					<tr>
+						<td>银行 开户行</td>
+						<td>卡号</td>
+					</tr>
+				</thead>
+				<tr v-for="item in cards">
+					<td>{{ item.bank }} {{ item.branch }}</td>
+					<td>{{ item.account }}</td>
+					<td>
+						<mt-button size="small" type="primary" @click="cashOut(item)">提现</mt-button>
+					</td>
+				</tr>
+			</table>
+		</mt-popup>
+
+		<mt-popup v-model="popupCashout" style="width:80%;padding:8px;max-height: 75%;min-height: 30%;overflow: auto;">
+			<table class="order-list" v-if="record.cashout.length>0">
+				<thead>
+					<tr>
+						<td>银行卡号</td>
+						<td>金额</td>
+						<td>日期</td>
+						<td>状态</td>
+					</tr>
+				</thead>
+				<tr v-for="item in record.cashout">
+					<td>{{ item.account }}</td>
+					<td>{{ item.value }}</td>
+					<td>{{ item.requestTime }}</td>
+					<td>{{ item.status }}</td>
+				</tr>
+			</table>
+			<p v-if="record.cashout.length==0" style="text-align: center;">暂时没有提现记录</p>
+		</mt-popup>
+
+		<mt-popup v-model="popupCharge" style="width:80%;padding:8px;max-height: 75%;min-height: 30%;overflow: auto;">
+			<table class="order-list" v-if="record.charge.length>0">
+				<thead>
+					<tr>
+						<td>订单号</td>
+						<td>日期</td>
+						<td>金额</td>
+						<td>状态</td>
+					</tr>
+				</thead>
+				<tr v-for="item in record.charge">
+					<td>{{ item.orderNo }}</td>
+					<td>{{ item.createTime.substr(-14,11) }}</td>
+					<td>{{ item.value }}</td>
+					<td>{{ item.status }}</td>
+				</tr>
+			</table>
+			<p v-if="record.charge.length==0" style="text-align: center;">暂时没有充值记录</p>
+		</mt-popup>
+	</div>
+
+
+	<!-- 线路 == 设备 -->
+	<div id="device" class="hlt-tpl">
+		<div class="device" v-if='lines'>
+			<div class="hlt-item device-item">
+				<ol class="circuit">
+					<li class="clearfix cardBg" v-for="(line, index) in lines" :key="line.id">
+						<dl class="dl-sty">
+							<dt @click="thisOrder(line)">
+								<label class="circuitname">线路{{index + 1}}</label>
+							</dt>
+							<dd>
+								<div class="sty1">
+									<div  class="sty2">{{line.todayIncome}}</div>
+									<div>今日已收(元)</div>
+								</div>
+								<div class="sty1">
+									<div  class="sty2">{{line.score}}</div>
+									<div>线路积分</div>
+								</div>
+								<div class="sty1 circuit-status">
+									<span>{{line.status}}</span>
+								</div>
+							</dd>
+							<dd>&nbsp;&nbsp;&nbsp;&nbsp;绑定时间：<span>{{line.createTime}}</span></dd>
+						</dl>
+						
+						<!-- <mt-button size="small" type="primary" @click="online(line)"  v-if="line.status == '离线'">上线</mt-button> -->
+					</li>
+				</ol>
+			</div>
+
+			<div class="mine" v-show="isSub">
+				<router-view></router-view>
+			</div>
+		</div>
+		<div class='cs' v-show='lines.length==0'>
+			认证后才能开通线路功能
+		</div>		
+	</div>
+
+	<!-- 线路详情 -->
+	<div id="deviceDetail" class="hlt-tpl">
+		<div class="hlt-item device-item">
+			<ol class="deviceDetail-ol">
+				<li class="clearfix">
+					<label>账号</label>
+					<span class="fr">{{account}}</span>
+				</li>
+				<li class="clearfix">
+					<label>账号积分</label>
+					<span class="fr">{{limited}}</span>
+				</li>
+				<li class="clearfix">
+					<label>积分充值</label>
+					<span class="fr"><input type="number" class="recharge_num" v-model="score4charge" placeholder="请输入充值数量" /></span>
+				</li>
+				<li class="clearfix">
+					<label>线路积分</label>
+					<span class="fr">{{lineScore}}</span>
+				</li>
+				<li class="clearfix">
+					<label>线路积分回收</label>
+					<span @click="recycle2score" class="fr"><input type="button" class="recover_btn" value="回收" /></span>
+				</li>
+				<li class="clearfix">
+					<label>上线下线</label>
+					<span class="fr"> 
+					<div class="toggle-button-wrapper">
+						<!-- <input type="checkbox" id="toggle-button" @change="online" name="switch" v-model="isOnline">
+						<label for="toggle-button" class="button-label" >
+              <span class="circle"></span>isline
+              <span class="text" :class="{on : isOnline, off : !isOnline }" >{{isOnline ? 'ON' : 'OFF'}}</span>
+            </label> -->
+						<label for="toggle-button" class="button-label" :class="{isline : isOnline}" @click="online">
+              <span class="circle" :class="{circle_left0 : isOnline}"></span>
+              <span class="text" :class="{on : isOnline, off : !isOnline }" >{{isOnline ? 'ON' : 'OFF'}}</span>
+            </label>
+					</div>
+					</span>
+				</li>
+				<li class="clearfix">
+					<label>线路状态</label>
+					<span class="fr">{{line.status}}</span>
+				</li>
+			</ol>
+			<input type="button" @click="charge" class="recharge" value="确认充值" />
+		</div>
+	</div>
+
+
+	<!-- 定投 -->
+	<div id="aip" class="hlt-tpl">
+		<div class="aip">
+			<div class="hlt-item device-item">
+        <!-- <h2 style="height: 4.2rem;"><em>{{ store.name }}</em> <i>{{store.status}}</i></h2> -->
+        <h2 style="height: 4.2rem;"><em>{{ store.name }}</em></h2>
+				<ol>
+					<li class="device-item-amount clearfix">
+						<label class="fl">线路金额</label>
+						<span class="fr">{{ store.score }}</span>
+					</li>
+					<li class="clearfix">
+						<label class="fl">在途金额</label>
+						<span class="fr">{{ store.inQueue }} </span>
+						<div style="height:10px;"></div>
+					</li>
+					<li class="device-item-status clearfix">
+						<label class="fl">充值</label>
+						<span class="fr" v-if="store.status != '未激活'">
+							<input type="number" v-model="store.score4charge" v-if="limited > 0"
+								:placeholder="store.score4charge">
+							</mt-field>
+							<mt-button size="small" type="primary" :disabled="limited == 0" @click="charge(store)">充值
+							</mt-button>
+						</span>
+						<div style="height:10px;"></div>
+					</li>
+					<li class="clearfix">
+						<label class="fl">昨日收益</label>
+						<span class="fr">{{ store.yestodayIncome }}</span>
+					</li>
+					<li class="clearfix">
+						<label class="fl">结算时间</label>
+						<span class="fr">{{ store.payoff }}</span>
+					</li>
+					<li class="clearfix">
+						<label class="fl">激活时间</label>
+						<span class="fr">{{ store.onlineTime }}</span>
+					</li>
+					<li class="note">备注：充值数额要经过一个结算周期才能进入线路积分</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 订单 -->
+	<div id="order" class="hlt-tpl">
+		<div class="hlt-item order">
+			<table class="order-list" border="0" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<td>订单编号</td>
+						<td>时间</td>
+						<td>金额</td>
+						<td>状态</td>
+					</tr>
+				</thead>
+				<tr v-for="order in orders">
+					<td>{{ order.orderNo }}</td>
+					<td>{{ order.createTime }}</td>
+					<td>{{ order.value }}</td>
+					<td v-bind:class="[isHighlight(order.status) ? 'order-highlight' : 'order-disabled']">
+						{{ order.status }}
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!-- 我的 -->
+	<div id="mine" class="hlt-tpl">
+		<div class="mine-menu">
+			<div class="mineBg">
+				<div class="mineheader">
+					<div class="user">
+						<div class="headIco">
+							<img src="../web/icons/headico.png" alt="">
+						</div>
+						<div class="tag">
+							<span class="tag1">财神理财</span>
+							<span class="tag2" style="color: #888;">理财达人</span>
+						</div>
+
+					</div>
+					<div class="notice">
+						<span></span>
+					</div>
+				</div>
+				<div class="mineGet">
+					<div class="l1">
+						<p>累计收益</p>
+						<p class="val">{{num.totalIncome}}</p>
+					</div>
+					<div class="l2">
+						<div>
+							<p>总资产</p>
+							<p class="val">{{num.totalIncome}}</p>
+						</div>
+						<em class="emLine"></em>
+						<div>
+							<p>可用积分</p>
+							<p class="val">{{num.totalIncome}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="childPage">
+				<router-link tag="div" class="linkTo" to="/mine/audit">
+					<div class="title">
+						<i class="icon audit"></i> <span>实名认证</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+				<router-link tag="div" class="linkTo" to="/mine/charge">
+
+					<div class="title">
+						<i class="icon charge"></i> <span>充值提现</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+				<router-link tag="div" class="linkTo" to="/mine/profile">
+					<div class="title">
+						<i class="icon profile"></i> <span>修改资料</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+				<router-link tag="div" class="linkTo" to="/mine/addCard">
+					<div class="title">
+						<i class="icon addCard"></i> <span>添加银行卡</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+				<router-link tag="div" class="linkTo" to="/mine/share">
+					<div class="title">
+						<i class="icon share"></i> <span>推广分享</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+				<router-link tag="div" class="linkTo" to="/mine/notice">
+					<div class="title">
+						<i class="icon notice"></i> <span>公告</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+				<router-link tag="div" class="linkTo" to="/mine/cs">
+					<div class="title">
+						<i class="icon cs"></i> <span>客服</span>
+					</div>
+					<em class="arrow"></em>
+				</router-link>
+			</div>
+			<!-- <mt-cell title="实名认证" to="#/mine/audit" is-link></mt-cell>
+			<mt-cell title="充值提现" to="#/mine/charge" is-link></mt-cell>
+			<mt-cell title="修改资料" to="#/mine/profile" is-link></mt-cell>
+			<mt-cell title="添加银行卡" to="#/mine/addCard" is-link></mt-cell>
+			<mt-cell title="推广分享" to="#/mine/share" is-link></mt-cell>
+			<mt-cell title="客服" to="#/mine/cs" is-link></mt-cell>
+			<mt-cell title="公告" to="#/mine/notice" is-link></mt-cell> -->
+		</div>
+
+		<div class="mine" v-show="isSub">
+			<router-view></router-view>
+		</div>
+	</div>
+	<!-- 实名认证，修改资料 -->
+	<div id="audit" class="hlt-tpl">
+		<div class="hlt-item mine">
+			<!-- <h2>个人信息</h2> -->
+			<div class="mineform">
+				<div class="formItem">
+					<span class="label">
+						姓名
+					</span>
+					<div class="formInput">
+						<input type="text" v-model="mine.name + ' (已验证)'" readonly v-if="isUsing">
+						<input type="text" placeholder="请输入姓名" v-model="mine.name" v-else>
+					</div>
+				</div>
+				<div class="formItem">
+					<span class="label">
+						身份证信息
+					</span>
+					<div class="formInput">
+						<input type="text" v-model="mine.idcard" readonly v-if="isUsing">
+						<input type="text" placeholder="请输入身份证信息" v-model="mine.idcard" v-else>
+					</div>
+				</div>
+				<div class="uploadBox">
+					<div :class="{uploadChild:true,photo1:!mine.photo1}">
+						<img :src="mine.photo1" alt="" v-if="mine.photo1 != ''">
+						<input type="file" id="photo1" v-else @change="upload('photo1',$event)">
+						<p>请上传身份证正面照</p>
+					</div>
+					<div :class="{uploadChild:true,photo1:!mine.photo2}" >
+						<img :src="mine.photo2" alt="" v-if="mine.photo2 != ''">
+						<input type="file" id="photo2" v-else @change="upload('photo2',$event)">
+						<p>请上传身份证反面面照</p>
+					</div>
+				</div>
+				<p class="submitBtn" @click="save">
+					提交
+				</p>
+			</div>
+			<!-- <mt-field label="姓名" v-model="mine.name + ' (已验证)'" readonly style="margin-top:-7px;" v-if="isUsing">
+			</mt-field>
+			<mt-field label="姓名" placeholder="请输入姓名" v-model="mine.name" style="margin-top:-7px;" v-else></mt-field>
+
+			<mt-field label="身份证信息" readonly v-model="mine.idcard" v-if="isUsing"></mt-field>
+			<mt-field label="身份证信息" placeholder="请输入身份证信息" v-model="mine.idcard" v-else></mt-field>
+
+			<mt-field label="" placeholder="" v-model="mine.cardP1"></mt-field> -->
+			<!-- <div class="upload">
+				<span class="mint-cell-text">身份证正面照</span>
+				<img :src="mine.photo1" alt="" v-show="mine.photo1 != ''">
+				<mt-button size="small" type="primary" :disabled="!!isUsing">上传</mt-button>
+				<input type="file" class="upload-file" @change="upload('photo1',$event)" v-if="!isUsing">
+			</div> -->
+
+			<!-- <mt-field label="身份证背面照" placeholder="" v-model="mine.cardP2"></mt-field> -->
+			<!-- <div class="upload">
+				<span class="mint-cell-text">身份证背面照</span>
+				<img :src="mine.photo2" alt="" v-show="mine.photo2 != ''">
+				<mt-button size="small" type="primary" :disabled="!!isUsing">上传</mt-button>
+				<input type="file" class="upload-file" @change="upload('photo2',$event)" v-if="!isUsing">
+			</div> -->
+			<!-- <div class="nomore">注：个人信息通过审核后无法修改</div> -->
+			<!-- <div style="padding:0 0 1em 7.1em">
+				<mt-button size="small" type="primary" @click="save">保存</mt-button>
+			</div> -->
+		</div>
+	</div>
+
+	<!-- 修改资料  -->
+	<div id="profile" class="hlt-tpl">
+		<div class="mine proForm">
+			<div class="hlt-item">
+				<div class="form">
+					<div class="formItem">
+						<div class="formLabel">
+							旧密码
+						</div>
+						<div class="formInput">
+							<input type="password" placeholder="请输入旧密码">
+						</div>
+					</div>
+					<div class="formItem">
+						<div class="formLabel">
+							新密码
+						</div>
+						<div class="formInput">
+							<input type="password" placeholder="请输入新密码">
+						</div>
+					</div>
+					<div class="submitItem" @click="setPassword">
+						提交
+					</div>
+				</div>
+				<!-- <mt-field type="password" label="旧密码" placeholder="请输入旧密码" v-model="psw.oldpassword"
+					style="margin-top:-7px;">
+				</mt-field>
+
+				<mt-field type="password" label="新密码" placeholder="请输入新密码" v-model="psw.newpassword"></mt-field>
+
+				<div style="padding:0 0 1em 7.1em">
+					<mt-button size="small" type="primary" @click="setPassword" :disabled="isNotValid(psw)">修改登录密码
+					</mt-button>
+				</div> -->
+			</div>
+			<div class="hlt-item">
+				<div class="form">
+					<div class="formItem">
+						<div class="formLabel">
+							手机号码
+						</div>
+						<div class="formInput">
+							<input type="text" placeholder="请输入手机号码">
+						</div>
+					</div>
+					<div class="formItem">
+						<div class="formLabel">
+							短信验证码
+						</div>
+						<div class="formInput">
+							<input type="text" placeholder="验证码" v-model="changeMobile.verify" maxlength="4">
+							<i class="empty" @click="del('verify')" v-if="changeMobile.verify"></i>
+							<p v-if="changeMobile.verify" class="f_tips">验证码</p>
+						</div>
+						<span v-if="changeMobile.smActive" class="getSm active" @click="getSmsverify">获取验证码</span>
+						<span v-if="!changeMobile.smActive" class="getSm">还剩{{time}}秒</span>
+					</div>
+
+					<div class="submitItem"  @click="updateMobile">
+						提交
+					</div>
+				</div>
+			</div>
+			<!-- <div class="hlt-item">
+				<mt-field label="手机号码" placeholder="请输入手机号码" v-model="phone.number" style="margin-top:-7px;"></mt-field>
+
+				<div style="padding:0 0 1em 7.1em">
+					<mt-button size="small" type="primary" @click="updateMobile" :disabled="isNotValid(phone)">修改手机号码
+					</mt-button>
+				</div>
+			</div> -->
+			<div class="hlt-item">
+				<div class="form">
+					<div class="formItem">
+						<div class="formLabel">
+							登录密码
+						</div>
+						<div class="formInput">
+							<input type="password" placeholder="请输入登录密码">
+						</div>
+					</div>
+					<div class="formItem">
+						<div class="formLabel">
+							旧提现密码
+						</div>
+						<div class="formInput">
+							<input type="password" placeholder="请输入旧提现密码">
+						</div>
+					</div>
+					<div class="formItem">
+						<div class="formLabel">
+							新提现密码
+						</div>
+						<div class="formInput">
+							<input type="password" placeholder="请输入新提现密码">
+						</div>
+					</div>
+					<div class="submitItem"  @click="updateCashoutPassword">
+						提交
+					</div>
+				</div>
+			</div>
+			<!-- <div class="hlt-item">
+				<mt-field type="password" label="登录密码" placeholder="请输入登录密码" v-model="cashPSW.loginpass"
+					style="margin-top:-7px;"></mt-field>
+
+				<mt-field type="password" label="旧提现密码" placeholder="请输入旧提现密码" v-model="cashPSW.oldpassword"></mt-field>
+
+				<mt-field type="password" label="新提现密码" placeholder="请输入新提现密码" v-model="cashPSW.newpassword"></mt-field>
+
+				<div style="padding:0 0 1em 7.1em">
+					<mt-button size="small" type="primary" @click="updateCashoutPassword"
+						:disabled="isNotValid(cashPSW)">修改提现密码
+					</mt-button>
+				</div>
+			</div> -->
+		</div>
+	</div>
+
+	<!-- 添加银行卡 -->
+	<div id="addCard" class="hlt-tpl">
+		<table class="hlt-item order-list" style="width:92%" v-if="cards.length>0">
+			<thead>
+				<tr>
+					<td>银行 开户行</td>
+					<td>卡号</td>
+				</tr>
+			</thead>
+			<tr v-for="item in cards">
+				<td>{{ item.bank }} {{ item.branch }}</td>
+				<td>{{ item.account }}</td>
+			</tr>
+		</table>
+		<div class="hlt-item">
+			<div class="mineform">
+				<div class="formItem">
+					<span class="label">
+						姓名
+					</span>
+					<div class="formInput">
+						<input type="text" placeholder="请输入姓名" v-model="card.idcard">
+					</div>
+				</div>
+				<div class="formItem">
+					<span class="label">
+						银行
+					</span>
+					<div class="formInput">
+						<input type="text" placeholder="请输入银行信息" v-model="card.bank">
+					</div>
+				</div>
+				<div class="formItem">
+					<span class="label">
+						开户行
+					</span>
+					<div class="formInput">
+						<input type="text" placeholder="请输入开户行信息" v-model="card.branch">
+					</div>
+				</div>
+				<div class="formItem">
+					<span class="label">
+						卡号
+					</span>
+					<div class="formInput">
+						<input type="text" placeholder="请输入卡号" v-model="card.account">
+					</div>
+				</div>
+				<div class="formItem">
+					<span class="label">
+						预留手机号
+					</span>
+					<div class="formInput">
+						<input type="text" placeholder="请输入预留手机号" >
+					</div>
+				</div>
+				<p class="submitBtn" @click="saveCard" v-show="showButtomText">
+					提交
+				</p>
+			</div>
+			<!-- <h2>添加银行卡</h2>
+			<mt-field label="银行" placeholder="银行" v-model="card.bank"></mt-field>
+			<mt-field label="开户行" placeholder="开户行" v-model="card.branch"></mt-field>
+			<mt-field label="卡号" placeholder="卡号" v-model="card.account"></mt-field>
+			<div style="padding:0 0 1em 7.1em">
+				<mt-button size="small" type="primary" @click="saveCard" :disabled="isNotValid(card)">保存</mt-button>
+			</div> -->
+		</div>
+	</div>
+
+	<!-- 分享 -->
+	<div id="share" class="hlt-tpl">
+		<div class="hlt-item inviteBox">
+			<p class="title">邀请好友得大礼</p>
+			<p class="hadInvite">已邀请 {{ invites }} 个人</p>
+
+			<p class="submitBtn" @click="createCode">
+				生成邀请码
+			</p>
+			<div class="mask" v-show="code&&showQr" @click.stop="hideQr">
+				<div class="share" @click.stop="">
+					<div class="inviteCode" v-show="code">
+						<p>邀请码: {{code}}</p>
+						<p>过期时间： {{ expire }}</p>
+					</div>
+					<span>请长按保存</span>
+					<div class="qr">
+						
+					</div>
+				</div>
+			</div>
+			<!-- <p class="inviteCode" v-if="code">{{code}}</p>
+			<div class="share-code" v-if="code != ''">
+				邀请码: <input class="mine-codes" id="mineCodes" v-model="code" readonly>
+				<p>过期时间：{{ expire }}</p>
+			</div>
+
+			<mt-button size="small" type="primary" :mockdisabled="isOther" @click="createCode">生成邀请码</mt-button>
+			&nbsp;&nbsp;&nbsp;
+			<mt-button size="small" type="primary" v-show="code != ''" @click="copyCode">复制邀请码</mt-button> -->
+		</div>
+
+	</div>
+
+	<!-- 客服 -->
+	<div id="cs" class="hlt-tpl">
+		<div class="cs" style="padding-top:50px;">
+			客服 QQ: {{ qq }}
+		</div>
+	</div>
+
+	<!-- 公告 -->
+	<div id="notice" class="hlt-tpl">
+		<div class="mantanceInfo" v-for="item in notice">
+			<div class="mantanceInfo-title">
+				<h2>{{ item.title }}</h2>
+				<span>时间：{{ item.start}}~{{ item.end}}</span>
+			</div>
+			<div class="mantanceInfo-content">
+				{{ item.content }}
+			</div>
+		</div>
+	</div>
+
+	<!-- 引入 一级菜单 模板 -->
+	<!--#include file="./views/system.htm"-->
+
+
+	<!-- 引入 ”我的“二次菜单 模板 -->
+	<!--#include file="./views/mine.htm"-->
+	<script src="./libs/qrcode.js"></script>
+	<script src="./libs/vue-2.6.10.js"></script>
+	<script src="./libs/vue-router-3.0.2.js"></script>
+	<script src="./libs/underscore-1.8.3.js"></script>
+	<script src="./libs/mint.js"></script>
+	<script src="./libs/base.js"></script>
+	<script src="./system.js"></script>
+	<script src="./services.js"></script>
+	<script>
+		var vConsole = new VConsole();
+		window.Services.getSetting(function (data) {
+			console.log('getSetting');
+			console.log(data);
+		});
+
+		const routes = [{
+			id: 'dashboard',
+			name: 'dashboard',
+			path: '/dashboard',
+			title: '首页',
+			component: window.Pages.dashboard
+		}, {
+			id: 'device',
+			name: 'device',
+			path: '/device/',
+			title: '线路',
+			component: window.Pages.device,
+			children: [{
+				path: 'detail',
+				component: window.Pages.deviceDetail
+			}]
+		}, {
+			id: 'aip',
+			name: 'aip',
+			path: '/aip',
+			title: '定投',
+			component: window.Pages.aip
+		}, {
+			id: 'order',
+			name: 'order',
+			path: '/order',
+			title: '订单',
+			component: window.Pages.order
+		}, {
+			id: 'mine',
+			name: 'mine',
+			path: '/mine/',
+			title: '我的',
+			component: window.Pages.mine,
+			children: [{
+				path: 'audit',
+				component: window.Pages.mineAudit
+			}, {
+				path: 'charge',
+				component: window.Pages.mineCharge
+			}, {
+				path: 'profile',
+				component: window.Pages.mineProfile
+			}, {
+				path: 'addCard',
+				component: window.Pages.mineAddCard
+			}, {
+				path: 'share',
+				component: window.Pages.mineShare
+			}, {
+				path: 'cs',
+				component: window.Pages.mineCS
+			}, {
+				path: 'notice',
+				component: window.Pages.mineNotice
+			}]
+		}];
+
+		const router = new VueRouter({
+			routes // (缩写) 相当于 routes: routes
+		});
+
+		const main = new Vue({
+			el: '#PageMain',
+			router: router,
+			data: {
+				tabSelected: routes[0].id,
+				title: routes[0].title,
+				menus: routes,
+				noticePop: false,
+		        notice: {},
+		        showTab: true,
+				totalScore: 0,
+				changeMobile:{mobile:"",verify:"",smActive:false}
+			},
+			methods: {
+				openNotice: function () {
+					this.noticePop = true;
+				},
+				getTitle: function (id) {
+					var result = '';
+					routes.forEach(function (item) {
+						if (item.id == id) {
+							result = item.title;
+						}
+					});
+					return result;
+				},
+				goBack: function () {
+					var url = new URL(location.href);
+					var path = url.pathname + url.hash;
+					console.log(path);
+					if (path == '/web/system.html#/') {
+						return;
+					};
+					window.history.length > 1 ?
+						this.$router.go(-1) :
+						this.$router.push('/');
+				},
+				logout: function () {
+          var logout = window.Services.logout;
+					logout(function (data) {
+						document.cookie = "";
+						location.href = 'login.html';
+					});
+				}
+			},
+			mounted: function () {
+				var _this = this;
+				window.Services.notice(function (notices) {
+					_this.notice = notices[0] || {};
+				});
+
+				var hash = location.hash.replace("#/", "");
+				// alert(hash);
+				if (hash) {
+					this.tabSelected = hash;
+					// return;
+				}
+				this.$router.push('/dashboard');
+			},
+			watch: {
+				'tabSelected': function (newVal, oldVal) {
+					// console.log('tabSelected');
+					// console.log(newVal);
+					var isStop = window.User.isStop;
+					var pages2 = ['charge', 'device', 'order', 'mine'];
+					if (isStop && _.contains(pages2, newVal)) {
+						MINT.Toast({
+							message: '账号已被停用',
+							position: 'bottom',
+							duration: 2000
+						});
+						return;
+					}
+
+					var pages = ['charge', 'device', 'order'];
+					var isOther = window.User.isOther;
+					if (isOther && _.contains(pages, newVal)) {
+						MINT.Toast({
+							message: '需要验证账号才能使用，请联系管理员',
+							position: 'bottom',
+							duration: 2000
+						});
+						return;
+					}
+					// alert(newVal)
+					this.$router.push({
+						path: '/' + newVal
+					});
+					return;
+				}
+			}
+		});
+
+		router.beforeEach((to, from, next) => {
+			//切换菜单时顶部 title，当前选中项
+			var name = to.name || '';
+			name = name.split('/')[0] || '';
+			if (name) {
+				main.title = main.getTitle(name);
+				main.tabSelected = name;
+			}
+			next();
+		});
+	</script>
+</body>
+
+</html>
