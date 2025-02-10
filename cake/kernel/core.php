@@ -10,15 +10,22 @@ class Core
 	private $_callstack;
 	private $_logpath;
 	private $_controller_map;
-	
+	private $_console;
+	private $_website;
+	private $_isConsole = false;
+
 	function __construct()
 	{
-		$this->_logpath = realpath('./');
+		$this->_logpath = realpath('./')."/logs";
 
 		$this->_log = array();
 
 		$this->_callstack = array();
 		register_shutdown_function ( array(&$this,'shutdown') );
+	}
+
+	function getVersion(){
+		return $this->_VERSION;
 	}
 	
 	function RegisterShutdown($funcname)
@@ -88,7 +95,7 @@ class Core
 		return array();
 	}
 
-    function ControllerMap($c, $a)
+    function mapController($c, $a)
     {
 		if(array_key_exists($c.'/'.$a, $this->_controller_map))
         	return $this->_controller_map[$c.'/'.$a] ;
@@ -126,7 +133,7 @@ class Core
 	{
 		foreach($this->_log as $line)
 		{
-			error_log($line, 3, $this->_logpath.'/logs/crumbs.'.date('Y-m-d').'.txt');
+			error_log($line, 3, $this->_logpath.'/crumbs.'.date('Y-m-d').'.txt');
 		}
 	}
 	
@@ -237,7 +244,13 @@ class Core
 	{
 		session_start();
 	}
-		
+	
+	public function setConsole($console){
+		$this->_console = $console ;
+		$this->_isConsole = true;
+		$this->_logpath = $_SERVER['TEMP'];
+	}
+
     // Prevent users to clone the instance
     public function __clone()
     {

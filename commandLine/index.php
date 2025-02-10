@@ -10,7 +10,7 @@ function cmdParse()
 {
 	$console = [];
 
-	$console['pwd'] = $_SERVER['PWD'];
+	// $console['pwd'] = $_SERVER['PWD'];
 
 	$path = pathinfo(realpath($_SERVER['SCRIPT_FILENAME']));
 
@@ -36,50 +36,34 @@ function cmdParse()
 	return $console;
 }
 
-echo "this is in commandline\n";
-die();
-
 if(isConsole())
 	$console = cmdParse();
+else{
+	echo "The App Only Run In Command Line\n";
+	return ;
+}
 
-
-$DS = PATH_SEPARATOR;
-set_include_path("./${DS}libraries/$DS../../cake/kernel$DS../../cake/libraries");
+set_include_path("./".PATH_SEPARATOR.
+		         "./libs".PATH_SEPARATOR.
+		         "../cake/kernel".PATH_SEPARATOR.
+		         "../cake/libraries"
+);
 
 include_once('core.php');
 include_once('controller.php');
 include_once('model.php');
 
 $core = Core::getInstance();
-$core->console = $console;
+$core->setConsole( $console );
 
 // TODO： 1. 自动生成配置文件
-$host = 'console';
+$host = 'win';
 $core->loadConfig($host);
 $core->pushLog('URL:'.$console['controller'].'/'.$console['action'].'/'.$console['method']."\n");
 $core->pushLog("METHOD:console\n");
-if('POST'==$_SERVER['REQUEST_METHOD'])
-{
-	// TODO: output post body
-	$contents = file_get_contents('php://input');
-	$core->pushLog('POST_BODY:'.$contents."\n");
-}
-$core->pushLog('start(url):'.microtime()."\n");
 
-// NOTE: 需要先调用Session, 或许 controller 的初始化需要 session变量
-// TODO: 可以根据配置文件，确认是否需要session
-// TODO： 还是让具体的action自己来决定呢？ 根据配置文件，决定是否需要全局session开启
-// 		对于不需要全局session开启的状态，让action自己去决定就好了，谁用谁知道
-if(isset($core->_config['manualsession']) && $core->_config['manualsession'])
-{
-	// 进入系统后再手动启动session，这里就什么都不做了
-}
-else
-{
-	$core->loadSession();
-}
 
-list($controller, $action) = $core->ControllerMap($console['controller'], $console['action']);
+list($controller, $action) = $core->mapController($console['controller'], $console['action']);
 
 $c = $core->loadController($controller);
 

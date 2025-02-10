@@ -13,7 +13,7 @@ try {
     $phar->buildFromDirectory($treeroot,"/^(?!(.git.*))(.*)$/");
 
     $phar->setDefaultStub('commandLine/index.php', 'siteManager/index.php');
-    #$phar->setStub("index.php");
+    // $phar->setStub("<?php __HALT_COMPILER();? > ");
 
     // finish for move .git back
     $phar = null;
