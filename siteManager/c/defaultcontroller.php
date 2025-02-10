@@ -12,7 +12,7 @@ class defaultcontroller extends CommonController
 		parent::initTemplateEngine('v/default/','v/_run/');
 		parent::initAssign();
 		
-		$body = file_get_contents('../doc/todo.txt');
+		$body = file_get_contents('../doc/todo.md');
 		$body = strtr($body,array("\n"=>'<br/>',' '=>'&nbsp;', "\t"=>'&nbsp;&nbsp;&nbsp;&nbsp;'));
 		
 

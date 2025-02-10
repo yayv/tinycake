@@ -3,6 +3,8 @@ class Core
 {
 	static private $instance ; 
 
+	private string $_VERSION = "0.9.0";
+
 	public $_config;
 	private $_log;
 	private $_callstack;
