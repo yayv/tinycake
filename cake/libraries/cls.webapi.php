@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *  a simple version of libstrapper 
+ */
 class Webapi
 {
 	private $callStack = [];

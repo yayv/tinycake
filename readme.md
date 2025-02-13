@@ -8,7 +8,6 @@
 
 ## 目录说明:
     cake => 核心程序的目录，包括2个子目录 develop，kernel
-    cake/develop => 开发期使用的基础类和相关的工具程序
     cake/kernel  => 发布运行时，需要用这个目录内的基础类和相关工具程序，以保证更高的执行效率
     install => 本目录为tinycake框架的demo项目，同时，她也承担了自动化部署，更新配置等工具性的职责
 	install/m => module， 数据模型对应的类放在此目录下

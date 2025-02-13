@@ -1,0 +1,34 @@
+<!-- Docs master nav -->
+<header class="navbar navbar-static-top navbar-fixed-top bs-docs-nav" id="top" role="banner">
+    <div class="container topbar">
+        <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand" style='margin-top:6px;'>
+        <a href="/">
+            <sup>TinyCake</sup><br/>
+            SiteManager
+        </a>
+        </span>
+        </div>
+
+        <nav class="navbar-collapse bs-navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/install/listall">项目管理</a></li>
+            <li><a href="/plugins">插件管理</a></li>
+            {foreach from=$currentItems item=li}
+            <li><a href="{$li.href}">{$li.title}</a></li>
+            {/foreach}
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://expo.getbootstrap.com" onclick="_gaq.push(['_trackEvent', 'Navbar', 'Community links', 'Expo']);">Expo</a></li>
+            <li><a href="/help">使用手册</a></li>
+        </ul>
+        </nav>
+    </div>
+</header>

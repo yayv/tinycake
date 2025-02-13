@@ -1,0 +1,131 @@
+<!-- 实名认证，修改资料 -->
+<div id="audit" class="hlt-tpl">
+	<div class="hlt-item mine">
+		<!-- <h2>个人信息</h2> -->
+		<mt-field label="姓名" v-model="mine.name + ' (已验证)'" readonly style="margin-top:-7px;" v-if="isUsing"></mt-field>
+		<mt-field label="姓名" placeholder="请输入姓名" v-model="mine.name"  style="margin-top:-7px;" v-else></mt-field> 
+
+		<mt-field label="身份证信息" readonly v-model="mine.idcard" v-if="isUsing"></mt-field>
+		<mt-field label="身份证信息" placeholder="请输入身份证信息" v-model="mine.idcard" v-else></mt-field>
+		
+		<!-- <mt-field label="" placeholder="" v-model="mine.cardP1"></mt-field> -->
+		<div class="upload">
+			<span class="mint-cell-text">身份证正面照</span>
+			<img :src="mine.photo1" alt="" v-show="mine.photo1 != ''">
+			<mt-button size="small" type="primary" :disabled="!!isUsing">上传</mt-button>
+			<input type="file" class="upload-file" @change="upload('photo1',$event)" v-if="!isUsing">
+		</div>
+		
+		<!-- <mt-field label="身份证背面照" placeholder="" v-model="mine.cardP2"></mt-field> -->
+		<div class="upload">
+			<span class="mint-cell-text">身份证背面照</span>
+			<img :src="mine.photo2" alt="" v-show="mine.photo2 != ''">
+			<mt-button size="small" type="primary" :disabled="!!isUsing">上传</mt-button>
+			<input type="file" class="upload-file" @change="upload('photo2',$event)" v-if="!isUsing">
+		</div>
+
+		<!-- <div class="nomore">注：个人信息通过审核后无法修改</div> -->
+		<div style="padding:0 0 1em 7.1em">
+			<mt-button size="small" type="primary" @click="save">保存</mt-button>
+		</div>
+	</div>
+</div>
+
+<!-- 修改资料  -->
+<div id="profile" class="hlt-tpl">
+<div class="mine">	
+	<div class="hlt-item">
+		<mt-field type="password" label="旧密码" placeholder="请输入旧密码" v-model="psw.oldpassword"  style="margin-top:-7px;"></mt-field> 
+
+		<mt-field type="password" label="新密码" placeholder="请输入新密码" v-model="psw.newpassword"></mt-field>
+		
+		<div style="padding:0 0 1em 7.1em">
+			<mt-button size="small" type="primary" @click="setPassword" :disabled="isNotValid(psw)">修改登录密码</mt-button>
+		</div>
+	</div>
+
+	<div class="hlt-item">
+		<!-- <mt-field type="password" label="登录密码" placeholder="请输入登录密码" v-model="phone.loginpass"  style="margin-top:-7px;"></mt-field>  -->
+
+		<mt-field label="手机号码" placeholder="请输入手机号码" v-model="phone.number"  style="margin-top:-7px;"></mt-field> 
+
+		<div style="padding:0 0 1em 7.1em">
+			<mt-button size="small" type="primary" @click="updateMobile" :disabled="isNotValid(phone)">修改手机号码</mt-button>
+		</div>
+	</div>
+
+	<div class="hlt-item">
+		<mt-field type="password" label="登录密码" placeholder="请输入登录密码" v-model="cashPSW.loginpass"  style="margin-top:-7px;"></mt-field> 
+
+		<mt-field type="password" label="旧提现密码" placeholder="请输入旧提现密码" v-model="cashPSW.oldpassword"></mt-field>
+
+		<mt-field type="password" label="新提现密码" placeholder="请输入新提现密码" v-model="cashPSW.newpassword"></mt-field>
+
+		<div style="padding:0 0 1em 7.1em">
+			<mt-button size="small" type="primary" @click="updateCashoutPassword" :disabled="isNotValid(cashPSW)">修改提现密码</mt-button>
+		</div>
+	</div>
+</div>	
+</div>
+
+<!-- 添加银行卡 -->
+<div id="addCard" class="hlt-tpl">
+	<table class="hlt-item order-list" style="width:92%">
+		<thead><tr>
+			<td>银行 开户行</td>
+			<td>卡号</td>
+		</tr></thead>
+		<tr v-for="item in cards">
+			<td>{{ item.bank }} {{ item.branch }}</td>
+			<td>{{ item.account }}</td>
+		</tr>
+	</table>
+	<div class="hlt-item">
+		<h2>添加银行卡</h2>
+		<mt-field label="银行" placeholder="银行" v-model="card.bank"></mt-field>
+		<mt-field label="开户行" placeholder="开户行" v-model="card.branch"></mt-field>
+		<mt-field label="卡号" placeholder="卡号" v-model="card.account"></mt-field>
+		<div style="padding:0 0 1em 7.1em">
+			<mt-button size="small" type="primary" @click="saveCard" :disabled="isNotValid(card)">保存</mt-button>
+		</div>
+	</div>
+</div>
+
+<!-- 分享 -->
+<div id="share" class="hlt-tpl">
+	<div class="hlt-item">
+		<h2>已邀请 {{ invites }} 个人</h2>
+		
+		<div class="share-code" v-if="code != ''">
+			邀请码: <input class="mine-codes" id="mineCodes" v-model="code" readonly>
+			<p>过期时间：{{ expire }}</p>
+		</div>
+
+		<mt-button size="small" type="primary" :mockdisabled="isOther" @click="createCode">生成邀请码</mt-button> &nbsp;&nbsp;&nbsp;
+		<mt-button size="small" type="primary" v-show="code != ''" @click="copyCode">复制邀请码</mt-button>
+	</div>
+	<div class="share" v-if="qr != ''">
+		<img :src="qr" alt="">
+		<span>请长按保存</span>
+	</div>
+</div>
+
+<!-- 客服 -->
+<div id="cs" class="hlt-tpl">
+	<div class="cs" style="padding-top:50px;">
+		客服 QQ: {{ qq }}
+	</div>
+</div>
+
+<!-- 公告 -->
+<div id="notice" class="hlt-tpl">
+	<div class="mantanceInfo" v-for="item in notice">
+		<div class="mantanceInfo-title">
+			<h2>{{ item.title }}</h2>
+			<span>时间：{{ item.start}}~{{ item.end}}</span>
+		</div>
+		<div class="mantanceInfo-content">
+			{{ item.content }}
+		</div>
+	</div>
+</div>

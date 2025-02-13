@@ -1,14 +1,3 @@
-
-install/v/_run/
-
-install/logs/
-
-install/data/
-
-topicsys/v/_run/
-
-topicsys/logs/
-
-www/v/_run/
-
-www/logs/
+siteManager/v/_run/
+siteManager/logs/
+siteManager/data/

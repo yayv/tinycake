@@ -7,6 +7,11 @@ class model
 
     static $_error = array();	
 
+    function getThis()
+    {
+        return $this;
+    }
+
 	function initalize($config, $db=false)
 	{
 		$this->_config = $config;

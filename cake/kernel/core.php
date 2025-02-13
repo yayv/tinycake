@@ -3,19 +3,29 @@ class Core
 {
 	static private $instance ; 
 
+	private string $_VERSION = "0.9.0";
+
 	public $_config;
 	private $_log;
 	private $_callstack;
 	private $_logpath;
-	
+	private $_controller_map;
+	private $_console;
+	private $_website;
+	private $_isConsole = false;
+
 	function __construct()
 	{
-		$this->_logpath = realpath('./');
+		$this->_logpath = realpath('./')."/logs";
 
 		$this->_log = array();
 
 		$this->_callstack = array();
 		register_shutdown_function ( array(&$this,'shutdown') );
+	}
+
+	function getVersion(){
+		return $this->_VERSION;
 	}
 	
 	function RegisterShutdown($funcname)
@@ -70,6 +80,8 @@ class Core
 		}
 
         $this->_controller_map = isset($cmap)?$cmap:array();
+
+        return $this->_config;
 	}
 
 	function UrlMap($url)
@@ -85,7 +97,7 @@ class Core
 		return array();
 	}
 
-    function ControllerMap($c, $a)
+    function mapController($c, $a)
     {
 		if(array_key_exists($c.'/'.$a, $this->_controller_map))
         	return $this->_controller_map[$c.'/'.$a] ;
@@ -123,7 +135,7 @@ class Core
 	{
 		foreach($this->_log as $line)
 		{
-			error_log($line, 3, $this->_logpath.'/logs/crumbs.'.date('Y-m-d').'.txt');
+			error_log($line, 3, $this->_logpath.'/crumbs.'.date('Y-m-d').'.txt');
 		}
 	}
 	
@@ -135,8 +147,14 @@ class Core
 	 */
 	function loadController($classname)
 	{
-		if(is_file('c/'.$classname.'.php'))
+		if(is_file('c/'.$classname.'.php')){
 			include_once('c/'.$classname.'.php');
+			if(!is_subclass_of($classname, "Controller")){
+				$this->pushLog("WARNING: The inheritance of the controller class is incorrect\n");
+				require_once('c/defaultcontroller.php');
+				$classname ='defaultcontroller';
+			}
+		}
 		else
 		{
 			require_once('c/defaultcontroller.php');
@@ -146,9 +164,13 @@ class Core
 		return new $classname;
 	}
 	
-	function clickLog($filename)
+	function clickLog($filename, $withSessionId=false)
     {		
-		$sessionid  = session_id();
+    	if($withSessionId)
+			$sessionid  = session_id();
+		else
+			$sessionid  = '';
+
 		$company_id = (int)$_GET["from_company_id"];
 		$ip         = $_SERVER["REMOTE_ADDR"];
 		$time       = time();
@@ -160,11 +182,6 @@ class Core
 		@fclose($open);
     }
 
-    /**
-     * TODO: 这个代码的完善，还需要把柯志的代码全部调整一遍才能完全确认
-     * 
-     * @param $uri
-     */
     function rebuildUrl($uri, $base='/')
 	{  
 	    /*
@@ -180,8 +197,7 @@ class Core
 
 		if(0===strpos($uri, $base))
 		{
-			$uri = substr($uri, strlen($base));
-			#echo $suri, "<br>";
+			$uri = trim(substr($uri, strlen($base)),'/');
 		}
 
 	    #$exparams = explode('?', $_SERVER['REQUEST_URI']);
@@ -212,7 +228,7 @@ class Core
 	        	$vv = substr(strstr($v, '-'), 1);
 	        }
 	        
-			#if(count($kv)===1)
+	        #if(count($kv)===1)
 		    switch($p)
 		    {
 		        case 0:$_GET['controller']=$kv;	break;
@@ -229,23 +245,23 @@ class Core
 	    return array($_GET['controller'], $_GET['action'],$_GET['method']);
 	}
     	
-	function loadSession()
-	{
-		session_start();
+	public function setConsole($console){
+		$this->_console = $console ;
+		$this->_isConsole = true;
+		$this->_logpath = $_SERVER['TEMP'];
 	}
-		
+
     // Prevent users to clone the instance
     public function __clone()
     {
         trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
-    	
+
 	public static function getInstance()
 	{
 		try {
 	        if (!isset(self::$instance)) {
 	            $c = __CLASS__;
-	            #debug_print_backtrace();
 	            self::$instance = new $c;
 	        }
 

@@ -1,18 +1,20 @@
+
+
 	有框架提供的系列工具:
 TODO:
+	TODO获取，并呈现的方法, 增加TODO管理功能
+	jwt、Timeout、RealIP 等众多中间件，随用随取。
+	规范config.xxx.php。管理工具，可以自动生成 config.default.php 的各配置项，不包括值，只包括key
+	需要重新梳理WEB模板和CLI模板
+	为日志列表增加拆分和合并日志文件的功能
+
+
 	.htaccess 文件管理
 	acl 的支持如何做呢？ 
-	git支持
-	jwt、Timeout、RealIP 等众多中间件，随用随取。
-	SVN支持
 	为模型的基类实现一个调试用的输出接口
-	TODO获取，并呈现的方法, 增加TODO管理功能
-	为日志列表增加合并2个/多个日志文件的功能
 	为日志增加删除 txt日志和删除php日志的功能
 	为模型添加一个可以做测试的简单界面,为以后的单元测试和自动化测试做准备
 	为模型的基类增加一个用于调试的输出接口
-	允许用户用自己的类库替换框架的标准库（如 smarty 换成其他版本或其他模板引擎，
-	内置框架升级功能. 使用git还是svn?
 	增加代码建模工具，用于将来分析无效代码使用
 	增加源文件建模工具
 	多站点支持，多系统支持
@@ -24,9 +26,6 @@ TODO:
 	提供缓存管理方式
 	新建项目的生成过程要增强
 	日志URL合并规则的管理。
-	框架目录下的管理工具本身就是一个很好的demo
-	管理工具，可以列出当前系统里已经部署的各个系统的列表
-	管理工具，可以自动生成 config.default.php 的各配置项，不包括值，只包括key
 	重新调整菜单的写法，使用顶栏菜单，放弃之前的侧边菜单方式。但要保留项目/页面关联菜单的做法。
 	项目的目录权限检查工具
     controller 结束之前，应该检查 errorStatck    
@@ -40,19 +39,6 @@ TODO:
 		问题: 
 			我能不能用 /admin/xx 的方式别名一个controller呢？
 			系统的管理功能如何开发？ /admin/ccc/aaa 的url 是否是理想的选择呢？
-
-	疑问:
-		无法同时迁移 d hotel map 10jing 等多个频道，也就是说，数据模型无法在同一时间内建立，要想做出模型的重构工作
-		就必须满足以下条件:
-			1. 修改某一个数据库结构，同时可以修改几个频道的数据库模型，以保持一致性
-			2. 要能同时修改几个频道的模型的一致性，就必须要几个频道都有了成型的mvc结构，那就要求几个频道都完成了入口及框架改造工作
-			3. 几个频道同时修改模型，但又不能发布，会堆积很多问题难以解决
-			
-		另一种方案:
-			1. 改造某一频道的mvc结构
-			2. 逐步抽象 c 层及 m层，并逐步转到到新的数据库
-			3. 提供一套数据库同步工具，保证数据有效
-			4. 逐个频道逐渐迁移
 
     3.
     考虑把默认的数据库连接和smarty模板改为标准的库调用，从而让 index.php 的唯一入口不再依赖 public_connect和smarty 库
@@ -129,22 +115,13 @@ TODO:
 
 2011年2月24日星期四
 	现在要决定兼容性url,和新url规范
-	http://map.lvren.cn/ditu/ankang 这样的url在功能上有问题，需要修复
 			
 2011年2月23日星期三
 	完成第一个url的迁移  /city	
-	classes/map.php 已经处理掉了
-	遇到新的问题， 
-		.htaccess 的规则里，可能有相当的一部分是跟当前频道无关的内容，怎么判断这些无关内容呢？
-		同理，classes目录下对应的 *.php 也有相当一些是用不到的，怎么判断呢？
-	已经把全部不可用的 rewrite 规则处理掉了，现在该处理有用的规则了
-
 
 2011年2月15日星期二 
 	在 /index.php 里，判断新框架下的 php文件和类是否存在，不存在，则返回默认控制器，这个默认控制器的
 	默认方式，就是为了兼容原来有的分发方法而设定的
-	如果其他项目里，有非唯一入口该怎么办？
-	唯一入口的项目里，默认控制器按说应该由代码生成器生成，那就是说，我现在的代码应该是生成后被改写的了
 
 2011年2月13日星期日 22:51
 	最新进展: 阅读了CakePHP的手册和部分代码，CakePHP的整理结构跟目前我所要做的新框架的结构非常接近
@@ -190,65 +167,19 @@ TODO:
 
 
 2011年2月3日星期四 12：42
-	1. 对于柯志整套代码来说， index.php 所做的事情为:
+	1. index.php 所做的事情为:
 		1. require 相关的配置，入口类，支持函数，
 		2. 定义常量
-			通用常量
-			define('INIT_DIR',      realpath('../').'/');	
-			define('COMMONS_DIR',   INIT_DIR.'commons/');
-			define('FUNCTIONS_DIR', COMMONS_DIR.'functions/');
-			define('KERNEL_DIR',    COMMONS_DIR.'kernel/');
-			define('CLASSES_DIR',   COMMONS_DIR.'classes/');	
-			define('LIBRARIES_DIR', COMMONS_DIR.'libraries/');
-			define('SMARTY_DIR',    LIBRARIES_DIR.'smarty/');
-			define('THEMES_DIR',    './themes/');
-			define('COMPILE_DIR',   INIT_DIR.'themes_c/');
-
-			前后文相关常量
-			define('CLASS_NAME',$arrAction[0]);
-			
-
 		3. 可选步骤, 这三个步骤应该定义到项目的初始化阶段，而不是框架内
 			做smarty赋值
 			定义smarty参数
 			定义数据库对象		
 		4. 可行方案:
 			为项目派生一个初始化类，继承自框架，专门用于做各种初始化的工作
-			
 		5. 应该给生成的.htaccess加一个选项，到底要不要rewrite,或者要不要生成.htaccess
 		   不用 .htaccess的话，那url就应该是 : index.php?class=xx&method=bb&kkkkkk
 
 2011年1月31日星期一 11:53
-重构框架的策略如下:
-	1. 在 commons 同级，建立 framework 目录，保证跟现有代码不会重复，方面迅速重构后面的几个项目
-	2. 对 .htaccess 内的rewrite规则，和renew.php内的正则，考虑一种方法，进行快速转换
-	3. map.lvren.cn 还没有 renew.php, 只需要再最后追加一个通用的url rewrite，不断的
-  	   完善 url rebuild 就行了,增加 rebuildUrl函数 【完成】
-	4. commons的子目录们: classes functions configs libraries data
-		其中: 1.data 不应该出现在commons目录下，因为他跟框架无关。这里应该明确一个概念: public 为
-				系统工作目录，commons（framework) 为框架代码库，即使commons(framework)目录为只
-				读，系统也应该可以正确运行
-			   在代码中，出现data这个目录的时候，引用方式比较多样化: 
-			   		ROOT_DIR.'/data'
-			   		dirname(__FILE__).'/data'
-			   		dirname(__FILE__).'/../data'
-			   		ROOT_DIR.'data'
-			   		'./data/'
-			   共计5种, 问题: 谁能告诉我这几个data目录到底是不是同一个目录？
-			   
-			 
-			 2. libraries 应该是 public 目录下的，commons下的libraries应该是可选目录，而且应该
-			 可以被用户载入的同名库覆盖，libraries目录下不应该有others这样的目录， smarty就保持
-			 这样的目录名，在代码中使用 
-			 	include('smarty/Smarty.class.php');
-			 这样的写法就可以正确包含，是最好的选择，当用户需要用自己的smarty版本覆盖框架提供的版本时，
-			 只需要在 public/libraries目录下增加 smarty 目录即可，或者在系统配置的include_path
-			 里加入 smarty 目录所在的路径。
-			 
-			 3. configs 应该是 public目录下的文件，或者目录，而不应该在 commons目录下 【完成】
-	4. 最后的2个 else 是有bug的，如果不存在的class是index或者index.main时， 
-		header('location:/');
-	   就会陷入死循环
 
 2011年1月31日星期一 01:43
 对柯志的框架，重新进行了构思:
@@ -281,41 +212,9 @@ TODO:
 		从而实现对相关几个项目的快速重构
 
 2011年1月31日星期一 01:30
-新的思考结果:
-	1. commons 应该是框架所在的目录，框架的全部代码独立于项目存在，从而方便升级和改进
-		commons 下的所有代码都应该是项目无关的代码
-	2. public 应该是项目所在的目录，其下所有的代码都应该是项目相关的目录
-	3. 怎么让 public 和 commons 关联起来呢? 通过 rewrite到 public 下的 index.php吗？
-	   在commons下，提供一个  index.example.php, public下的是个copy, 然后供用户随意改造
-	   甚至重写
-	
-
-2011年1月30日星期日 23:38
-已经发现的问题:
-	1. public 目录到底是做什么事情的？ commons 目录到底是做什么的？ 为什么要划分这两个目录？
-	2. 进入入口处写了 rewrite 规则，那为什么不一次写到位，直接写  
-		index.php?class=index&method=main 
-	   而是写成 index.php?act=index.main,然后到程序里再explode拆解一次呢？
-	   这里要讲的原则是，尽可能在做某件事的时候，一次性做好，不要把同样的功能分散在多个地方重复的去做
-	3. public下的index.php里，有如下代码:
-	
-		require_once( INIT_DIR.'commons/functions/fun.'.CLASS_NAME.'.php');
-		
-	   这里，既然functions 下的文件跟类文件同名，那就在类文件里进行包含就是了，不要让index.php代替
-	   具体的class做做决定。让index.php只做好自己该做的事情就足够了
-	4. 下一个问题是，为什么要分 cls.xxx.php和fun.xxx.php呢？同名，而且总是在一起出现，这一点的原
-		因我还没有看到，或许问柯志一句会比较靠谱
-	5. 为什么在根下有一个 data目录，在 commons下还有一个data目录，为什么？还好，public下没有出现
-	 	第三个
-		
-	6. // TODO：一定要搞清楚的问题 
-		public/mini.php 和  public/index.php 完全一样，为什么会有mini呢？	   
-	  
 
 2011年1月30日星期日 22:53
 简单的记录一下重构过程中遇到的问题
-
-
 
 
 路由: 正则表达式 支持过滤动态路径

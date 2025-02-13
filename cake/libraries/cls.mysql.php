@@ -14,6 +14,9 @@ class mysql
 
     public $connected;
 
+    public $last_sql;
+    public $lastresult;
+    
     public function __construct($server)
     {
         $this->connected = false;
@@ -48,7 +51,7 @@ class mysql
                 $this->db['database'], $this->db['port'], $this->db['socket']
             );
         } catch (Exception $e) {
-            die('hhh');
+            die('failed to connect to db');
         }
 
         if (!isset($this->errno) || $this->errno === null) {
