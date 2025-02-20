@@ -97,11 +97,11 @@ class mysql
     public function get_error()
     {
         if ($this->mi->connect_errno) {
-            $error['sql']         = $this->mi->escape_string;
+            $error['sql']         = $this->mi->escape_string($this->last_sql);
             $error['number']      = $this->mi->connect_errno;
             $error['description'] = $this->mi->connect_error;
         } else {
-            $error['sql']         = $this->mi->escape_string;
+            $error['sql']         = $this->mi->escape_string($this->last_sql);
             $error['number']      = $this->mi->errno;
             $error['description'] = $this->mi->error;
         }

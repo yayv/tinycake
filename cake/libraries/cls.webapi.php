@@ -158,6 +158,7 @@ class Webapi
 		$result = ["require"=>false, "items"=>false, "min"=>'0',"max"=>999999,"name"=>''];
 		$reg = "/(\*)?(\[([0-9]*)(,([0-9]*))?\])?([a-zA-Z]*[a-zA-Z0-9-_]*)/";
 		$ret = preg_match($reg, $strKey, $matches);
+		
 		if($ret)
 		{
 			$result['require'] = ($matches[1]=='*');
@@ -183,12 +184,12 @@ class Webapi
 	/*
 	获取对应参数格式描述的参数值. 这里的 format 只能是 string 了。
 	*/
-	public function getValue($strFormat, $value)
+	public function getValue($oFormat, $value)
 	{
 		$result = false;
 		
 		// property_exists
-		$f = $this->getValueFormat($strFormat);
+		$f = $oFormat;//$this->getValueFormat($strFormat);
 
 		if(in_array($f['name'], $this->baseTypes))
 		{
@@ -397,10 +398,27 @@ class Webapi
 					$this->callStack[] = "(Value)$k";
 					if(is_bool($jsonObject->$k))
 					{
-						$result->$k = $this->getValue($v, $jsonObject->$k?"true":"false");	
+						// property_exists
+						$f = $this->getValueFormat($v);
+						if($f['require']!='*' && $f['name']!='string' && $vv=='')
+						{
+							unset($jsonObject->$kk);
+							continue;
+						}
+
+						$result->$k = $this->getValue($f, $jsonObject->$k?"true":"false");	
 					}
 					else
-						$result->$k = $this->getValue($v, $jsonObject->$k);
+					{
+						$f = $this->getValueFormat($v);
+						if($f['require']!='*' && $f['name']!='string' && $vv=='')
+						{
+							unset($jsonObject->$kk);
+							continue;
+						}
+
+						$result->$k = $this->getValue($f, $jsonObject->$k);
+					}
 					
 					array_pop($this->callStack);
 				 }else{
@@ -501,7 +519,14 @@ class Webapi
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$value = $this->getValue($jsonFormat[0], $vv);
+					$f = $this->getValueFormat($jsonFormat[0]);
+					if($f['require']!='*' && $f['name']!='string' && $vv=='')
+					{
+						unset($jsonObject->$kk);
+						continue;
+					}
+
+					$value = $this->getValue($f, $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
@@ -812,7 +837,7 @@ function _testJSON()
                     "maintenanceMode":"*string//维修方式（自费、保险、第三方）",
                     "orderNo":"string//关联订单 账单唯一编号",
                     "driverName":"*string//事故责任人",
-                    "amount":"*float//定损金额",
+                    "amount":"float#0.0//定损金额",
                     "address":"string//事故发生地点",
                     "maintenanceCompany":"*string//维修单位",
                     "description":"*string//事故经过",
@@ -823,7 +848,7 @@ function _testJSON()
                     "note":"string//备注"
                 }
             }',
-			"string"=>'{"userId":"1","data":{"plateNo":"奥A4L7789","type":"事故","reason":"双方","responsibility":"对方","maintenanceCompany":"123","maintenanceMode":"保险","operator":"123","driverName":"123","amount":"0","description":"123","occurrenceTime":"2019-12-31T16:00:00.000Z","finishTime":"2020-01-09T16:00:00.000Z","status":"结案","note":"123"}}',
+			"string"=>'{"userId":"1","data":{"plateNo":"奥A4L7789","type":"事故","reason":"双方","responsibility":"对方","maintenanceCompany":"123","maintenanceMode":"保险","operator":"123","driverName":"123","amount":"","description":"123","occurrenceTime":"2019-12-31T16:00:00.000Z","finishTime":"2020-01-09T16:00:00.000Z","status":"结案","note":"123"}}',
 			"note"=>"测试 *float 格式的值为 0 的情况",
 		],
 		"开发测试"=>[
@@ -995,6 +1020,11 @@ function _testJSON1($format, $string)
 	echo "params:",$string,"\n";
 
 }
+
+/**
+ * 
+ * 注：新增规则非必填项，数据类型非string时，允许传值为空串(''), 解析系统自动忽略该参数，以未传该参数的方式进行处理
+ */
 
 /**
  * TODO: 
