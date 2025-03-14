@@ -1,112 +1,125 @@
 <?php
-/**
- *  a simple version of libstrapper 
- */
+
 class Webapi
 {
-	private $callStack = [];
+	private $callStack;
+	private $format;
+	private $result;
+	private $last_error;
+	private $baseTypes;
+	private $getValFunc;
+	private $types;
+	private $funcs;
 
-	private $format = false ;
-
-	private $result = false;
-
-	private $last_error = false ;
-
-	private $baseTypes = ["int", "float", "string","text","bool","datetime","date","time"];
-	private $getValFunc = ["int"=>'intval', "float"=>'floatval',"string"=>'strval',"text"=>'strval',"bool"=>'boolval'];
-
-	private $types = [
-		// 基础数据类型
-		"int", "float", "string","text","bool", "datetime",
-
-		// 扩展类型
-		"year","month", "day","age","currency", // 数字
-		"date",	"time", "phone","mobile", // 带格式符号的数字
-		"weekday", // 字母组合 
-		"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
-		"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
-		"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
-		"lower","upper","letter", // 字母、数字的子集的组合
-	];
-	private $funcs = [];
-
-	// DONE: int email
-	// TODO: float", "double", "age",			"date",	"time", "datetime","year","phone","mobile", "base64","MD5","username","password","lower","upper","letter","string",
-
-	private $errors = array(
-		// 格式解析错误，或格式内的值有错
-		"FORMAT_VALUEFORMAT_SYNTAX_ERROR" => "格式描述的参数值有语法错误",
-		"FORMAT_JSON_STRUCT_ERROR" 		  => "格式描述的 JSON 字符串有语法错误",
-		"FORMAT_SYNTAX_ERROR" 			  => "格式描述有语法错误",
-		"FORMAT_UNKNOWN_KEYTYPE_ERROR" 	  => "格式描述中指定的数据类型未定义",
-		"FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY"  => "格式描述中的数组只能有且只有1个格式",
-		"FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY"  	=> "格式描述中的数组使用了不支持的格式",
-
-		// 参数部分错误，或参数数据错误
-		"DATA_NOT_MATCHED" 			=> "传入数据格式不匹配",
-		"DATA_NOT_IN_VALID_RANGE" 	=> "传入数据不在合理的范围",
-		"DATA_NOT_IN_SET_RANGE" 	=> "传入数据不符合要求的范围",
-		"DATA_KEY_NEED_EXIST" 		=> "传入数据缺少了必填的KEY",
-		"DATA_NOT_EXIST" 			=> "传入数据的KEY不存在",
-		"DATA_UNKNOWN_KEY_ERROR" 	=> "传入数据存在格式中不存在的参数",
-
-		// 解析过程中，格式与数据匹配问题
-		"TYPE_NO_MATCHED" 		=> "没有匹配的类型",
-		"TYPE_WITHOUT_METHOD" 	=> "没有匹配的解析方法",
-	);
-
-	private $morekeys = '...';  // 参数的格式表中存在这个key，则可以接受不在格式设定中的参数，否则，多余的参数会被抛弃
-
-	private $all_errors = array();
-
-	private $paramsParseErrors = '';
-
-	// Format Syntax: "[*]<format_name>[data range][:length][#default_value]//COMMENT"
-	// data range syntax:
-	// 	int float double: (1, 100), (1,100], [1,100),[1,100] 
-	//  date time: 
-	//  string : enum {papa,mama,grandpa,grandma,grandma-inlaw}
-	// example: "role":"*string{papa, mama}:4#papa//role name 
-	// 格式语法 : "[*|#]<格式名>[数值范围][:长度][#默认值]//说明"
-	// 开头的 *，#，或无，表示该参数项是否必须填写， * 为必填， #为
-	// 格式名，目前所支持的格式包括: email, phone, mobile, date, time, datetime, int, float, base64, MD5 ...
-	// 取值范围,以{[(三个符号中的一个开始，由{开始则必须由}结束, 如{a,b,c}, 表示为枚举类型; [()] 的组合表示为 时间和数字可以用集合形式表示取值范围如 (1,100], 表示 大于1小于等于100的范围.
-	// :长度,表示为需要检查的变量里原始值的字符长度
-	// 默认值，当取值失败，或者取值超范围时，以默认值做为返回值，同时发出一个错误信息
-	// 说明，参数格式的表达过于技术化，需要有给产品或业务相关人员看得懂的说明，更好的表达这些设置的目的
-	private $formats = array(
-		"int"  =>"/(\+|\-)?[0-9]+/", 
-		"float" =>"/[+-]?[0-9]+(\.[0-9]+)?/", 
-		"string"=>"/[a-zA-Z0-9\_\-@#!$%^&]*/", // TODO: 这个，应该根据参数对字符串进行安全转码
-		"text"  =>"/.*/", // TODO: 这个，应该根据参数对字符串进行安全转码
-		"bool"  =>"/(true|false)/", 
-		"datetime"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/", 
-
-		// 扩展类型
-		"year" => "/[0-9]{4}/",
-		"month"=> "/[12][0-9]/",
-		"date"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2}/",	
-		"time"=>"/[0-9]{2}:[0-9]{2}:[0-9]{2}/", 
-		"weekday"=>"/(Sun|Mon|Tue|Sat)/",
-		"age"=>"/[0-9]{3}/",
-		"currency"=>"/[0-9]*\.[0-9]{2}/", // 数字
-
-		"phone"=>"/[\-\+0-9 ]{16}/", // 带格式符号的数字
-		"mobile"=>"/[\-\+0-9 ]{16}/", // 带格式符号的数字
-		"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
-		"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
-		"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
-		"lower","upper","letter", // 字母、数字的子集的组合
-		"retCode" // string{ok,fail,error,deny}//ok为调用成功,fail为逻辑失败,error为系统报错,deny为没有权限
-	);
+	private $errors;
+	private $morekeys;
+	private $all_errors;
+	private $paramsParseErrors;
+	private $formats;
+	private $lastkey;
 
 	public function __construct()
 	{
+		$this->callStack = [];
+
+		$this->format = false ;
+
+		$this->result = false;
+
+		$this->last_error = false ;
+
+		$this->baseTypes = ["int", "float", "string","text","bool","datetime","date","time"];
+		$this->getValFunc = ["int"=>'intval', "float"=>'floatval',"string"=>'strval',"text"=>'strval',"bool"=>'boolval'];
+
+		$this->types = [
+			// 基础数据类型
+			"int", "float", "string","text","bool", "datetime",
+
+			// 扩展类型
+			"year","month", "day","age","currency", // 数字
+			"date",	"time", "phone","mobile", // 带格式符号的数字
+			"weekday", // 字母组合 
+			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
+			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
+			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
+			"lower","upper","letter", // 字母、数字的子集的组合
+		];
+		$this->funcs = [];
+
+		// DONE: int email
+		// TODO: float", "double", "age",			"date",	"time", "datetime","year","phone","mobile", "base64","MD5","username","password","lower","upper","letter","string",
+
+		$this->errors = array(
+			// 格式解析错误，或格式内的值有错
+			"FORMAT_VALUEFORMAT_SYNTAX_ERROR" => "格式描述的参数值有语法错误",
+			"FORMAT_JSON_STRUCT_ERROR" 		  => "格式描述的 JSON 字符串有语法错误",
+			"FORMAT_SYNTAX_ERROR" 			  => "格式描述有语法错误",
+			"FORMAT_UNKNOWN_KEYTYPE_ERROR" 	  => "格式描述中指定的数据类型未定义",
+			"FORMAT_NOT_SUPPORT_MULTIFORMAT_ARRAY"  => "格式描述中的数组只能有且只有1个格式",
+			"FORMAT_NOT_SUPPORT_NOFORMAT_ARRAY"  	=> "格式描述中的数组使用了不支持的格式",
+
+			// 参数部分错误，或参数数据错误
+			"DATA_NOT_MATCHED" 			=> "传入数据格式不匹配",
+			"DATA_NOT_IN_VALID_RANGE" 	=> "传入数据不在合理的范围",
+			"DATA_NOT_IN_SET_RANGE" 	=> "传入数据不符合要求的范围",
+			"DATA_KEY_NEED_EXIST" 		=> "传入数据缺少了必填的KEY",
+			"DATA_NOT_EXIST" 			=> "传入数据的KEY不存在",
+			"DATA_UNKNOWN_KEY_ERROR" 	=> "传入数据存在格式中不存在的参数",
+
+			// 解析过程中，格式与数据匹配问题
+			"TYPE_NO_MATCHED" 		=> "没有匹配的类型",
+			"TYPE_WITHOUT_METHOD" 	=> "没有匹配的解析方法",
+		);
+
+		$this->morekeys = '...';  // 参数的格式表中存在这个key，则可以接受不在格式设定中的参数，否则，多余的参数会被抛弃
+
+		$this->all_errors = array();
+
+		$this->paramsParseErrors = '';
+
+		$this->supportFormats();
 	}
 
-	public function getAllErrors()
+	public function supportFormats()
 	{
-		return $this->all_errors;
+		// Format Syntax: "[*]<format_name>[data range][:length][#default_value]//COMMENT"
+		// data range syntax:
+		// 	int float double: (1, 100), (1,100], [1,100),[1,100] 
+		//  date time: 
+		//  string : enum {papa,mama,grandpa,grandma,grandma-inlaw}
+		// example: "role":"*string{papa, mama}:4#papa//role name 
+		// 格式语法 : "[*|#]<格式名>[数值范围][:长度][#默认值]//说明"
+		// 开头的 *，#，或无，表示该参数项是否必须填写， * 为必填， #为
+		// 格式名，目前所支持的格式包括: email, phone, mobile, date, time, datetime, int, float, base64, MD5 ...
+		// 取值范围,以{[(三个符号中的一个开始，由{开始则必须由}结束, 如{a,b,c}, 表示为枚举类型; [()] 的组合表示为 时间和数字可以用集合形式表示取值范围如 (1,100], 表示 大于1小于等于100的范围.
+		// :长度,表示为需要检查的变量里原始值的字符长度
+		// 默认值，当取值失败，或者取值超范围时，以默认值做为返回值，同时发出一个错误信息
+		// 说明，参数格式的表达过于技术化，需要有给产品或业务相关人员看得懂的说明，更好的表达这些设置的目的
+		$this->formats = array(
+			"int"  =>"/(\+|\-)?[0-9]+/", 
+			"float" =>"/[+-]?[0-9]+(\.[0-9]+)?/", 
+			"string"=>"/[a-zA-Z0-9\_\-@#!$%^&]*/", // TODO: 这个，应该根据参数对字符串进行安全转码
+			"text"  =>"/.*/", // TODO: 这个，应该根据参数对字符串进行安全转码
+			"bool"  =>"/(true|false)/", 
+			"datetime"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/", 
+
+			// 扩展类型
+			"year" => "/[0-9]{4}/",
+			"month"=> "/[12][0-9]/",
+			"date"=>"/[0-9]{4}[-\/ ]?[0-9]{2}[-\/ ]?[0-9]{2}/",	
+			"time"=>"/[0-9]{2}:[0-9]{2}:[0-9]{2}/", 
+			"weekday"=>"/(Sun|Mon|Tue|Sat)/",
+			"age"=>"/[0-9]{3}/",
+			"currency"=>"/[0-9]*\.[0-9]{2}/", // 数字
+
+			"phone"=>"/[\-\+0-9 ]{16}/", // 带格式符号的数字
+			"mobile"=>"/[\-\+0-9 ]{16}/", // 带格式符号的数字
+			"idcard", "plateNumber","verify","retCode", "MD5", // 字母数字组合
+			"base64","email", "inlineImage",// 特定格式的字母数字符号的组合
+			"username","password", // 有格式要求和一定顺序要求的字母数字符号的组合
+			"lower","upper","letter", // 字母、数字的子集的组合
+			"retCode" // string{ok,fail,error,deny}//ok为调用成功,fail为逻辑失败,error为系统报错,deny为没有权限
+		);
 	}
 
 	public function getValueFormat($format)
@@ -158,7 +171,6 @@ class Webapi
 		$result = ["require"=>false, "items"=>false, "min"=>'0',"max"=>999999,"name"=>''];
 		$reg = "/(\*)?(\[([0-9]*)(,([0-9]*))?\])?([a-zA-Z]*[a-zA-Z0-9-_]*)/";
 		$ret = preg_match($reg, $strKey, $matches);
-		
 		if($ret)
 		{
 			$result['require'] = ($matches[1]=='*');
@@ -184,12 +196,12 @@ class Webapi
 	/*
 	获取对应参数格式描述的参数值. 这里的 format 只能是 string 了。
 	*/
-	public function getValue($oFormat, $value)
+	public function getValue($strFormat, $value)
 	{
 		$result = false;
 		
 		// property_exists
-		$f = $oFormat;//$this->getValueFormat($strFormat);
+		$f = $this->getValueFormat($strFormat);
 
 		if(in_array($f['name'], $this->baseTypes))
 		{
@@ -377,7 +389,7 @@ class Webapi
 				continue ;
 			}
 			
-			#$this->lastkey = $k;
+			$this->lastkey = $k;
 
 			if(isset($jsonObject->$k))
 			{
@@ -398,27 +410,10 @@ class Webapi
 					$this->callStack[] = "(Value)$k";
 					if(is_bool($jsonObject->$k))
 					{
-						// property_exists
-						$f = $this->getValueFormat($v);
-						if($f['require']!='*' && $f['name']!='string' && $vv=='')
-						{
-							unset($jsonObject->$kk);
-							continue;
-						}
-
-						$result->$k = $this->getValue($f, $jsonObject->$k?"true":"false");	
+						$result->$k = $this->getValue($v, $jsonObject->$k?"true":"false");	
 					}
 					else
-					{
-						$f = $this->getValueFormat($v);
-						if($f['require']!='*' && $f['name']!='string' && $vv=='')
-						{
-							unset($jsonObject->$kk);
-							continue;
-						}
-
-						$result->$k = $this->getValue($f, $jsonObject->$k);
-					}
+						$result->$k = $this->getValue($v, $jsonObject->$k);
 					
 					array_pop($this->callStack);
 				 }else{
@@ -519,14 +514,7 @@ class Webapi
 					// 	continue;
 					// }
 					$this->callStack[] = "KEY $k";
-					$f = $this->getValueFormat($jsonFormat[0]);
-					if($f['require']!='*' && $f['name']!='string' && $vv=='')
-					{
-						unset($jsonObject->$kk);
-						continue;
-					}
-
-					$value = $this->getValue($f, $vv);
+					$value = $this->getValue($jsonFormat[0], $vv);
 					// var_dump($this->callStack);
 					array_pop($this->callStack);
 				}
@@ -773,6 +761,11 @@ class Webapi
 		return true;
 	}
 
+	public function getAllErrors()
+	{
+		return $this->all_errors;
+	}
+
     public function echoParamsErrorMessage($type)
     {
         if (strcmp('json', $type) == 0) {
@@ -837,7 +830,7 @@ function _testJSON()
                     "maintenanceMode":"*string//维修方式（自费、保险、第三方）",
                     "orderNo":"string//关联订单 账单唯一编号",
                     "driverName":"*string//事故责任人",
-                    "amount":"float#0.0//定损金额",
+                    "amount":"*float//定损金额",
                     "address":"string//事故发生地点",
                     "maintenanceCompany":"*string//维修单位",
                     "description":"*string//事故经过",
@@ -848,7 +841,7 @@ function _testJSON()
                     "note":"string//备注"
                 }
             }',
-			"string"=>'{"userId":"1","data":{"plateNo":"奥A4L7789","type":"事故","reason":"双方","responsibility":"对方","maintenanceCompany":"123","maintenanceMode":"保险","operator":"123","driverName":"123","amount":"","description":"123","occurrenceTime":"2019-12-31T16:00:00.000Z","finishTime":"2020-01-09T16:00:00.000Z","status":"结案","note":"123"}}',
+			"string"=>'{"userId":"1","data":{"plateNo":"奥A4L7789","type":"事故","reason":"双方","responsibility":"对方","maintenanceCompany":"123","maintenanceMode":"保险","operator":"123","driverName":"123","amount":"0","description":"123","occurrenceTime":"2019-12-31T16:00:00.000Z","finishTime":"2020-01-09T16:00:00.000Z","status":"结案","note":"123"}}',
 			"note"=>"测试 *float 格式的值为 0 的情况",
 		],
 		"开发测试"=>[
@@ -1022,11 +1015,6 @@ function _testJSON1($format, $string)
 }
 
 /**
- * 
- * 注：新增规则非必填项，数据类型非string时，允许传值为空串(''), 解析系统自动忽略该参数，以未传该参数的方式进行处理
- */
-
-/**
  * TODO: 
  * 1. value 中 带* 的必填值
  * 2. false 值的解析
@@ -1049,5 +1037,3 @@ function _testJSON1($format, $string)
 
 
 */
-
-
