@@ -88,6 +88,14 @@ class mysql
         }
     }
 
+    public function options($arrParams)
+    {
+        foreach($arrParams as $k=>$v)
+        {
+            $this->mi->options($k,$v);
+        }
+    }
+
     public function select_db($database)
     {
         // inherent
