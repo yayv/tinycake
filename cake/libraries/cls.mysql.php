@@ -265,13 +265,6 @@ class mysql
             return false;
         }
 
-        /*
-        if($query===false)
-        {
-        return false;
-        }
-         */
-
         while ($list_item = $query->fetch_assoc()) {
 
             $current_index++;
